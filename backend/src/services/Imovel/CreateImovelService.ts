@@ -1,4 +1,4 @@
-import prismaClient from '../../prisma';
+import { PrismaClient } from '@prisma/client';
 
 interface ImovelProps {
   name: string;
@@ -11,7 +11,18 @@ interface ImovelProps {
   ownerId: string;
 }
 
+interface imagesProps {
+  name: string;
+  path: string;
+}
+
 export class CreateImovelService {
+  private prisma: PrismaClient;
+
+  constructor() {
+    this.prisma = new PrismaClient();
+  }
+
   async execute({
     name,
     description,
@@ -22,7 +33,7 @@ export class CreateImovelService {
     categoryId,
     ownerId,
   }: ImovelProps) {
-    const imovel = await prismaClient.imovel.create({
+    const imovel = await this.prisma.imovel.create({
       data: {
         name,
         description,
@@ -35,6 +46,6 @@ export class CreateImovelService {
       },
     });
 
-    return CreateImovelService;
+    return imovel;
   }
 }
