@@ -26,6 +26,6 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-app.listen(3333, () => {
+app.listen(3332, () => {
   console.log('Servidor online');
 });

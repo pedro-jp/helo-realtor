@@ -48,7 +48,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     async function getUser() {
-      const userInfo = await AsyncStorage.getItem('@pizzaria');
+      const userInfo = await AsyncStorage.getItem('@helotech');
 
       let hasUser: UserProps = JSON.parse(userInfo || '{}');
 
@@ -83,7 +83,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         email,
       };
 
-      await AsyncStorage.setItem('@pizzaria', JSON.stringify(data));
+      await AsyncStorage.setItem('@helotech', JSON.stringify(data));
 
       api.defaults.headers.common['authorization'] = `Bearer ${token}`;
 
