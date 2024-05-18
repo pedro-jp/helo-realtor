@@ -14,10 +14,18 @@ import { CreateImovelController } from './controllers/Imovel/CreateImovelControl
 import { RemoveImovelController } from './controllers/Imovel/RemoveImovelController';
 
 import { ListImoveisController } from './controllers/Imovel/ListImovelController';
+import CreateImageController from './controllers/image/CreateImageController';
 
 const router = Router();
 
 const upload = multer(uploadConfig.upload('./tmp'));
+
+router.post(
+  '/images',
+  isAuthenticated,
+  upload.single('file'),
+  new CreateImageController().handle
+);
 
 //--ROTAS USER
 

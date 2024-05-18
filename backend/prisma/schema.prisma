@@ -57,8 +57,9 @@ model Imovel {
 
 model Images {
   id String @id @default(uuid())
-  name String
   imovelId String
+  url String
+  created_at  DateTime @default(now())
 
   imovel Imovel @relation(fields: [imovelId], references: [id])
 }

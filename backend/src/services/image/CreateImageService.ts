@@ -1,53 +1,22 @@
-import { PrismaClient } from '@prisma/client';
-import multer from 'multer';
+import prismaClient from '../../prisma';
 
-const prismaClient = new PrismaClient();
-
-interface ImagesCreateInput {
-  path: string;
-  // Add other fields as needed
+interface ProductRequest {
+  imovelId: string;
+  url: string;
 }
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './uploads'); // Specify the directory where you want to store the images
-  },
-  filename: (req, file, cb) => {
-    const ext = file.mimetype.split('/')[1];
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
-
-const upload = multer({ storage });
-
-class CreateImageService {
-  async execute({ images }: { images: Express.Multer.File[] }): Promise<ImagesCreateInput[]> {
-    const imagePaths = await Promise.all(
-      images.map((image) => {
-        return new Promise<string>((resolve, reject) => {
-          upload.single('images')(req, res, (error) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve(image.path);
-            }
-          });
-        });
-      })
-    );
-
-    const imageDatas = await Promise.all(
-      imagePaths.map((imagePath) => {
-        return prismaClient.images.create({
-          data: {
-            path: imagePath,
-          },
-        });
-      })
-    );
-
-    return imageDatas;
+export class CreateImageService {
+  async execute({ imovelId, url }: ProductRequest) {
+    const product = await prismaClient.images.create({
+      data: {
+        imovelId,
+        url,
+      },
+      select: {
+        imovelId: true,
+        url: true,
+      },
+    });
+    return product;
   }
 }
-
-export default CreateImageService;
