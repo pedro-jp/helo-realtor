@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String     @id @default(uuid())
+  name       String 
+  email      String     @unique
+  password   String
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  
+  categories Category[]
+  imoveis    Imovel[]
+
+  @@map("users")
+}
+
+model Category {
+  id         String   @id @default(uuid())
+  name       String
+  ownerId    String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  owner    User     @relation(fields: [ownerId], references: [id])
+  imoveis  Imovel[]
+
+  @@map("categories")
+}
+
+model Imovel {
+  id          String   @id @default(uuid())
+  name        String
+  price       String
+  description String
+  local       String
+  banner      String
+  active      Boolean
+  categoryId  String
+  ownerId     String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  category  Category @relation(fields: [categoryId], references: [id])
+  owner     User     @relation(fields: [ownerId], references: [id])
+
+
+  @@map("imoveis")
+}
+
