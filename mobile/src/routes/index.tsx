@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { ActivityIndicator, View } from 'react-native';
-
+import 'react-native-gesture-handler';
 import AppRoutes from './app.routes';
 import AuthRoutes from './auth.routes';
 import { AuthContext } from '../contexts/AuthContext';

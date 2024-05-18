@@ -1,23 +1,21 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SignIn from '../pages/SignIn';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import Home from '../pages/Home';
+import Category from '../pages/Category';
 
 export type StackParamsList = {
   Home: undefined;
+  Category: undefined;
 };
 
-const Stack = createNativeStackNavigator<StackParamsList>();
+const Drawer = createDrawerNavigator();
 
 export default function AppRoutes() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name='Home'
-        component={Home}
-        options={{ headerShown: false }}
-      />
-    </Stack.Navigator>
+    <Drawer.Navigator>
+      <Drawer.Screen name='Home' component={Home} />
+      <Drawer.Screen name='Categorias' component={Category} />
+    </Drawer.Navigator>
   );
 }
