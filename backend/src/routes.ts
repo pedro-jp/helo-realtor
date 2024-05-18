@@ -15,6 +15,7 @@ import { RemoveImovelController } from './controllers/Imovel/RemoveImovelControl
 
 import { ListImoveisController } from './controllers/Imovel/ListImovelController';
 import CreateImageController from './controllers/image/CreateImageController';
+import { ListImagesController } from './controllers/image/ListImagesController';
 
 const router = Router();
 
@@ -25,6 +26,13 @@ router.post(
   isAuthenticated,
   upload.single('file'),
   new CreateImageController().handle
+);
+
+router.get(
+  '/images',
+  isAuthenticated,
+  upload.single('file'),
+  new ListImagesController().handle
 );
 
 //--ROTAS USER
