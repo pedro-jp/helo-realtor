@@ -9,16 +9,19 @@ export default class CreateImageController {
 
     if (!req.file) {
       throw new Error('error upload file');
-    } else {
-      const { originalname, filename: url } = req.file;
+    }
+    const { originalname, filename: url } = req.file;
 
-      console.log(originalname, url);
+    console.log(originalname, url);
 
+    try {
       const image = await createImageServices.execute({
         imovelId,
         url,
       });
       return res.json(image);
+    } catch (error) {
+      console.log(error);
     }
   }
 }

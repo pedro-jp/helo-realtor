@@ -2,7 +2,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { useContext, useEffect, useState } from 'react';
 import { Button, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { api } from '../../services/api';
-import * as S from './components';
+import * as S from './styles';
 import { Feather } from '@expo/vector-icons';
 
 export default function Category() {

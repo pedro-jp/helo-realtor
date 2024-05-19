@@ -1,0 +1,134 @@
+import { Text, TouchableOpacity, View, Modal } from 'react-native';
+import * as S from './styles';
+import { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../../contexts/AuthContext';
+import { api } from '../../services/api';
+import {
+  useNavigation,
+  NavigationProp,
+  ParamListBase,
+} from '@react-navigation/native';
+
+type ImagesRouteParams = {
+  imovelId: string;
+};
+
+export default function Imovel() {
+  const navigation = useNavigation<NavigationProp<ParamListBase>>();
+  const { user } = useContext(AuthContext);
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('');
+  const [categoryList, setCategoryList] = useState([]);
+  const [categoryId, setCategoryId] = useState('');
+  const [local, setLocal] = useState('');
+  const [categorySelected, setCategorySelected] = useState('');
+  const active = true;
+  const [modalVisible, setModalVisible] = useState(false);
+
+  async function listCategories() {
+    try {
+      const response = await api.get('/category', {
+        params: {
+          ownerId: user.id,
+        },
+      });
+      setCategoryList(response.data);
+    } catch (error) {}
+  }
+
+  useEffect(() => {
+    listCategories();
+  }, []);
+
+  async function createImovel() {
+    try {
+      const response = await api.post('/imovel', {
+        name,
+        description,
+        price,
+        categoryId: categoryId,
+        local,
+        active,
+        banner: '',
+        ownerId: user.id,
+      });
+
+      navigation.navigate('Images', { imovelId: response.data.id });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleCategory = (id) => {
+    setCategoryId(id);
+    setModalVisible(!modalVisible);
+    filterCategory(id);
+  };
+
+  const filterCategory = (id) => {
+    const category = categoryList.filter((item) => item.id === id);
+    setCategorySelected(category[0].name);
+  };
+
+  return (
+    <S.StyledContainerView>
+      <S.StyledText>Adicionar Imóvel</S.StyledText>
+      <S.StyledContentView>
+        <S.StyledTextInput
+          placeholder='Nome'
+          value={name}
+          onChangeText={setName}
+          placeholderTextColor='#fff'
+        />
+        <S.StyledTextInput
+          placeholder='Descrição'
+          value={description}
+          onChangeText={setDescription}
+          placeholderTextColor='#fff'
+        />
+        <S.StyledTextInput
+          placeholder='Preço'
+          value={price}
+          onChangeText={setPrice}
+          placeholderTextColor='#fff'
+        />
+        <S.StyledTextInput
+          placeholder='Local'
+          value={local}
+          onChangeText={setLocal}
+          placeholderTextColor='#fff'
+        />
+
+        <S.StyledButton onPress={() => setModalVisible(!modalVisible)}>
+          <S.StyledText>
+            {categorySelected === '' ? 'Categorias' : categorySelected}
+          </S.StyledText>
+        </S.StyledButton>
+
+        <S.StyledModal
+          animationType='slide'
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <S.StyledScrollView>
+            {categoryList.map((item) => (
+              <S.StyledListView
+                key={item.id}
+                onPress={() => handleCategory(item.id)}
+              >
+                <S.StyledText>{item.name}</S.StyledText>
+              </S.StyledListView>
+            ))}
+          </S.StyledScrollView>
+        </S.StyledModal>
+
+        <S.StyledButton onPress={createImovel}>
+          <S.StyledText>Adicionar Imóvel</S.StyledText>
+        </S.StyledButton>
+      </S.StyledContentView>
+    </S.StyledContainerView>
+  );
+}

@@ -15,7 +15,7 @@ export default function Routes() {
       <View
         style={{
           flex: 1,
-          backgroundColor: '#1d1d2e',
+          backgroundColor: '#111111',
           justifyContent: 'center',
           alignItems: 'center',
         }}

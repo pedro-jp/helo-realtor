@@ -10,7 +10,7 @@ import {
 import { api } from '../../services/api';
 import { AuthContext } from '../../contexts/AuthContext';
 
-import { StyledView } from './components';
+import { StyledContainerView } from './styles';
 
 const Home = () => {
   const [dados, setDados] = useState([]);
@@ -33,11 +33,11 @@ const Home = () => {
   }, []);
 
   return (
-    <StyledView>
+    <StyledContainerView>
       <TouchableOpacity onPress={signOut}>
         <Text>Sair</Text>
       </TouchableOpacity>
-    </StyledView>
+    </StyledContainerView>
   );
 };
 
