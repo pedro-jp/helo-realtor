@@ -3,15 +3,12 @@ import * as S from './styles';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { api } from '../../services/api';
+import Toast from 'react-native-toast-message';
 import {
   useNavigation,
   NavigationProp,
   ParamListBase,
 } from '@react-navigation/native';
-
-type ImagesRouteParams = {
-  imovelId: string;
-};
 
 export default function Imovel() {
   const navigation = useNavigation<NavigationProp<ParamListBase>>();
@@ -42,6 +39,21 @@ export default function Imovel() {
   }, []);
 
   async function createImovel() {
+    if (
+      name === '' ||
+      description === '' ||
+      price === '' ||
+      categoryId === '' ||
+      local === '' ||
+      categorySelected === ''
+    ) {
+      Toast.show({
+        type: 'error',
+        text1: 'Preencha todos os campos',
+      });
+      return;
+    }
+
     try {
       const response = await api.post('/imovel', {
         name,
@@ -53,6 +65,13 @@ export default function Imovel() {
         banner: '',
         ownerId: user.id,
       });
+
+      setName('');
+      setDescription('');
+      setPrice('');
+      setCategoryId('');
+      setLocal('');
+      setCategorySelected('');
 
       navigation.navigate('Images', { imovelId: response.data.id });
     } catch (error) {
@@ -73,6 +92,9 @@ export default function Imovel() {
 
   return (
     <S.StyledContainerView>
+      <View style={{ zIndex: 10 }}>
+        <Toast />
+      </View>
       <S.StyledText>Adicionar Imóvel</S.StyledText>
       <S.StyledContentView>
         <S.StyledTextInput
@@ -82,6 +104,7 @@ export default function Imovel() {
           placeholderTextColor='#fff'
         />
         <S.StyledTextInput
+          multiline={true}
           placeholder='Descrição'
           value={description}
           onChangeText={setDescription}
@@ -91,6 +114,7 @@ export default function Imovel() {
           placeholder='Preço'
           value={price}
           onChangeText={setPrice}
+          inputMode='numeric'
           placeholderTextColor='#fff'
         />
         <S.StyledTextInput
