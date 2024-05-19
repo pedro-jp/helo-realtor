@@ -34,17 +34,6 @@ const Home = () => {
 
   return (
     <StyledView>
-      {dados.length > 0 &&
-        dados.map((item) => (
-          <View>
-            <Image
-              style={styles.stretch}
-              source={{ uri: `http://192.168.1.6:3332/files/${item.url}` }}
-            />
-            <Text>{item.url}</Text>
-          </View>
-        ))}
-
       <TouchableOpacity onPress={signOut}>
         <Text>Sair</Text>
       </TouchableOpacity>

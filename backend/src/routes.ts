@@ -17,6 +17,8 @@ import { ListImoveisController } from './controllers/Imovel/ListImovelController
 import CreateImageController from './controllers/image/CreateImageController';
 import { ListImagesController } from './controllers/image/ListImagesController';
 
+import { DeleteCategoryController } from './controllers/category/DeleteCategoryController';
+
 const router = Router();
 
 const upload = multer(uploadConfig.upload('./tmp'));
@@ -49,6 +51,12 @@ router.post(
   isAuthenticated,
   new CreateCategoryController().handle
 );
+
+// router.delete(
+//   '/category',
+//   isAuthenticated,
+//   new DeleteCategoryController().handle
+// );
 
 router.get('/category', isAuthenticated, new ListCategoryController().handle);
 

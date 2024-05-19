@@ -15,7 +15,17 @@ export default function AppRoutes() {
   return (
     <Drawer.Navigator>
       <Drawer.Screen name='Home' component={Home} />
-      <Drawer.Screen name='Categorias' component={Category} />
+      <Drawer.Screen
+        options={{
+          headerTransparent: true,
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: 'transparent',
+          },
+        }}
+        name='Categorias'
+        component={Category}
+      />
     </Drawer.Navigator>
   );
 }
