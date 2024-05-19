@@ -11,10 +11,14 @@ import {
 
 export default function Images() {
   const [image, setImage] = useState(null);
+  const [imageUri, setImageUri] = useState(null);
+
+  const [imageName, setImageName] = useState(null);
+  const [imageType, setImageType] = useState(null);
+
   const route = useRoute();
   const navigation = useNavigation<NavigationProp<ParamListBase>>();
   const { imovelId } = route.params as { imovelId: string };
-  const date = new Date().getTime();
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -26,24 +30,27 @@ export default function Images() {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
+      setImageUri(result.assets[0].uri);
+      setImageName(
+        result.assets[0].uri.substring(
+          result.assets[0].uri.lastIndexOf('/') + 1,
+          result.assets[0].uri.length
+        )
+      );
+      setImageType(imageName.split('.')[1]);
     }
   };
 
   const uploadImage = async () => {
     const formData = new FormData();
 
-    const imageContent = {
-      uri: image as string,
-      name: `${date}.jpg`,
-      type: 'image/jpg',
-    };
     formData.append(
       'file',
       JSON.parse(
         JSON.stringify({
-          name: imageContent.name,
-          uri: imageContent.uri,
-          type: imageContent.type,
+          name: imageName,
+          uri: image,
+          type: `image/${imageType}`,
         })
       )
     );
@@ -51,7 +58,6 @@ export default function Images() {
     try {
       await api.postForm('/images', formData);
       console.log('deu certo');
-      navigation.navigate('Home');
     } catch (error) {
       console.log(error);
     }
@@ -60,8 +66,8 @@ export default function Images() {
   return (
     <View style={styles.container}>
       <Button title='Pick an image from camera roll' onPress={pickImage} />
-      {image && <Image source={{ uri: image }} style={styles.image} />}
-      {image && <Button title='Upload Image' onPress={uploadImage} />}
+      {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
+      {imageUri && <Button title='Upload Image' onPress={uploadImage} />}
       <Text>ImovelId: {imovelId}</Text>
     </View>
   );
