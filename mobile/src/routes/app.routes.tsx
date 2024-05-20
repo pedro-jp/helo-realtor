@@ -1,69 +1,98 @@
-import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-
-// Importar suas páginas e rotas
+import { Feather } from '@expo/vector-icons';
 import Home from '../pages/Home';
-import Category from '../pages/Category';
-import Imovel from '../pages/Imovel';
+import AddImovel from '../pages/AddImovel';
 import Images from '../pages/Images';
 import ListImoveis from '../pages/ListImoveis';
+import Imovel from '../pages/Imovel';
+import { View } from 'react-native';
 
-const Stack = createNativeStackNavigator();
-const Drawer = createDrawerNavigator();
+const HomeStack = createNativeStackNavigator();
 
-export default function AppRoutes() {
+function HomeStackScreen() {
   return (
-    <Drawer.Navigator>
-      <Drawer.Screen name='Home' component={Home} />
-      <Drawer.Screen name='Category' component={Category} />
-      <Drawer.Screen name='Adicionar Imóvel' component={Imovel} />
-      <Drawer.Screen name='Imóveis' component={ListImoveis} />
-      <Drawer.Screen
-        name='Images'
-        component={Images}
-        options={{ drawerLabel: () => null }}
-      />
-    </Drawer.Navigator>
+    <HomeStack.Navigator screenOptions={{ headerShown: false }}>
+      <HomeStack.Screen name='Home' component={Home} />
+      <HomeStack.Screen name='Add Imovel' component={AddImovel} />
+      <HomeStack.Screen name='Imóveis' component={ListImoveis} />
+    </HomeStack.Navigator>
   );
 }
 
-function DrawerRoutes() {
+const ListImoveisStack = createNativeStackNavigator();
+
+function ListImoveisStackScreen() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        options={{
-          headerTransparent: true,
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            color: 'transparent',
-          },
-        }}
+    <ListImoveisStack.Navigator screenOptions={{ headerShown: false }}>
+      <ListImoveisStack.Screen name='Imoveis' component={ListImoveis} />
+      <ListImoveisStack.Screen name='Imovel' component={Imovel} />
+      <ListImoveisStack.Screen name='AddImovel' component={AddImovel} />
+      <ListImoveisStack.Screen name='Home' component={Home} />
+    </ListImoveisStack.Navigator>
+  );
+}
+
+const addImovelStack = createNativeStackNavigator();
+
+function AddImovelStackScreen() {
+  return (
+    <addImovelStack.Navigator screenOptions={{ headerShown: false }}>
+      <addImovelStack.Screen name='Add Imovel' component={AddImovel} />
+      <addImovelStack.Screen name='Home' component={Home} />
+      <addImovelStack.Screen name='Imovel' component={Imovel} />
+      <addImovelStack.Screen name='Images' component={Images} />
+    </addImovelStack.Navigator>
+  );
+}
+
+const Tab = createBottomTabNavigator();
+
+export default function App() {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: { backgroundColor: '#111111', borderTopWidth: 0 },
+        tabBarInactiveTintColor: '#fff',
+      }}
+    >
+      <Tab.Screen
         name='Home'
-        component={Home}
-      />
-      <Stack.Screen
         options={{
-          headerTransparent: true,
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            color: 'transparent',
-          },
+          title: 'Editar dados',
+          tabBarLabel: 'Editar dados',
+          tabBarIcon: () => <Feather name='edit' color={'#fff'} size={28} />,
         }}
-        name='Categorias'
-        component={Category}
+        component={HomeStackScreen}
       />
-      <Stack.Screen
+      <Tab.Screen
+        name='Add'
         options={{
-          headerTransparent: true,
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            color: 'transparent',
-          },
+          title: 'Adicionar imóveis',
+          tabBarLabel: 'Adicionar Imóveis',
+          tabBarIcon: () => (
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Feather name='plus' color={'#fff'} size={22} />
+              <Feather name='home' color={'#fff'} size={28} />
+            </View>
+          ),
         }}
-        name='Adicionar Imóvel'
-        component={Imovel}
+        component={AddImovelStackScreen}
       />
-    </Stack.Navigator>
+      <Tab.Screen
+        name='Imóveis'
+        options={{
+          title: 'Listar imóveis',
+          tabBarLabel: 'Imóveis',
+          tabBarIcon: () => (
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Feather name='home' color={'#fff'} size={28} />
+            </View>
+          ),
+        }}
+        component={ListImoveisStackScreen}
+      />
+    </Tab.Navigator>
   );
 }
