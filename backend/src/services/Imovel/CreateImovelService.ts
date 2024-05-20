@@ -1,14 +1,18 @@
 import { PrismaClient } from '@prisma/client';
 
-interface ImovelProps {
+type ImovelProps = {
   name: string;
   description: string;
   price: string;
   local: string;
+  quartos: string;
+  banheiros: string;
+  area: string;
+  garagem: string;
   active: boolean;
   categoryId: string;
   ownerId: string;
-}
+};
 
 export class CreateImovelService {
   private prisma: PrismaClient;
@@ -22,6 +26,10 @@ export class CreateImovelService {
     description,
     price,
     local,
+    quartos,
+    banheiros,
+    area,
+    garagem,
     active,
     categoryId,
     ownerId,
@@ -32,6 +40,10 @@ export class CreateImovelService {
         description,
         price,
         local,
+        quartos,
+        banheiros,
+        area,
+        garagem,
         active,
         categoryId,
         ownerId,
