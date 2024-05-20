@@ -40,7 +40,7 @@ model Imovel {
   price       String
   description String
   local       String
-  banner      String
+  images      Images[]
   active      Boolean
   categoryId  String
   ownerId     String
@@ -49,7 +49,7 @@ model Imovel {
 
   category  Category @relation(fields: [categoryId], references: [id])
   owner     User     @relation(fields: [ownerId], references: [id])
-  images Images[]
+  
 
 
   @@map("imoveis")
