@@ -48,16 +48,30 @@ export const StyledScrollView = styled.ScrollView``;
 export const StyledListView = styled.View`
   flex: auto;
   width: 100%;
+  height: 200px;
   margin: 12px auto;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   padding: 16px;
   border: 1px solid #ffffff20;
   border-radius: 4px;
 `;
 export const StyledImage = styled.Image`
-  width: 100px;
-  height: 100px;
+  width: 50%;
+  height: 100%;
   margin-bottom: 10px;
+`;
+
+export const StyledDescView = styled.View`
+  max-width: 50%;
+  height: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+`;
+
+export const StyledTouchableOpacity = styled.TouchableOpacity`
+  border-width: 1px;
+  border-color: aqua;
 `;

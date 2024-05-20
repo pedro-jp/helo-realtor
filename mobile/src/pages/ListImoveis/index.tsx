@@ -1,16 +1,33 @@
 import { useContext, useEffect, useState } from 'react';
 import { api } from '../../services/api';
 import * as S from './styles';
-import { Text } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import { AuthContext } from '../../contexts/AuthContext';
+import {
+  NavigationProp,
+  ParamListBase,
+  useNavigation,
+} from '@react-navigation/native';
 
-type ImageType = {
+type ImovelType = {
+  name: string;
+  description: string;
+  images: {
+    url: string;
+  }[];
   id: string;
-  url: string;
+  price: string;
+  local: string;
+  quartos: string;
+  banheiros: string;
+  area: string;
+  garagem: string;
 };
 
 export default function ListImoveis() {
-  const [imoveis, setImoveis] = useState([]);
+  const navigation = useNavigation<NavigationProp<ParamListBase>>();
+
+  const [imoveis, setImoveis] = useState<ImovelType[]>([]);
   const { user } = useContext(AuthContext);
   const ownerId = user.id;
 
@@ -32,20 +49,36 @@ export default function ListImoveis() {
     }
   }
 
+  function handleOpenImovel(imovel: string) {
+    navigation.navigate('Imovel', { imovelId: imovel });
+  }
+
   return (
     <S.StyledContainerView>
+      <TouchableOpacity onPress={loadImoveis}>
+        <S.StyledText>Carregar</S.StyledText>
+      </TouchableOpacity>
       <S.StyledScrollView>
         {imoveis.map((imovel) => (
-          <S.StyledListView key={imovel.id}>
-            <S.StyledText>{imovel.name}</S.StyledText>
-            {imovel?.images && (
-              <S.StyledImage
-                source={{
-                  uri: `http://192.168.1.6:3332/files/${imovel?.images[0]?.url}`,
-                }}
-              />
-            )}
-          </S.StyledListView>
+          <S.StyledTouchableOpacity
+            key={imovel.id}
+            onPress={() => handleOpenImovel(imovel.id)}
+          >
+            <S.StyledListView>
+              <S.StyledDescView>
+                <S.StyledText>Titulo: {imovel.name}</S.StyledText>
+                <S.StyledText>Local: {imovel.local}</S.StyledText>
+                <S.StyledText>Preço: {imovel.price}</S.StyledText>
+              </S.StyledDescView>
+              {imovel?.images && (
+                <S.StyledImage
+                  source={{
+                    uri: `http://192.168.1.6:3332/files/${imovel?.images[0]?.url}`,
+                  }}
+                />
+              )}
+            </S.StyledListView>
+          </S.StyledTouchableOpacity>
         ))}
       </S.StyledScrollView>
     </S.StyledContainerView>
