@@ -7,6 +7,7 @@ import Home from '../pages/Home';
 import Category from '../pages/Category';
 import Imovel from '../pages/Imovel';
 import Images from '../pages/Images';
+import ListImoveis from '../pages/ListImoveis';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -17,6 +18,7 @@ export default function AppRoutes() {
       <Drawer.Screen name='Home' component={Home} />
       <Drawer.Screen name='Category' component={Category} />
       <Drawer.Screen name='Adicionar Imóvel' component={Imovel} />
+      <Drawer.Screen name='Imóveis' component={ListImoveis} />
       <Drawer.Screen
         name='Images'
         component={Images}
