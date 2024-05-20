@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { api } from '../../services/api';
 import * as S from './styles';
 import { Text } from 'react-native';
+import { AuthContext } from '../../contexts/AuthContext';
 
 type ImageType = {
   id: string;
@@ -9,30 +10,42 @@ type ImageType = {
 };
 
 export default function ListImoveis() {
-  const [images, setImages] = useState<ImageType[]>([]);
+  const [imoveis, setImoveis] = useState([]);
+  const { user } = useContext(AuthContext);
+  const ownerId = user.id;
 
-  const loadImages = async () => {
-    const response = await api.get('/images', {
-      params: {
-        imovelId: '9c133100-79b5-41a2-b889-e3dc029e1e92',
-      },
-    });
-    setImages(response.data);
-  };
+  useEffect(() => {
+    loadImoveis();
+  }, []);
+
+  async function loadImoveis() {
+    try {
+      const response = await api.get('/imovel', {
+        params: {
+          ownerId,
+        },
+      });
+      console.log(response.data);
+      setImoveis(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <S.StyledContainerView>
-      <S.StyledButton onPress={loadImages}>
-        <Text>Carregar</Text>
-      </S.StyledButton>
       <S.StyledScrollView>
-        {images.map((imagem) => (
-          <S.StyledImage
-            key={imagem.id}
-            source={{
-              uri: `http://192.168.1.6:3332/files/${imagem.url}`,
-            }}
-          />
+        {imoveis.map((imovel) => (
+          <S.StyledListView key={imovel.id}>
+            <S.StyledText>{imovel.name}</S.StyledText>
+            {imovel?.images && (
+              <S.StyledImage
+                source={{
+                  uri: `http://192.168.1.6:3332/files/${imovel?.images[0]?.url}`,
+                }}
+              />
+            )}
+          </S.StyledListView>
         ))}
       </S.StyledScrollView>
     </S.StyledContainerView>

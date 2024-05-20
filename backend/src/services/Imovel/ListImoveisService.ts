@@ -7,9 +7,11 @@ export class ListImoveisService {
         active: true,
         ownerId: ownerId,
       },
-
       orderBy: {
         created_at: 'desc',
+      },
+      include: {
+        images: true,
       },
     });
     return imoveis;
