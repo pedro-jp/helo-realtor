@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "imoveis" ADD COLUMN     "area" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "banheiros" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "garagem" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "quartos" TEXT NOT NULL DEFAULT '';

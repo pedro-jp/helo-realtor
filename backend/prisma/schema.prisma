@@ -40,6 +40,10 @@ model Imovel {
   price       String
   description String
   local       String
+  quartos     String @default("")
+  banheiros   String @default("")
+  area        String @default("")
+  garagem     String @default("")
   active      Boolean
   categoryId  String
   ownerId     String
@@ -56,9 +60,9 @@ model Imovel {
 }
 
 model Images {
-  id String @id @default(uuid())
-  imovelId String
-  url String
+  id          String @id @default(uuid())
+  imovelId    String
+  url         String
   created_at  DateTime @default(now())
 
   imovel Imovel @relation(fields: [imovelId], references: [id])
