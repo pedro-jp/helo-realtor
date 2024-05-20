@@ -65,7 +65,7 @@ export default function Images() {
 
   return (
     <View style={styles.container}>
-      <Button title='Pick an image from camera roll' onPress={pickImage} />
+      <Button title='Seleciona um imagem' onPress={pickImage} />
       {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
       {imageUri && <Button title='Upload Image' onPress={uploadImage} />}
       <Text>ImovelId: {imovelId}</Text>
