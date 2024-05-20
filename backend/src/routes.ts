@@ -30,12 +30,7 @@ router.post(
   new CreateImageController().handle
 );
 
-router.get(
-  '/images',
-  isAuthenticated,
-  upload.single('file'),
-  new ListImagesController().handle
-);
+router.get('/images', isAuthenticated, new ListImagesController().handle);
 
 //--ROTAS USER
 
