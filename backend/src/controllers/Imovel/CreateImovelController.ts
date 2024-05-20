@@ -3,16 +3,8 @@ import { CreateImovelService } from '../../services/Imovel/CreateImovelService';
 
 export class CreateImovelController {
   async handle(req: Request, res: Response) {
-    const {
-      name,
-      description,
-      price,
-      local,
-      images,
-      active,
-      categoryId,
-      ownerId,
-    } = req.body;
+    const { name, description, price, local, active, categoryId, ownerId } =
+      req.body;
 
     const createImovelService = new CreateImovelService();
 
@@ -21,7 +13,6 @@ export class CreateImovelController {
       description,
       price,
       local,
-      images,
       active,
       categoryId,
       ownerId,

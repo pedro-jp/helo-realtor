@@ -13,6 +13,7 @@ import {
 export default function Imovel() {
   const navigation = useNavigation<NavigationProp<ParamListBase>>();
   const { user } = useContext(AuthContext);
+  const ownerId = user.id;
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
@@ -59,11 +60,10 @@ export default function Imovel() {
         name,
         description,
         price,
-        categoryId: categoryId,
+        categoryId,
         local,
-        active,
-        banner: '',
-        ownerId: user.id,
+        active: true,
+        ownerId,
       });
 
       setName('');
@@ -75,7 +75,16 @@ export default function Imovel() {
 
       navigation.navigate('Images', { imovelId: response.data.id });
     } catch (error) {
-      console.log(error);
+      const data = {
+        name,
+        description,
+        price,
+        categoryId,
+        local,
+        active: true,
+        ownerId,
+      };
+      console.log(error + JSON.stringify(data));
     }
   }
 

@@ -5,17 +5,9 @@ interface ImovelProps {
   description: string;
   price: string;
   local: string;
-  images: imagesProps[] | any;
   active: boolean;
   categoryId: string;
   ownerId: string;
-}
-
-interface imagesProps {
-  id: string;
-  imovelId: string;
-  url: string;
-  created_at: string;
 }
 
 export class CreateImovelService {
@@ -30,7 +22,6 @@ export class CreateImovelService {
     description,
     price,
     local,
-    images,
     active,
     categoryId,
     ownerId,
@@ -41,7 +32,6 @@ export class CreateImovelService {
         description,
         price,
         local,
-        images,
         active,
         categoryId,
         ownerId,
