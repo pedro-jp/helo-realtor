@@ -9,14 +9,15 @@ export const StyledContentView = styled.View`
   flex: auto;
   margin: 40px 16px;
   flex-direction: column;
-  background-color: #111111;
   gap: 10px;
+  background-color: #00000050;
+  padding: 16px;
+  border-radius: 16px;
 `;
 
 export const StyledRowView = styled.View`
   flex: auto;
   flex-direction: row;
-  background-color: #111111;
   justify-content: space-between;
 `;
 

@@ -1,4 +1,11 @@
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { api } from '../../services/api';
@@ -25,8 +32,17 @@ export default function Imovel() {
       console.log(error);
     }
   }
+
+  const IMAGE_URL =
+    'https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+
   return (
     <S.StyledContainerView>
+      <Image
+        style={StyleSheet.absoluteFillObject}
+        blurRadius={10}
+        source={{ uri: IMAGE_URL }}
+      />
       <StatusBar style='light' backgroundColor='transparent' />
       <Carousel images={imovel[index]?.images} />
       <ScrollView>
