@@ -8,8 +8,9 @@ import {
   ParamListBase,
   useNavigation,
 } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
 
-type ImovelType = {
+export type ImovelType = {
   name: string;
   description: string;
   images: {
@@ -37,7 +38,7 @@ export default function ListImoveis() {
 
   async function loadImoveis() {
     try {
-      const response = await api.get('/imovel', {
+      const response = await api.get('/imoveis', {
         params: {
           ownerId,
         },
@@ -49,20 +50,22 @@ export default function ListImoveis() {
     }
   }
 
-  function handleOpenImovel(imovel: string) {
-    navigation.navigate('Imovel', { imovelId: imovel });
+  function handleOpenImovel(index: number) {
+    navigation.navigate('Imovel', { index: index });
   }
 
   return (
     <S.StyledContainerView>
-      <TouchableOpacity onPress={loadImoveis}>
+      <StatusBar style='auto' backgroundColor='transparent' />
+
+      <TouchableOpacity style={{ marginTop: 20 }} onPress={loadImoveis}>
         <S.StyledText>Carregar</S.StyledText>
       </TouchableOpacity>
       <S.StyledScrollView>
-        {imoveis.map((imovel) => (
+        {imoveis.map((imovel, index) => (
           <S.StyledTouchableOpacity
             key={imovel.id}
-            onPress={() => handleOpenImovel(imovel.id)}
+            onPress={() => handleOpenImovel(index)}
           >
             <S.StyledListView>
               <S.StyledDescView>
