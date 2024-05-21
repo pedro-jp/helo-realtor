@@ -50,11 +50,7 @@ export default function AddImovel() {
       price === '' ||
       categoryId === '' ||
       local === '' ||
-      categorySelected === '' ||
-      quartos === '' ||
-      banheiros === '' ||
-      area === '' ||
-      garagem === ''
+      categorySelected === ''
     ) {
       Toast.show({
         type: 'error',
@@ -124,7 +120,7 @@ export default function AddImovel() {
       <View style={{ zIndex: 10 }}>
         <Toast />
       </View>
-      <S.StyledText>Adicionar Imóvel</S.StyledText>
+      <S.StyledText style={{ marginTop: 20 }}>Adicionar Imóvel</S.StyledText>
       <S.StyledContentView>
         <S.StyledTextInput
           placeholder='Nome'
