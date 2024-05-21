@@ -1,4 +1,11 @@
-import { Text, TouchableOpacity, View, Modal } from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  Modal,
+  Image,
+  StyleSheet,
+} from 'react-native';
 import * as S from './styles';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -115,8 +122,16 @@ export default function AddImovel() {
     setCategorySelected(category[0].name);
   };
 
+  const IMAGE_URL =
+    'https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+
   return (
     <S.StyledContainerView>
+      <Image
+        style={StyleSheet.absoluteFillObject}
+        blurRadius={10}
+        source={{ uri: IMAGE_URL }}
+      />
       <View style={{ zIndex: 10 }}>
         <Toast />
       </View>

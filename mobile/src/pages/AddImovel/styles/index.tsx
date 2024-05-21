@@ -3,7 +3,6 @@ import styled from 'styled-components/native';
 export const StyledContainerView = styled.View`
   flex: 1;
   flex-direction: column;
-  background-color: #111111;
   justify-content: space-between;
   padding: 16px;
 `;
@@ -14,7 +13,6 @@ export const StyledContentView = styled.View`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #111111;
   gap: 12px;
 `;
 
@@ -24,13 +22,12 @@ export const StyledInputsView = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: #111111;
   gap: 12px;
 `;
 
 export const StyledTextInput = styled.TextInput`
   height: 50px;
-  width: 250px;
+  width: 90%;
   background-color: #022859;
   border-radius: 4px;
   padding: 8px;
