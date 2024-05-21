@@ -31,9 +31,17 @@ const Home = () => {
     }
     teste();
   }, []);
+  const IMAGE_URL =
+    'https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
 
   return (
     <StyledContainerView>
+      <Image
+        source={{ uri: IMAGE_URL }}
+        style={StyleSheet.absoluteFillObject}
+        blurRadius={10}
+      />
+
       <TouchableOpacity onPress={signOut}>
         <Text>Sair</Text>
       </TouchableOpacity>
