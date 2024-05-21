@@ -7,6 +7,7 @@ import Images from '../pages/Images';
 import ListImoveis from '../pages/ListImoveis';
 import Imovel from '../pages/Imovel';
 import { View } from 'react-native';
+import { BlurView } from 'expo-blur';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -53,15 +54,31 @@ export default function App() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarStyle: { backgroundColor: '#111111', borderTopWidth: 0 },
-        tabBarInactiveTintColor: '#fff',
+
+        tabBarBackground: () => <MenuBlur />,
+        tabBarStyle: {
+          width: '70%',
+          height: 50,
+          position: 'absolute',
+          borderTopWidth: 0,
+          bottom: 30,
+          left: '38%',
+          transform: [{ translateX: -100 }],
+          alignItems: 'center',
+          elevation: 0,
+          overflow: 'visible',
+        },
+
+        tabBarIconStyle: {
+          marginTop: 10,
+          zIndex: 10,
+        },
       }}
     >
       <Tab.Screen
         name='Home'
         options={{
-          title: 'Editar dados',
-          tabBarLabel: 'Editar dados',
+          tabBarLabel: '',
           tabBarIcon: () => <Feather name='edit' color={'#fff'} size={28} />,
         }}
         component={HomeStackScreen}
@@ -70,7 +87,7 @@ export default function App() {
         name='Add'
         options={{
           title: 'Adicionar imóveis',
-          tabBarLabel: 'Adicionar Imóveis',
+          tabBarLabel: '',
           tabBarIcon: () => (
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Feather name='plus' color={'#fff'} size={22} />
@@ -84,10 +101,16 @@ export default function App() {
         name='Imóveis'
         options={{
           title: 'Listar imóveis',
-          tabBarLabel: 'Imóveis',
+          tabBarLabel: '',
           tabBarIcon: () => (
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Feather name='home' color={'#fff'} size={28} />
+              <Feather
+                name='edit-2'
+                color={'#fff'}
+                size={10}
+                style={{ marginTop: -20 }}
+              />
             </View>
           ),
         }}
@@ -96,3 +119,25 @@ export default function App() {
     </Tab.Navigator>
   );
 }
+
+const MenuBlur = () => {
+  return (
+    <View style={{ flex: 1 }}>
+      <View
+        style={{
+          width: '100%',
+          height: 50,
+          borderRadius: 90,
+          borderTopColor: 'white',
+          borderBottomColor: 'white',
+          overflow: 'hidden',
+        }}
+      >
+        <BlurView
+          intensity={50}
+          style={{ flex: 1, backgroundColor: ' rgba(61, 53, 105, 0.4)' }}
+        />
+      </View>
+    </View>
+  );
+};
