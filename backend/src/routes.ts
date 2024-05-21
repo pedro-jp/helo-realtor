@@ -17,7 +17,7 @@ import { ListImoveisController } from './controllers/Imovel/ListImovelController
 import CreateImageController from './controllers/image/CreateImageController';
 import { ListImagesController } from './controllers/image/ListImagesController';
 
-import { DeleteCategoryController } from './controllers/category/DeleteCategoryController';
+import { LoadImovelController } from './controllers/Imovel/LoadImovelController';
 
 const router = Router();
 
@@ -63,7 +63,9 @@ router.post(
   new CreateImovelController().handle
 );
 
-router.get('/imovel', isAuthenticated, new ListImoveisController().handle);
+router.get('/imoveis', isAuthenticated, new ListImoveisController().handle);
+
+router.get('/imovel', isAuthenticated, new LoadImovelController().handle);
 
 router.delete('/imovel', isAuthenticated, new RemoveImovelController().handle);
 
