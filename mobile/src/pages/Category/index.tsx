@@ -1,6 +1,14 @@
 import { AuthContext } from '../../contexts/AuthContext';
 import { useContext, useEffect, useState } from 'react';
-import { Button, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+  Button,
+  Image,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { api } from '../../services/api';
 import * as S from './styles';
 import { Feather } from '@expo/vector-icons';
@@ -12,6 +20,9 @@ export default function Category() {
   const [state, setState] = useState(false);
 
   const [categoryList, setCategoryList] = useState([]);
+
+  const IMAGE_URL =
+    'https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
 
   async function createCategory() {
     try {
@@ -40,7 +51,6 @@ export default function Category() {
         },
       });
       setCategoryList(response.data);
-      console.log(response.data);
     } catch (error) {}
   }
 
@@ -61,6 +71,11 @@ export default function Category() {
 
   return (
     <S.StyledContainerView>
+      <Image
+        source={{ uri: IMAGE_URL }}
+        style={StyleSheet.absoluteFillObject}
+        blurRadius={10}
+      />
       <S.StyledInputsView>
         <S.StyledTextInput
           onChangeText={setCategory}

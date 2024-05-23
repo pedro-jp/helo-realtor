@@ -20,11 +20,14 @@ export default function Images() {
   const navigation = useNavigation<NavigationProp<ParamListBase>>();
   const { imovelId } = route.params as { imovelId: string };
 
+  const IMAGE_URL =
+    'https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [3, 4],
       quality: 1,
     });
 
@@ -65,10 +68,14 @@ export default function Images() {
 
   return (
     <View style={styles.container}>
-      <Button title='Seleciona um imagem' onPress={pickImage} />
+      <Image
+        source={{ uri: IMAGE_URL }}
+        style={StyleSheet.absoluteFillObject}
+        blurRadius={10}
+      />
+      <Button title='Selecione uma imagem' onPress={pickImage} />
       {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
       {imageUri && <Button title='Upload Image' onPress={uploadImage} />}
-      <Text>ImovelId: {imovelId}</Text>
     </View>
   );
 }
