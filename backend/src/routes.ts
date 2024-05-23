@@ -18,6 +18,9 @@ import CreateImageController from './controllers/image/CreateImageController';
 import { ListImagesController } from './controllers/image/ListImagesController';
 
 import { LoadImovelController } from './controllers/Imovel/LoadImovelController';
+import { CreateOfficeController } from './controllers/Office/CreateOfficeController';
+import { UpdateOfficeController } from './controllers/Office/UpdateOfficeController';
+import { GetOfficeController } from './controllers/Office/GetOfficeController';
 
 const router = Router();
 
@@ -63,10 +66,16 @@ router.post(
   new CreateImovelController().handle
 );
 
-router.get('/imoveis', isAuthenticated, new ListImoveisController().handle);
+router.get('/imoveis', new ListImoveisController().handle);
 
 router.get('/imovel', isAuthenticated, new LoadImovelController().handle);
 
 router.delete('/imovel', isAuthenticated, new RemoveImovelController().handle);
+
+router.post('/office', isAuthenticated, new CreateOfficeController().handle);
+
+router.get('/office', new GetOfficeController().handle);
+
+router.put('/office', isAuthenticated, new UpdateOfficeController().handle);
 
 export { router };
