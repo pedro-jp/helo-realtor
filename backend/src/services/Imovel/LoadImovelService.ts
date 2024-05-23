@@ -7,7 +7,6 @@ export class LoadImovelService {
         active: true,
         id: imovelId,
       },
-
       include: {
         images: true,
       },
