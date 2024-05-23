@@ -34,6 +34,7 @@ export default function AddImovel() {
   const [categorySelected, setCategorySelected] = useState('');
   const active = true;
   const [modalVisible, setModalVisible] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   async function listCategories() {
     try {
@@ -93,22 +94,7 @@ export default function AddImovel() {
       setCategorySelected('');
 
       navigation.navigate('Images', { imovelId: response.data.id });
-    } catch (error) {
-      const data = {
-        name,
-        description,
-        price,
-        categoryId,
-        local,
-        quartos,
-        banheiros,
-        area,
-        garagem,
-        active: true,
-        ownerId,
-      };
-      console.log(error + JSON.stringify(data));
-    }
+    } catch (error) {}
   }
 
   const handleCategory = (id) => {
@@ -126,7 +112,14 @@ export default function AddImovel() {
     'https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
 
   return (
-    <S.StyledContainerView>
+    <S.StyledContainerView
+      refresh={refresh}
+      onRefresh={() => {
+        setRefresh(true);
+        listCategories();
+        setRefresh(false);
+      }}
+    >
       <Image
         style={StyleSheet.absoluteFillObject}
         blurRadius={10}
