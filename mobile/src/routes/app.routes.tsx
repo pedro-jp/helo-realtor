@@ -6,6 +6,7 @@ import AddImovel from '../pages/AddImovel';
 import Images from '../pages/Images';
 import ListImoveis from '../pages/ListImoveis';
 import Imovel from '../pages/Imovel';
+import Category from '../pages/Category';
 import { View } from 'react-native';
 import { BlurView } from 'expo-blur';
 
@@ -17,6 +18,7 @@ function HomeStackScreen() {
       <HomeStack.Screen name='Home' component={Home} />
       <HomeStack.Screen name='Add Imovel' component={AddImovel} />
       <HomeStack.Screen name='Imóveis' component={ListImoveis} />
+      <HomeStack.Screen name='Category' component={Category} />
     </HomeStack.Navigator>
   );
 }
