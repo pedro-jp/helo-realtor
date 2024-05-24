@@ -3,7 +3,7 @@ import prismaClient from '../../prisma';
 interface OfficeRequest {
   name: string;
   ownerId: string;
-  phones: string;
+  phone: string;
   location: string;
   description: string;
 }
@@ -12,7 +12,7 @@ export class UpdateOfficeService {
   async execute({
     name,
     ownerId,
-    phones,
+    phone,
     location,
     description,
   }: OfficeRequest) {
@@ -22,7 +22,7 @@ export class UpdateOfficeService {
       },
       data: {
         name,
-        phones,
+        phone,
         location,
         description,
       },

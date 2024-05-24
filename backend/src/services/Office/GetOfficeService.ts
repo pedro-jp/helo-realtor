@@ -14,6 +14,7 @@ export class GetOfficeService {
         banner_image: true,
       },
     });
+    console.log(office);
     return office;
   }
 }

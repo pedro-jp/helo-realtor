@@ -19,7 +19,7 @@ import { NavigationProp, ParamListBase } from '@react-navigation/native';
 type OfficeType = {
   id: string;
   name: string;
-  phones: string;
+  phone: string;
   location: string;
   description: string;
 };
