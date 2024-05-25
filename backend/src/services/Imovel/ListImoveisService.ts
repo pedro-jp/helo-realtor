@@ -1,7 +1,10 @@
 import prismaClient from '../../prisma';
 
+interface OwnerId {
+  ownerId: string;
+}
 export class ListImoveisService {
-  async execute(ownerId: string) {
+  async execute({ ownerId }: OwnerId) {
     const imoveis = await prismaClient.imovel.findMany({
       where: {
         active: true,

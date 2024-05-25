@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id            String     @id @default(uuid())
+  id            String     @id @unique @default(uuid())
   name          String 
   email         String     @unique
   phone         String     @default("")
@@ -24,7 +24,7 @@ model User {
 }
 
 model User_Photo{
-  id       String @id @default(uuid())
+  id       String @id @unique @default(uuid())
   url      String
   userId   String
   user     User @relation(fields: [userId], references: [id])
@@ -32,7 +32,7 @@ model User_Photo{
 }
 
 model Office {
-  id           String @id @default(uuid())
+  id           String @id @unique @default(uuid())
   name         String
   phone        String
   ownerId      String  @unique
@@ -47,7 +47,7 @@ model Office {
 }
 
 model Office_Banner {
-  id       String @id @default(uuid())
+  id       String @id @unique @default(uuid())
   url      String
   officeId String
 
@@ -58,7 +58,7 @@ model Office_Banner {
 
 
 model Category {
-  id         String   @id @default(uuid())
+  id         String   @id @unique @default(uuid())
   name       String
   ownerId    String
   created_at DateTime @default(now())
@@ -71,7 +71,7 @@ model Category {
 }
 
 model Imovel {
-  id          String   @id @default(uuid())
+  id          String   @id @unique @default(uuid())
   name        String
   price       String
   description String
@@ -93,7 +93,7 @@ model Imovel {
 }
 
 model Images {
-  id          String @id @default(uuid())
+  id          String @id @unique @default(uuid())
   imovelId    String
   url         String
   created_at  DateTime @default(now())

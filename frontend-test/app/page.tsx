@@ -24,13 +24,12 @@ export default function Home() {
   }, []);
 
   async function getData() {
-    const response = await axios.get('http://192.168.1.6:3332/office', {
+    const response = await axios.get('http://192.168.1.6:3332/imoveis', {
       params: {
-        ownerId: 'a6eca0c6-74b4-4036-ae42-40b6d1cb80f2',
+        ownerId: '8b06fc1e-ba36-4a48-9493-6cccad749a75',
       },
     });
-    console.log(response.data);
-    console.log(response.data[0].images[0]);
+
     setData(response.data);
   }
 

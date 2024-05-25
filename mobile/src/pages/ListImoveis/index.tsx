@@ -49,7 +49,7 @@ export default function ListImoveis() {
     try {
       const response = await api.get('/imoveis', {
         params: {
-          ownerId,
+          ownerId: '8b06fc1e-ba36-4a48-9493-6cccad749a75',
         },
       });
       console.log(response.data);

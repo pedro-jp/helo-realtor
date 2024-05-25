@@ -8,7 +8,7 @@ import App from './app.routes';
 export default function Routes() {
   const { isAuthenticated, loading } = useContext(AuthContext);
 
-  if (loading) {
+  if (1 + 1 === 4) {
     return (
       <View
         style={{
