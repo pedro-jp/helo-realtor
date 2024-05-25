@@ -5,7 +5,7 @@ export class ListImoveisController {
   async handle(req: Request, res: Response) {
     const listImoveisService = new ListImoveisService();
 
-    const imoveis = await listImoveisService.execute(req.user_id);
+    const imoveis = await listImoveisService.execute(req.body.ownerId);
 
     return res.json(imoveis);
   }
