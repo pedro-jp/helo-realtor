@@ -1,9 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import styles from './page.module.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import 'dotenv/config';
 
 type DataProps = {
   name: string;
@@ -24,11 +24,7 @@ export default function Home() {
   }, []);
 
   async function getData() {
-    const response = await axios.get('http://192.168.1.6:3332/imoveis', {
-      params: {
-        ownerId: '8b06fc1e-ba36-4a48-9493-6cccad749a75',
-      },
-    });
+    const response = await axios.get(process.env.URL || '');
 
     setData(response.data);
   }
