@@ -38,11 +38,7 @@ export default function AddImovel() {
 
   async function listCategories() {
     try {
-      const response = await api.get('/category', {
-        params: {
-          ownerId: user.id,
-        },
-      });
+      const response = await api.get(`/category/${ownerId}`);
       setCategoryList(response.data);
     } catch (error) {}
   }

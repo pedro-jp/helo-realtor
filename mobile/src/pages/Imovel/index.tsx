@@ -1,32 +1,39 @@
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { api } from '../../services/api';
-import { ImovelType } from '../../pages/ListImoveis';
 import { StatusBar } from 'expo-status-bar';
 import Carousel from '../../components/Carousel';
 import { Feather } from '@expo/vector-icons';
 import * as S from './styles';
 
+type ImovelType = {
+  name: string;
+  description: string;
+  images: {
+    url: string;
+  }[];
+  id: string;
+  price: string;
+  local: string;
+  quartos: string;
+  banheiros: string;
+  area: string;
+  garagem: string;
+};
+
 export default function Imovel() {
   const Routes = useRoute();
-  const { index } = Routes.params as { index: number };
-  const [imovel, setImovel] = useState<ImovelType[]>([]);
+  const { imovelId } = Routes.params as { imovelId: string };
+  const [imovel, setImovel] = useState<ImovelType>({} as ImovelType);
 
   useEffect(() => {
     loadImovel();
-  }, [index]);
+  }, [imovelId]);
 
   async function loadImovel() {
     try {
-      const response = await api.get('/imoveis');
+      const response = await api.get(`/imovel/${imovelId}`);
       setImovel(response?.data);
     } catch (error) {
       console.log(error);
@@ -44,12 +51,12 @@ export default function Imovel() {
         source={{ uri: IMAGE_URL }}
       />
       <StatusBar style='light' backgroundColor='transparent' />
-      <Carousel images={imovel[index]?.images} />
+      <Carousel images={imovel?.images} />
       <ScrollView>
         {imovel && (
           <S.StyledContentView>
             <S.StyledRowView>
-              <S.StyledText>Imóvel: {imovel[index]?.name}</S.StyledText>
+              <S.StyledText>Imóvel: {imovel?.name}</S.StyledText>
               <TouchableOpacity>
                 <TouchableOpacity>
                   <Feather name='edit-2' size={20} color='white' />
@@ -58,7 +65,7 @@ export default function Imovel() {
             </S.StyledRowView>
             <S.StyledRowView>
               <S.StyledText>
-                Descrição: {'\n'} {imovel[index]?.description}
+                Descrição: {'\n'} {imovel?.description}
               </S.StyledText>
               <TouchableOpacity>
                 <Feather name='edit-2' size={20} color='white' />
@@ -67,7 +74,7 @@ export default function Imovel() {
             <S.StyledRowView>
               <S.StyledText>
                 Valor:{' '}
-                {Number(imovel[index]?.price).toLocaleString('pt-br', {
+                {Number(imovel?.price).toLocaleString('pt-br', {
                   style: 'currency',
                   currency: 'BRL',
                 })}
@@ -77,7 +84,7 @@ export default function Imovel() {
               </TouchableOpacity>
             </S.StyledRowView>
             <S.StyledRowView>
-              <S.StyledText>Local: {imovel[index]?.local}</S.StyledText>
+              <S.StyledText>Local: {imovel?.local}</S.StyledText>
               <TouchableOpacity>
                 <Feather name='edit-2' size={20} color='white' />
               </TouchableOpacity>
@@ -85,35 +92,33 @@ export default function Imovel() {
 
             <S.StyledRowView></S.StyledRowView>
 
-            {imovel[index]?.quartos === '' ? null : (
+            {imovel?.quartos === '' ? null : (
               <S.StyledRowView>
-                <S.StyledText>Quartos: {imovel[index]?.quartos}</S.StyledText>
+                <S.StyledText>Quartos: {imovel?.quartos}</S.StyledText>
                 <TouchableOpacity>
                   <Feather name='edit-2' size={20} color='white' />
                 </TouchableOpacity>
               </S.StyledRowView>
             )}
-            {imovel[index]?.banheiros === '' ? null : (
+            {imovel?.banheiros === '' ? null : (
               <S.StyledRowView>
-                <S.StyledText>
-                  Banheiros: {imovel[index]?.banheiros}
-                </S.StyledText>
+                <S.StyledText>Banheiros: {imovel?.banheiros}</S.StyledText>
                 <TouchableOpacity>
                   <Feather name='edit-2' size={20} color='white' />
                 </TouchableOpacity>
               </S.StyledRowView>
             )}
-            {imovel[index]?.area === '' ? null : (
+            {imovel?.area === '' ? null : (
               <S.StyledRowView>
-                <S.StyledText>Area: {imovel[index]?.area} m²</S.StyledText>
+                <S.StyledText>Area: {imovel?.area} m²</S.StyledText>
                 <TouchableOpacity>
                   <Feather name='edit-2' size={20} color='white' />
                 </TouchableOpacity>
               </S.StyledRowView>
             )}
-            {imovel[index]?.garagem === '' ? null : (
+            {imovel?.garagem === '' ? null : (
               <S.StyledRowView>
-                <S.StyledText>Garagem: {imovel[index]?.garagem}</S.StyledText>
+                <S.StyledText>Garagem: {imovel?.garagem}</S.StyledText>
                 <TouchableOpacity>
                   <Feather name='edit-2' size={20} color='white' />
                 </TouchableOpacity>

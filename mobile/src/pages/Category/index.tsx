@@ -16,7 +16,7 @@ import { Feather } from '@expo/vector-icons';
 export default function Category() {
   const [category, setCategory] = useState('');
   const { user } = useContext(AuthContext);
-
+  const ownerId = user.id;
   const [state, setState] = useState(false);
 
   const [categoryList, setCategoryList] = useState([]);
@@ -45,11 +45,7 @@ export default function Category() {
 
   async function listCategories() {
     try {
-      const response = await api.get('/category', {
-        params: {
-          ownerId: user.id,
-        },
-      });
+      const response = await api.get(`/category/${ownerId}`);
       setCategoryList(response.data);
     } catch (error) {}
   }

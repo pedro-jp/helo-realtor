@@ -40,13 +40,8 @@ const Home = () => {
   }, []);
 
   const getOffice = async () => {
-    console.log(ownerId);
     try {
-      const response = await api.get('/office', {
-        params: {
-          ownerId: String(ownerId) as string,
-        },
-      });
+      const response = await api.get(`/office/${ownerId}`);
       setOffice(response.data);
     } catch (error) {
       console.log(error.response.data ?? error.message);

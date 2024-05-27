@@ -47,20 +47,15 @@ export default function ListImoveis() {
 
   async function loadImoveis() {
     try {
-      const response = await api.get('/imoveis', {
-        params: {
-          ownerId: '8b06fc1e-ba36-4a48-9493-6cccad749a75',
-        },
-      });
-      console.log(response.data);
+      const response = await api.get(`imoveis/${ownerId}`);
       setImoveis(response.data);
     } catch (error) {
       console.log(error);
     }
   }
 
-  function handleOpenImovel(index: number) {
-    navigation.navigate('Imovel', { index: index });
+  function handleOpenImovel(item: ImovelType) {
+    navigation.navigate('Imovel', { imovelId: item.id });
   }
 
   const { width, height } = Dimensions.get('screen');
@@ -118,7 +113,7 @@ export default function ListImoveis() {
           });
 
           return (
-            <TouchableOpacity onPress={() => handleOpenImovel(index)}>
+            <TouchableOpacity onPress={() => handleOpenImovel(item)}>
               <Animated.View
                 style={{
                   flexDirection: 'row',
