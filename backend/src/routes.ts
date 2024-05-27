@@ -56,7 +56,7 @@ router.post(
 //   new DeleteCategoryController().handle
 // );
 
-router.get('/category', isAuthenticated, new ListCategoryController().handle);
+router.get('/category/:ownerId', new ListCategoryController().handle);
 
 //--ROTAS IMOVEIS
 router.post(
@@ -66,15 +66,15 @@ router.post(
   new CreateImovelController().handle
 );
 
-router.get('/imoveis', new ListImoveisController().handle);
+router.get('/imoveis/:ownerId', new ListImoveisController().handle);
 
-router.get('/imovel', isAuthenticated, new LoadImovelController().handle);
+router.get('/imovel/:imovelId', new LoadImovelController().handle);
 
 router.delete('/imovel', isAuthenticated, new RemoveImovelController().handle);
 
 router.post('/office', isAuthenticated, new CreateOfficeController().handle);
 
-router.get('/office', new GetOfficeController().handle);
+router.get('/office/:ownerId', new GetOfficeController().handle);
 
 router.put('/office', isAuthenticated, new UpdateOfficeController().handle);
 
