@@ -16,7 +16,7 @@ export class UpdateImovelService {
     categoryId,
     id,
   }: ImovelExtended) {
-    const office = await prismaClient.imovel.update({
+    const imovel = await prismaClient.imovel.update({
       where: {
         id: id,
       },
@@ -33,6 +33,6 @@ export class UpdateImovelService {
         categoryId,
       },
     });
-    return office;
+    return imovel;
   }
 }
