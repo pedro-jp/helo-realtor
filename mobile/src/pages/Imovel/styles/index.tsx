@@ -30,3 +30,11 @@ export const StyledTitle = styled.Text`
   font-size: 30px;
   color: #fff;
 `;
+
+export const StyledInput = styled.TextInput`
+  height: 50px;
+  background-color: transparent;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+`;

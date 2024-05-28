@@ -7,29 +7,12 @@ import React, {
 } from 'react';
 import { api } from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-interface SignInProps {
-  email: string;
-  password: string;
-}
-
-type AuthContextData = {
-  user: UserProps;
-  isAuthenticated: boolean;
-  signIn: ({ email, password }: SignInProps) => Promise<void>;
-  loadingAuth: boolean;
-  loading: boolean;
-  signOut: () => Promise<void>;
-};
-type UserProps = {
-  id: string;
-  name: string;
-  email: string;
-  token: string;
-};
-
-type AuthProviderProps = {
-  children: ReactNode;
-};
+import {
+  AuthContextData,
+  AuthProviderProps,
+  SignInProps,
+  UserProps,
+} from '../interfaces';
 
 export const AuthContext = createContext({} as AuthContextData);
 
