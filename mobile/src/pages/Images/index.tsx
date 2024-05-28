@@ -8,6 +8,7 @@ import {
   NavigationProp,
   ParamListBase,
 } from '@react-navigation/native';
+import Toast, { InfoToast, SuccessToast } from 'react-native-toast-message';
 
 export default function Images() {
   const [image, setImage] = useState(null);
@@ -44,6 +45,14 @@ export default function Images() {
     }
   };
 
+  const showToast = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Hello',
+      text2: 'This is some something 👋',
+    });
+  };
+
   const uploadImage = async () => {
     const formData = new FormData();
 
@@ -60,23 +69,41 @@ export default function Images() {
     formData.append('imovelId', imovelId);
     try {
       await api.postForm('/images', formData);
-      console.log('deu certo');
+      Toast.show({
+        type: 'success',
+        text1: 'Imagem enviada',
+      });
     } catch (error) {
-      console.log(error);
+      Toast.show({
+        type: 'info',
+        text1: 'Envie novamente',
+      });
     }
   };
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={{ uri: IMAGE_URL }}
-        style={StyleSheet.absoluteFillObject}
-        blurRadius={10}
-      />
-      <Button title='Selecione uma imagem' onPress={pickImage} />
-      {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
-      {imageUri && <Button title='Upload Image' onPress={uploadImage} />}
-    </View>
+    <>
+      <View style={{ zIndex: 10, top: 0 }}>
+        <Toast />
+      </View>
+      <View style={styles.container}>
+        <Image
+          source={{ uri: IMAGE_URL }}
+          style={StyleSheet.absoluteFillObject}
+          blurRadius={10}
+        />
+        <Button title='Selecione uma imagem' onPress={pickImage} />
+        {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
+        {imageUri && <Button title='Upload Image' onPress={uploadImage} />}
+
+        <Button
+          title='Finalizar'
+          onPress={() => {
+            navigation.navigate('Imovel', { imovelId: imovelId });
+          }}
+        />
+      </View>
+    </>
   );
 }
 
