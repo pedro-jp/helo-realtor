@@ -11,7 +11,8 @@ export class CreateCategoryService {
 
     const categoryAlreadyExist = await prismaClient.category.findFirst({
       where: {
-        name: name,
+        name,
+        ownerId,
       },
     });
 
