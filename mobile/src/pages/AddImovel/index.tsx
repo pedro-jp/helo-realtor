@@ -5,6 +5,7 @@ import {
   Modal,
   Image,
   StyleSheet,
+  FlatList,
 } from 'react-native';
 import * as S from './styles';
 import { useContext, useEffect, useState } from 'react';
@@ -19,6 +20,7 @@ import {
 
 export default function AddImovel() {
   const navigation = useNavigation<NavigationProp<ParamListBase>>();
+  const [refreshing, setRefreshing] = useState(false);
   const { user } = useContext(AuthContext);
   const ownerId = user.id;
   const [name, setName] = useState('');
@@ -194,16 +196,22 @@ export default function AddImovel() {
             setModalVisible(!modalVisible);
           }}
         >
-          <S.StyledScrollView>
-            {categoryList.map((item) => (
-              <S.StyledListView
-                key={item.id}
-                onPress={() => handleCategory(item.id)}
-              >
+          <FlatList
+            style={{ backgroundColor: '#1d1d1d' }}
+            data={categoryList}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <S.StyledListView onPress={() => handleCategory(item.id)}>
                 <S.StyledText>{item.name}</S.StyledText>
               </S.StyledListView>
-            ))}
-          </S.StyledScrollView>
+            )}
+            refreshing={refreshing}
+            onRefresh={() => {
+              setRefreshing(true);
+              listCategories();
+              setRefreshing(false);
+            }}
+          />
         </S.StyledModal>
 
         <S.StyledButton onPress={createImovel}>
