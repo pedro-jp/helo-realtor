@@ -21,6 +21,7 @@ import { LoadImovelController } from './controllers/Imovel/LoadImovelController'
 import { CreateOfficeController } from './controllers/Office/CreateOfficeController';
 import { UpdateOfficeController } from './controllers/Office/UpdateOfficeController';
 import { GetOfficeController } from './controllers/Office/GetOfficeController';
+import { UpdateImovelController } from './controllers/Imovel/UpdateImovelController';
 
 const router = Router();
 
@@ -71,6 +72,8 @@ router.get('/imoveis/:ownerId', new ListImoveisController().handle);
 router.get('/imovel/:imovelId', new LoadImovelController().handle);
 
 router.delete('/imovel', isAuthenticated, new RemoveImovelController().handle);
+
+router.put('/imovel/:id', isAuthenticated, new UpdateImovelController().handle);
 
 router.post('/office', isAuthenticated, new CreateOfficeController().handle);
 
