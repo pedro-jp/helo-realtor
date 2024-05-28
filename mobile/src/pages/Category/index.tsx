@@ -1,17 +1,8 @@
 import { AuthContext } from '../../contexts/AuthContext';
 import { useContext, useEffect, useState } from 'react';
-import {
-  Button,
-  Image,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import { api } from '../../services/api';
 import * as S from './styles';
-import { Feather } from '@expo/vector-icons';
 
 export default function Category() {
   const [category, setCategory] = useState('');
@@ -33,10 +24,7 @@ export default function Category() {
 
       setCategory('');
       setState(!state);
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 
   useEffect(() => {
