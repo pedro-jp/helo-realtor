@@ -43,7 +43,7 @@ model Office {
   banner_image Office_Banner[]
 
   owner        User @relation(fields: [ownerId], references: [id])
-  @@map("offices")
+  @@map("office")
 }
 
 model Office_Banner {
