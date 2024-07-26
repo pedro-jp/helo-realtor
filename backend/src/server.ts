@@ -14,6 +14,7 @@ app.use(router);
 app.use('/files', express.static(path.resolve(__dirname, '..', 'tmp')));
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.log(err.message);
   if (err instanceof Error) {
     return res.status(400).json({
       error: err.message,
