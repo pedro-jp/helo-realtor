@@ -74,7 +74,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setLoading(false);
       setLoadingAuth(false);
     } catch (error) {
-      console.log('erro ao acessar');
+      console.log('erro ao acessar', error);
       setLoading(false);
       setLoadingAuth(false);
     }
