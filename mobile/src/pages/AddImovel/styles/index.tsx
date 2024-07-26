@@ -1,10 +1,8 @@
 import styled from 'styled-components/native';
 
-export const StyledContainerView = styled.View`
+export const StyledContainerView = styled.ScrollView`
   flex: 1;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 16px;
 `;
 
 export const StyledContentView = styled.View`
