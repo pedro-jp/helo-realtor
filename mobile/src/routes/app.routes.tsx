@@ -9,7 +9,6 @@ import Imovel from '../pages/Imovel';
 import Category from '../pages/Category';
 import { View } from 'react-native';
 import { BlurView } from 'expo-blur';
-import Gallery from '../pages/Gallery';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -21,16 +20,6 @@ function HomeStackScreen() {
       <HomeStack.Screen name='Imóveis' component={ListImoveis} />
       <HomeStack.Screen name='Category' component={Category} />
     </HomeStack.Navigator>
-  );
-}
-
-const GalleryStack = createNativeStackNavigator();
-
-function GalleryStackScreen() {
-  return (
-    <GalleryStack.Navigator screenOptions={{ headerShown: false }}>
-      <GalleryStack.Screen name='Gallery' component={Gallery} />
-    </GalleryStack.Navigator>
   );
 }
 
@@ -128,15 +117,6 @@ export default function App() {
           ),
         }}
         component={ListImoveisStackScreen}
-      />
-
-      <Tab.Screen
-        name='Gallery'
-        options={{
-          tabBarLabel: '',
-          tabBarIcon: () => <Feather name='image' color={'#fff'} size={28} />,
-        }}
-        component={GalleryStackScreen}
       />
     </Tab.Navigator>
   );
