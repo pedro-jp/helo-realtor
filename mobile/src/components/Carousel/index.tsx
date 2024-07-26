@@ -74,7 +74,7 @@ export default function Carousel({ images }: any) {
                       translateX,
                     }}
                     source={{
-                      uri: `http://192.168.1.6:3332/files/${item.url}`,
+                      uri: `http://192.168.1.21:3332/files/${item.url}`,
                     }}
                   />
                 </View>
