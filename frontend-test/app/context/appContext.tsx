@@ -47,14 +47,12 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         `http://192.168.1.21:3332/imoveis/${ownerId}`
       );
 
-      // Verifica se a resposta está ok (status no range 200-299)
       if (!response.ok) {
         throw new Error(`Erro ao buscar os imóveis: ${response.statusText}`);
       }
 
-      // Extrai os dados JSON da resposta
       const data = await response.json();
-      setImoveis(data); // Supõe-se que `setImoveis` seja uma função definida no seu código
+      setImoveis(data);
     } catch (error) {
       console.error('Erro ao carregar os imóveis:', error);
     }
