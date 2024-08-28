@@ -1,0 +1,22 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 10px 20px;
+  background: #ffffff20;
+  margin: 0 1rem;
+
+  ul {
+    margin: 0 auto;
+    max-width: 1440px;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    li {
+      all: unset;
+      font-weight: 600;
+      font-size: 1.25rem;
+    }
+  }
+}
