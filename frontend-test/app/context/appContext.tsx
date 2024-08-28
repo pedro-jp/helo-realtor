@@ -43,8 +43,18 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   async function loadImoveis() {
     try {
-      const response = await api.get<Imovel[]>(`imoveis/${ownerId}`);
-      setImoveis(response.data);
+      const response = await fetch(
+        `http://192.168.1.21:3332/imoveis/${ownerId}`
+      );
+
+      // Verifica se a resposta está ok (status no range 200-299)
+      if (!response.ok) {
+        throw new Error(`Erro ao buscar os imóveis: ${response.statusText}`);
+      }
+
+      // Extrai os dados JSON da resposta
+      const data = await response.json();
+      setImoveis(data); // Supõe-se que `setImoveis` seja uma função definida no seu código
     } catch (error) {
       console.error('Erro ao carregar os imóveis:', error);
     }

@@ -1,3 +1,4 @@
+import { getImovelData } from '@/app/services/getImoveis';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -18,15 +19,6 @@ type ImovelType = {
   categoryId: string;
   active: boolean;
 };
-
-// Função para buscar os dados do imóvel por ID
-async function getImovelData(id: string): Promise<ImovelType> {
-  const res = await fetch(`http://192.168.1.21:3332/imovel/${id}`);
-  if (!res.ok) {
-    throw new Error('Failed to fetch data');
-  }
-  return res.json();
-}
 
 // Função para gerar metadados dinamicamente
 export async function generateMetadata({
