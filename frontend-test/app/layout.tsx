@@ -5,6 +5,11 @@ import { AppProvider } from './context/appContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
+export const metadata: Metadata = {
+  title: 'HeloTech - Imóveis',
+  description: 'HeloTech - Imóveis',
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{

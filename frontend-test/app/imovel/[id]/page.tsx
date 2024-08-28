@@ -45,7 +45,7 @@ export async function generateMetadata({
       url: `${process.env.NEXT_PUBLIC_URL}/imovel/${params.id}`,
       images: [
         {
-          url: `http://192.168.1.21:3332/files/${imovel.images[0]?.url}`,
+          url: `${process.env.NEXT_PUBLIC_URL}files/${imovel.images[0]?.url}`,
           width: 800,
           height: 600,
           alt: imovel.name,
@@ -67,12 +67,15 @@ export default async function ImovelPage({
     <div>
       <h1>{imovel.name}</h1>
       <p>{imovel.description}</p>
-      <Image
-        src={`http://192.168.1.21:3332/files/${imovel.images[0]?.url}`}
-        alt={imovel.name}
-        width={800}
-        height={600}
-      />
+      {imovel.images.map((image) => (
+        <Image
+          key={image.url}
+          src={`${process.env.NEXT_PUBLIC_URL}files/${image.url}`}
+          alt={imovel.name}
+          width={500}
+          height={500}
+        />
+      ))}
     </div>
   );
 }
