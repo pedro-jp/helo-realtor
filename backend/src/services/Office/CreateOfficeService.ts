@@ -6,6 +6,7 @@ interface OfficeRequest {
   phone: string;
   location: string;
   description: string;
+  email: string;
 }
 
 export class CreateOfficeService {
@@ -15,6 +16,7 @@ export class CreateOfficeService {
     phone,
     location,
     description,
+    email,
   }: OfficeRequest) {
     const office = await prismaClient.office.create({
       data: {
@@ -23,6 +25,7 @@ export class CreateOfficeService {
         phone,
         location,
         description,
+        email,
       },
       select: {
         id: true,

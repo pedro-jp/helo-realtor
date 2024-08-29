@@ -23,6 +23,9 @@ import { UpdateOfficeController } from './controllers/Office/UpdateOfficeControl
 import { GetOfficeController } from './controllers/Office/GetOfficeController';
 import { UpdateImovelController } from './controllers/Imovel/UpdateImovelController';
 
+import { CreateRealtorController } from './controllers/Realtor/CreateRealtorController';
+import { UpdateRealtorController } from './controllers/Realtor/UpdateRealtorController';
+
 const router = Router();
 
 const upload = multer(uploadConfig.upload('./tmp'));
@@ -80,5 +83,17 @@ router.post('/office', isAuthenticated, new CreateOfficeController().handle);
 router.get('/office/:ownerId', new GetOfficeController().handle);
 
 router.put('/office', isAuthenticated, new UpdateOfficeController().handle);
+
+router.post(
+  '/office/:officeId/realtors',
+  isAuthenticated,
+  new CreateRealtorController().handle
+);
+
+router.put(
+  '/office/:officeId/realtors/:realtorId',
+  isAuthenticated,
+  new UpdateRealtorController().handle
+);
 
 export { router };

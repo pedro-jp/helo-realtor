@@ -12,6 +12,7 @@ export class GetOfficeService {
       },
       include: {
         banner_image: true,
+        realtors: true,
       },
     });
     console.log(office);
