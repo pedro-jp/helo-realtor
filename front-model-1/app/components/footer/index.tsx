@@ -5,6 +5,7 @@ import style from './style.module.scss';
 import { getOffice } from '@/app/services/getOffice';
 import { OfficeType, RealtorType } from '@/app/types';
 import formatWhatsapp from '../../services/formatWhatsapp';
+import { formatarNumero } from '@/app/services/formatNumber';
 
 export const Footer = () => {
   const [officeData, setOfficeData] = useState<OfficeType>({} as OfficeType);
@@ -39,16 +40,15 @@ export const Footer = () => {
           </button>
         </div>
         <div className={style.office_data}>
-          <ul>
-            <li>{officeData.name}</li>
-            <li>{officeData.location}</li>
-          </ul>
           {realtors &&
             realtors.map((realtor) => (
               <ul key={realtor.id}>
-                <li>{realtor.name}</li>
-                <li>{realtor.email}</li>
                 <li>
+                  {officeData.address} <br /> {officeData.address_city}
+                </li>
+
+                <li className={style.number}>
+                  {realtor.name}:{' '}
                   <a
                     target='_blank'
                     href={formatWhatsapp(
@@ -56,8 +56,10 @@ export const Footer = () => {
                       realtor.whatsapp_message
                     )}
                   >
-                    {realtor.phone}
+                    {formatarNumero(realtor.phone)}
                   </a>
+                  <li>Creci: {realtor.creci}</li>
+                  <li>Email: {realtor.email}</li>
                 </li>
               </ul>
             ))}

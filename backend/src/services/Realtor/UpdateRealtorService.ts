@@ -16,6 +16,7 @@ export default class UpdateRealtorService {
     email,
     phone,
     creci,
+    whatsapp_message,
     realtorId,
     officeId,
   }: RealtorRequest) {
@@ -28,6 +29,7 @@ export default class UpdateRealtorService {
         email,
         phone,
         creci,
+        whatsapp_message,
         officeId,
       },
     });

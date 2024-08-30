@@ -13,7 +13,7 @@ export default async function Cards() {
             <h2>{imovel.name}</h2>
             {imovel.images && imovel.images.length > 0 && (
               <Image
-                src={`${process.env.NEXT_PUBLIC_URL}files/${imovel.images[0].url}`}
+                src={`${process.env.NEXT_PUBLIC_URL}/files/${imovel.images[0].url}`}
                 alt={imovel.name}
                 width={500}
                 height={300}
