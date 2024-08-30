@@ -3,7 +3,14 @@ import { CreateOfficeService } from '../../services/Office/CreateOfficeService';
 
 export class CreateOfficeController {
   async handle(req: Request, res: Response) {
-    const { name, phone, location, description, email } = req.body;
+    const {
+      name,
+      phone,
+      address,
+      address_city,
+      description,
+      email,
+    } = req.body;
 
     const createOfficeService = new CreateOfficeService();
 
@@ -12,8 +19,9 @@ export class CreateOfficeController {
         name,
         ownerId: req.user_id,
         phone,
-        location,
         description,
+        address,
+        address_city,
         email,
       });
       return res.json(office);

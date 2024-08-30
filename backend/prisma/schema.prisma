@@ -8,14 +8,14 @@ datasource db {
 }
 
 model User {
-  id            String     @id @unique @default(uuid())
-  name          String 
-  email         String     @unique
-  phone         String     @default("")
+  id            String       @id @unique @default(uuid())
+  name          String
+  email         String       @unique
+  phone         String       @default("")
   password      String
-  created_at    DateTime   @default(now())
-  updated_at    DateTime   @updatedAt
-  profile_photo String     @default("")
+  created_at    DateTime     @default(now())
+  updated_at    DateTime     @updatedAt
+  profile_photo String       @default("")
   categories    Category[]
   imoveis       Imovel[]
   office        Office[]
@@ -25,28 +25,29 @@ model User {
 }
 
 model User_Photo {
-  id       String @id @unique @default(uuid())
-  url      String
-  userId   String
-  user     User @relation(fields: [userId], references: [id])
+  id     String @id @unique @default(uuid())
+  url    String
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
   @@map("user_photos")
 }
 
 model Office {
-  id           String @id @unique @default(uuid())
+  id           String          @id @unique @default(uuid())
   name         String
   phone        String
-  ownerId      String @unique
-  location     String
+  ownerId      String          @unique
+  address_city String          @default(" ")
+  address      String          @default(" ")
   email        String
-  created_at   DateTime @default(now())
-  updated_at   DateTime @updatedAt
+  created_at   DateTime        @default(now())
+  updated_at   DateTime        @updatedAt
   description  String
   banner_image Office_Banner[]
 
-  owner        User @relation(fields: [ownerId], references: [id])
-  realtors     Realtor[] // Um escritório pode ter vários corretores
+  owner    User      @relation(fields: [ownerId], references: [id])
+  realtors Realtor[] // Um escritório pode ter vários corretores
 
   @@map("office")
 }
@@ -56,24 +57,24 @@ model Office_Banner {
   url      String
   officeId String
 
-  office   Office @relation(fields: [officeId], references: [id])
+  office Office @relation(fields: [officeId], references: [id])
 
   @@map("office_banners")
 }
 
 model Realtor {
-  id        String   @id @unique @default(uuid())
-  name      String
-  email     String   @unique
-  phone     String
-  creci     String
-  officeId  String 
+  id               String   @id @unique @default(uuid())
+  name             String
+  email            String   @unique
+  phone            String
+  creci            String
+  officeId         String
   whatsapp_message String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
 
-  office    Office   @relation(fields: [officeId], references: [id])
-  imoveis   Imovel[]
+  office  Office   @relation(fields: [officeId], references: [id])
+  imoveis Imovel[]
 
   @@map("realtors")
 }
@@ -85,8 +86,8 @@ model Category {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  owner      User     @relation(fields: [ownerId], references: [id])
-  imoveis    Imovel[]
+  owner   User     @relation(fields: [ownerId], references: [id])
+  imoveis Imovel[]
 
   @@map("categories")
 }
@@ -97,30 +98,30 @@ model Imovel {
   price       String
   description String
   local       String
-  quartos     String @default("")
-  banheiros   String @default("")
-  area        String @default("")
-  garagem     String @default("")
+  quartos     String   @default("")
+  banheiros   String   @default("")
+  area        String   @default("")
+  garagem     String   @default("")
   active      Boolean
   categoryId  String
   ownerId     String
-  realtorId   String?  // Temporariamente opcional
+  realtorId   String? // Temporariamente opcional
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
 
-  category  Category @relation(fields: [categoryId], references: [id])
-  owner     User     @relation(fields: [ownerId], references: [id])
-  realtor   Realtor? @relation(fields: [realtorId], references: [id]) // Relacionamento opcional
-  images    Images[]
+  category Category @relation(fields: [categoryId], references: [id])
+  owner    User     @relation(fields: [ownerId], references: [id])
+  realtor  Realtor? @relation(fields: [realtorId], references: [id]) // Relacionamento opcional
+  images   Images[]
 
   @@map("imoveis")
 }
 
 model Images {
-  id          String @id @unique @default(uuid())
-  imovelId    String
-  url         String
-  created_at  DateTime @default(now())
+  id         String   @id @unique @default(uuid())
+  imovelId   String
+  url        String
+  created_at DateTime @default(now())
 
   imovel Imovel @relation(fields: [imovelId], references: [id])
 

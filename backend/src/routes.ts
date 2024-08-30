@@ -82,7 +82,11 @@ router.post('/office', isAuthenticated, new CreateOfficeController().handle);
 
 router.get('/office/:ownerId', new GetOfficeController().handle);
 
-router.put('/office', isAuthenticated, new UpdateOfficeController().handle);
+router.put(
+  '/office/:officeId',
+  isAuthenticated,
+  new UpdateOfficeController().handle
+);
 
 router.post(
   '/office/:officeId/realtors',

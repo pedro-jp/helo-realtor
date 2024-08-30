@@ -19,8 +19,9 @@ export type OfficeType = {
   id: string;
   name: string;
   phone: string;
-  location: string;
   description: string;
+  address: string;
+  address_city: string;
   email: string;
   realtors: RealtorType[];
 };
@@ -30,6 +31,7 @@ export type RealtorType = {
   name: string;
   email: string;
   phone: string;
+  creci: string;
   whatsapp_message: string;
   officeId: string;
 };

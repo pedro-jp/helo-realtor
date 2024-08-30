@@ -4,7 +4,8 @@ interface OfficeRequest {
   name: string;
   ownerId: string;
   phone: string;
-  location: string;
+  address: string;
+  address_city: string;
   description: string;
   email: string;
   officeId: string;
@@ -13,9 +14,11 @@ interface OfficeRequest {
 export class UpdateOfficeService {
   async execute({
     name,
+    ownerId,
     phone,
-    location,
     description,
+    address,
+    address_city,
     email,
     officeId,
   }: OfficeRequest) {
@@ -26,7 +29,8 @@ export class UpdateOfficeService {
       data: {
         name,
         phone,
-        location,
+        address,
+        address_city,
         description,
         email,
       },

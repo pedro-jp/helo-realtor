@@ -19,7 +19,9 @@ type OfficeType = {
   id: string;
   name: string;
   phone: string;
-  location: string;
+  address: string;
+  address_city: string;
+  address_state: string;
   description: string;
   email: string;
   realtors: RealtorType[];
@@ -45,7 +47,9 @@ const Home = () => {
   const { user, signOut } = useContext(AuthContext);
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [location, setLocation] = useState('');
+  const [address, setAddress] = useState('');
+  const [address_city, setAddressCity] = useState('');
+  const [address_state, setAddressState] = useState('');
   const [description, setDescription] = useState('');
   const [email, setEmail] = useState('');
 
@@ -71,11 +75,13 @@ const Home = () => {
 
   const handleCreateOffice = async () => {
     try {
-      const response = await api.post('/office', {
+      const response = await api.post(`/office`, {
         name,
         ownerId,
         phone,
-        location,
+        address,
+        address_city,
+        address_state,
         description,
         email,
       });
@@ -88,10 +94,12 @@ const Home = () => {
 
   const handleUpdateOffice = async () => {
     try {
-      const response = await api.put(`/office/${ownerId}`, {
+      const response = await api.put(`/office/${office.id}`, {
         name,
         phone,
-        location,
+        address,
+        address_city,
+        address_state,
         description,
         email,
       });
@@ -179,9 +187,16 @@ const Home = () => {
             style={styles.input}
           />
           <TextInput
-            value={location}
-            onChangeText={setLocation}
-            placeholder='Localização'
+            value={address}
+            onChangeText={setAddress}
+            placeholder='Rua demontrativa, 29'
+            style={styles.input}
+          />
+
+          <TextInput
+            value={address_city}
+            onChangeText={setAddressCity}
+            placeholder='Taboão da Serra - SP'
             style={styles.input}
           />
           <TextInput
@@ -215,16 +230,22 @@ const Home = () => {
             style={styles.input}
           />
           <TextInput
-            value={location}
-            onChangeText={setLocation}
-            placeholder='Localização'
+            value={address}
+            onChangeText={setAddress}
+            placeholder='Rua demontrativa, 29'
+            style={styles.input}
+          />
+
+          <TextInput
+            value={address_city}
+            onChangeText={setAddressCity}
+            placeholder='Taboão da Serra - SP'
             style={styles.input}
           />
           <TextInput
             value={description}
             onChangeText={setDescription}
             placeholder='Descrição'
-            multiline
             style={styles.input}
           />
           <TextInput

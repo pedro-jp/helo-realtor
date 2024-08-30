@@ -4,7 +4,8 @@ interface OfficeRequest {
   name: string;
   ownerId: string;
   phone: string;
-  location: string;
+  address: string;
+  address_city: string;
   description: string;
   email: string;
 }
@@ -14,8 +15,9 @@ export class CreateOfficeService {
     name,
     ownerId,
     phone,
-    location,
     description,
+    address,
+    address_city,
     email,
   }: OfficeRequest) {
     const office = await prismaClient.office.create({
@@ -23,8 +25,9 @@ export class CreateOfficeService {
         name,
         ownerId,
         phone,
-        location,
         description,
+        address,
+        address_city,
         email,
       },
       select: {
