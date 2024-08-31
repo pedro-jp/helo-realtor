@@ -3,25 +3,19 @@ import { CreateImageService } from '../../services/image/CreateImageService';
 
 export default class CreateImageController {
   async handle(req: Request, res: Response) {
-    const { imovelId } = req.body;
+    const { imovelId, imageUrl } = req.body;
 
-    const createImageServices = new CreateImageService();
-
-    if (!req.file) {
-      throw new Error('error upload file');
-    }
-    const { originalname, filename: url } = req.file;
-
-    console.log(originalname, url);
+    const createImageService = new CreateImageService();
 
     try {
-      const image = await createImageServices.execute({
+      const image = await createImageService.execute({
         imovelId,
-        url,
+        url: imageUrl,
       });
       return res.json(image);
     } catch (error) {
-      console.log(error);
+      console.error('Error saving image URL:', error);
+      return res.status(500).json({ error: 'Internal server error' });
     }
   }
 }

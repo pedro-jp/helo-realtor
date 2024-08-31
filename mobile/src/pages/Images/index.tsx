@@ -1,28 +1,43 @@
-import { Button, Image, StyleSheet, Text, View } from 'react-native';
+import {
+  Button,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+  Animated,
+} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { useState } from 'react';
-import { api } from '../../services/api'; // Importe o serviço de API
+import { useState, useRef, useEffect } from 'react';
+import { storage } from '../../services/firebaseConfig';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { api } from '../../services/api';
 import {
   useNavigation,
   useRoute,
   NavigationProp,
   ParamListBase,
 } from '@react-navigation/native';
-import Toast, { InfoToast, SuccessToast } from 'react-native-toast-message';
+import Toast from 'react-native-toast-message';
 
 export default function Images() {
-  const [image, setImage] = useState(null);
   const [imageUri, setImageUri] = useState(null);
-
-  const [imageName, setImageName] = useState(null);
-  const [imageType, setImageType] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [url, setUrl] = useState('');
 
   const route = useRoute();
   const navigation = useNavigation<NavigationProp<ParamListBase>>();
   const { imovelId } = route.params as { imovelId: string };
 
-  const IMAGE_URL =
-    'https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+  const animation = useRef(new Animated.Value(100)).current;
+
+  useEffect(() => {
+    Animated.timing(animation, {
+      toValue: 100 - progress,
+      duration: 500,
+      useNativeDriver: false,
+    }).start();
+  }, [progress]);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -33,50 +48,62 @@ export default function Images() {
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
       setImageUri(result.assets[0].uri);
-      setImageName(
-        result.assets[0].uri.substring(
-          result.assets[0].uri.lastIndexOf('/') + 1,
-          result.assets[0].uri.length
-        )
-      );
-      setImageType(imageName.split('.')[1]);
     }
   };
 
-  const showToast = () => {
-    Toast.show({
-      type: 'success',
-      text1: 'Hello',
-      text2: 'This is some something 👋',
-    });
+  const uploadImage = async () => {
+    if (!imageUri) return;
+
+    setUploading(true);
+
+    const response = await fetch(imageUri);
+    const blob = await response.blob();
+    const fileName = imageUri.substring(imageUri.lastIndexOf('/') + 1);
+    const storageRef = ref(storage, `images/${fileName}`);
+    const uploadTask = uploadBytesResumable(storageRef, blob);
+
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setProgress(progress);
+      },
+      (error) => {
+        setUploading(false);
+        Toast.show({
+          type: 'error',
+          text1: 'Erro no upload',
+          text2: error.message,
+        });
+      },
+      async () => {
+        const url = await getDownloadURL(uploadTask.snapshot.ref);
+        await sendImageUrlToApi(url);
+        setUploading(false);
+        Toast.show({
+          type: 'success',
+          text1: 'Imagem enviada com sucesso!',
+        });
+        setUrl(url);
+        setImageUri(null);
+        setProgress(0);
+      }
+    );
   };
 
-  const uploadImage = async () => {
-    const formData = new FormData();
-
-    formData.append(
-      'file',
-      JSON.parse(
-        JSON.stringify({
-          name: imageName,
-          uri: image,
-          type: `image/${imageType}`,
-        })
-      )
-    );
-    formData.append('imovelId', imovelId);
+  const sendImageUrlToApi = async (url) => {
     try {
-      await api.postForm('/images', formData);
-      Toast.show({
-        type: 'success',
-        text1: 'Imagem enviada',
+      await api.post('/images', {
+        imovelId,
+        imageUrl: url,
       });
     } catch (error) {
       Toast.show({
-        type: 'info',
-        text1: 'Envie novamente',
+        type: 'error',
+        text1: 'Erro ao enviar URL',
+        text2: error.message,
       });
     }
   };
@@ -87,15 +114,32 @@ export default function Images() {
         <Toast />
       </View>
       <View style={styles.container}>
-        <Image
-          source={{ uri: IMAGE_URL }}
-          style={StyleSheet.absoluteFillObject}
-          blurRadius={10}
-        />
+        {imageUri && (
+          <View style={styles.imageContainer}>
+            <ImageBackground source={{ uri: imageUri }} style={styles.image}>
+              <Animated.View
+                style={[
+                  styles.overlay,
+                  {
+                    height: animation.interpolate({
+                      inputRange: [0, 100],
+                      outputRange: ['0%', '100%'],
+                    }),
+                  },
+                ]}
+              />
+            </ImageBackground>
+          </View>
+        )}
         <Button title='Selecione uma imagem' onPress={pickImage} />
-        {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
-        {imageUri && <Button title='Upload Image' onPress={uploadImage} />}
-
+        {imageUri && !uploading && (
+          <Button title='Upload Image' onPress={uploadImage} />
+        )}
+        {uploading && (
+          <>
+            <Text>Enviando imagem... {Math.round(progress)}%</Text>
+          </>
+        )}
         <Button
           title='Finalizar'
           onPress={() => {
@@ -113,9 +157,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  image: {
+  imageContainer: {
     width: 200,
     height: 200,
     marginVertical: 10,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+  },
+  overlay: {
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
 });

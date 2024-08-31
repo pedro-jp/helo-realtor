@@ -30,12 +30,7 @@ const router = Router();
 
 const upload = multer(uploadConfig.upload('./tmp'));
 
-router.post(
-  '/images',
-  isAuthenticated,
-  upload.single('file'),
-  new CreateImageController().handle
-);
+router.post('/images', isAuthenticated, new CreateImageController().handle);
 
 router.get('/images', isAuthenticated, new ListImagesController().handle);
 
