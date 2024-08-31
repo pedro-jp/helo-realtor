@@ -135,7 +135,7 @@ export default function ListImoveis() {
               >
                 <Image
                   source={{
-                    uri: `http://192.168.1.21:3332/files/${item?.images[0]?.url}`,
+                    uri: `${item?.images[0]?.url}`,
                   }}
                   style={{
                     width: IMAGE,
