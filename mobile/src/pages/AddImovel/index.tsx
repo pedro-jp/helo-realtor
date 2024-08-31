@@ -37,6 +37,19 @@ export default function AddImovel() {
   const active = true;
   const [modalVisible, setModalVisible] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [office, setOffice] = useState(null);
+  const [realtorList, setRealtorList] = useState([]);
+  const [realtorId, setRealtorId] = useState('');
+  const [realtorName, setRealtorName] = useState('');
+  const [realtorModalVisible, setRealtorModalVisible] = useState(false); // New state for realtor modal visibility
+
+  async function getOffice() {
+    try {
+      const response = await api.get(`/office/${ownerId}`);
+      setOffice(response.data);
+      setRealtorList(response.data.realtors); // Correctly setting realtor list
+    } catch (error) {}
+  }
 
   async function listCategories() {
     try {
@@ -47,6 +60,7 @@ export default function AddImovel() {
 
   useEffect(() => {
     listCategories();
+    getOffice();
   }, []);
 
   async function createImovel() {
@@ -56,7 +70,8 @@ export default function AddImovel() {
       price === '' ||
       categoryId === '' ||
       local === '' ||
-      categorySelected === ''
+      categorySelected === '' ||
+      realtorId === ''
     ) {
       Toast.show({
         type: 'error',
@@ -78,8 +93,11 @@ export default function AddImovel() {
         garagem,
         active: true,
         ownerId,
+        officeId: office.id, // Adding officeId
+        realtorId, // Adding selected realtorId
       });
 
+      // Reset the form after successful creation
       setName('');
       setDescription('');
       setPrice('');
@@ -90,6 +108,8 @@ export default function AddImovel() {
       setArea('');
       setGaragem('');
       setCategorySelected('');
+      setRealtorId('');
+      setRealtorName('');
 
       navigation.navigate('Images', { imovelId: response.data.id });
     } catch (error) {}
@@ -106,6 +126,12 @@ export default function AddImovel() {
     setCategorySelected(category[0].name);
   };
 
+  const handleRealtorSelection = (id, name) => {
+    setRealtorId(id);
+    setRealtorName(name);
+    setRealtorModalVisible(false); // Close modal after selection
+  };
+
   const IMAGE_URL =
     'https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
 
@@ -115,6 +141,7 @@ export default function AddImovel() {
       onRefresh={() => {
         setRefresh(true);
         listCategories();
+        getOffice();
         setRefresh(false);
       }}
     >
@@ -209,6 +236,44 @@ export default function AddImovel() {
             onRefresh={() => {
               setRefreshing(true);
               listCategories();
+              setRefreshing(false);
+            }}
+          />
+        </S.StyledModal>
+
+        <S.StyledText style={{ marginTop: 20 }}>
+          Selecione o Corretor
+        </S.StyledText>
+        <S.StyledButton
+          onPress={() => setRealtorModalVisible(!realtorModalVisible)}
+        >
+          <S.StyledText>
+            {realtorName === '' ? 'Selecione o Corretor' : realtorName}
+          </S.StyledText>
+        </S.StyledButton>
+
+        <S.StyledModal
+          animationType='slide'
+          visible={realtorModalVisible} // Using the correct modal state
+          onRequestClose={() => {
+            setRealtorModalVisible(!realtorModalVisible);
+          }}
+        >
+          <FlatList
+            style={{ backgroundColor: '#1d1d1d' }}
+            data={realtorList} // Correctly using the realtorList here
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+              <S.StyledListView
+                onPress={() => handleRealtorSelection(item.id, item.name)}
+              >
+                <S.StyledText>{item.name}</S.StyledText>
+              </S.StyledListView>
+            )}
+            refreshing={refreshing}
+            onRefresh={() => {
+              setRefreshing(true);
+              getOffice(); // Refresh the realtor list
               setRefreshing(false);
             }}
           />

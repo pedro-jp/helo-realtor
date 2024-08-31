@@ -12,6 +12,8 @@ type ImovelProps = {
   active: boolean;
   categoryId: string;
   ownerId: string;
+  realtorId: string;
+  officeId: string;
 };
 
 export class CreateImovelService {
@@ -33,6 +35,8 @@ export class CreateImovelService {
     active,
     categoryId,
     ownerId,
+    officeId,
+    realtorId,
   }: ImovelProps) {
     const imovel = await this.prisma.imovel.create({
       data: {
@@ -47,6 +51,8 @@ export class CreateImovelService {
         active,
         categoryId,
         ownerId,
+        officeId,
+        realtorId,
       },
     });
 

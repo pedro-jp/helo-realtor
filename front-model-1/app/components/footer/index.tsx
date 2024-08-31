@@ -19,7 +19,7 @@ export const Footer = () => {
         console.error('Erro ao buscar dados do escritório:', error);
       }
     };
-
+    console.table(officeData);
     fetchOfficeData();
   }, []);
 

@@ -47,6 +47,7 @@ model Office {
   banner_image Office_Banner[]
 
   owner    User      @relation(fields: [ownerId], references: [id])
+  imoveis  Imovel[]
   realtors Realtor[] // Um escritório pode ter vários corretores
 
   @@map("office")
@@ -72,9 +73,9 @@ model Realtor {
   whatsapp_message String
   created_at       DateTime @default(now())
   updated_at       DateTime @updatedAt
+  imoveis          Imovel[]
 
-  office  Office   @relation(fields: [officeId], references: [id])
-  imoveis Imovel[]
+  office Office @relation(fields: [officeId], references: [id])
 
   @@map("realtors")
 }
@@ -85,9 +86,9 @@ model Category {
   ownerId    String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  imoveis    Imovel[]
 
-  owner   User     @relation(fields: [ownerId], references: [id])
-  imoveis Imovel[]
+  owner User @relation(fields: [ownerId], references: [id])
 
   @@map("categories")
 }
@@ -105,13 +106,15 @@ model Imovel {
   active      Boolean
   categoryId  String
   ownerId     String
-  realtorId   String? // Temporariamente opcional
+  realtorId   String   @default("")
+  officeId    String   @default("")
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
 
   category Category @relation(fields: [categoryId], references: [id])
   owner    User     @relation(fields: [ownerId], references: [id])
-  realtor  Realtor? @relation(fields: [realtorId], references: [id]) // Relacionamento opcional
+  realtor  Realtor  @relation(fields: [realtorId], references: [id])
+  office   Office   @relation(fields: [officeId], references: [id])
   images   Images[]
 
   @@map("imoveis")
