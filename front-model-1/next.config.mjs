@@ -17,9 +17,14 @@ const nextConfig = {
         pathname: '/files/**',
       },
       {
-        protocol: 'https', // Protocolo usado pelo seu domínio Vercel
+        protocol: 'https',
         hostname: 'helo-realtor-backend.vercel.app',
-        pathname: '/files/**', // Isso permitirá qualquer imagem do domínio
+        pathname: '/files/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'firebasestorage.googleapis.com',
+        pathname: '/v0/b/upload-imoveis.appspot.com/o/**', // Ajuste no caminho
       },
     ],
   },

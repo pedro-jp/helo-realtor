@@ -37,7 +37,7 @@ export async function generateMetadata({
       url: `${process.env.NEXT_PUBLIC_URL}/imovel/${params.id}`,
       images: [
         {
-          url: `${process.env.NEXT_PUBLIC_URL}files/${imovel.images[0]?.url}`,
+          url: imovel.images[0]?.url,
           width: 800,
           height: 600,
           alt: imovel.name,
