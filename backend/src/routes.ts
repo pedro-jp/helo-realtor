@@ -25,6 +25,7 @@ import { UpdateImovelController } from './controllers/Imovel/UpdateImovelControl
 
 import { CreateRealtorController } from './controllers/Realtor/CreateRealtorController';
 import { UpdateRealtorController } from './controllers/Realtor/UpdateRealtorController';
+import { GetRealtorController } from './controllers/Realtor/GetRealtorController';
 
 const router = Router();
 
@@ -93,6 +94,12 @@ router.put(
   '/office/:officeId/realtors/:realtorId',
   isAuthenticated,
   new UpdateRealtorController().handle
+);
+
+router.get(
+  '/office/:officeId/realtors/:realtorId',
+  isAuthenticated,
+  new GetRealtorController().handle
 );
 
 export { router };

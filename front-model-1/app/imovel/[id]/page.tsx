@@ -62,7 +62,7 @@ export default async function ImovelPage({
       {imovel.images.map((image) => (
         <Image
           key={image.url}
-          src={`${process.env.NEXT_PUBLIC_URL}/files/${image.url}`}
+          src={image.url}
           alt={imovel.name}
           width={500}
           height={500}

@@ -3,14 +3,7 @@ import { CreateOfficeService } from '../../services/Office/CreateOfficeService';
 
 export class CreateOfficeController {
   async handle(req: Request, res: Response) {
-    const {
-      name,
-      phone,
-      address,
-      address_city,
-      description,
-      email,
-    } = req.body;
+    const { name, phone, address, address_city, description, email } = req.body;
 
     const createOfficeService = new CreateOfficeService();
 
@@ -26,7 +19,7 @@ export class CreateOfficeController {
       });
       return res.json(office);
     } catch (error) {
-      return res.status(500).json({ error: 'Erro ao criar o escritório' });
+      return res.status(500).json({ error: error.message });
     }
   }
 }

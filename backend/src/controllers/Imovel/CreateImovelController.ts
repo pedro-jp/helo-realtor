@@ -15,6 +15,8 @@ export class CreateImovelController {
       active,
       categoryId,
       ownerId,
+      realtorId,
+      officeId,
     } = req.body;
 
     const createImovelService = new CreateImovelService();
@@ -31,6 +33,8 @@ export class CreateImovelController {
       active,
       categoryId,
       ownerId,
+      realtorId,
+      officeId,
     });
     return res.json(imovel);
   }

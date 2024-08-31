@@ -13,6 +13,7 @@ export class GetOfficeService {
       include: {
         banner_image: true,
         realtors: true,
+        imoveis: true,
       },
     });
     console.log(office);
