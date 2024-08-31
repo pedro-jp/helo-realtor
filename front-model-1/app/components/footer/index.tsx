@@ -34,7 +34,7 @@ export const Footer = () => {
     <footer className={style.footer}>
       <div className={style.main}>
         <div className={style.main_head}>
-          <h2>{officeData.name || 'Nome do escritório'}</h2>
+          <h2>{officeData?.name || 'Nome do escritório'}</h2>
           <button className={style.scrollTopButton} onClick={scrollToTop}>
             ↑
           </button>
