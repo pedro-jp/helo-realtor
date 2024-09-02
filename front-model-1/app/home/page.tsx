@@ -55,7 +55,9 @@ export default async function Home() {
           <a href='/imoveis'>Quer vender o seu imóvel?</a>
         </button>
       </section>
-      <Cards />
+      <section className={style.card_section}>
+        <Cards />
+      </section>
       <Map />
     </>
   );
