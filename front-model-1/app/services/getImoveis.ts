@@ -8,9 +8,6 @@ export async function getImoveis(): Promise<ImovelType[]> {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/imoveis/${process.env.NEXT_PUBLIC_OWNER_ID}`,
     {
-      headers: {
-        'Cache-Control': 'no-cache', // Desativa o cache do navegador
-      },
       next: { revalidate: 1 }, // Revalida a cada 1 segundo
     }
   );
