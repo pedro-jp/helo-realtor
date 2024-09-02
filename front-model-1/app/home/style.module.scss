@@ -44,3 +44,12 @@
     }
   }
 }
+
+.card_section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 2rem auto;
+  width: min(100% - 2rem, 1440px);
+  justify-content: center;
+}

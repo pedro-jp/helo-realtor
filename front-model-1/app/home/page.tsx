@@ -55,7 +55,14 @@ export default async function Home() {
           <a href='/imoveis'>Quer vender o seu imóvel?</a>
         </button>
       </section>
-      <Cards />
+      <section
+        className={style.card_section}
+        style={{
+          backgroundImage: `url('/assets/patterns/image.png')`,
+        }}
+      >
+        <Cards />
+      </section>
       <Map />
     </>
   );
