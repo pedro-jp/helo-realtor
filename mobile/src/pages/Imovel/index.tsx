@@ -7,6 +7,8 @@ import {
   View,
   Text,
   TextInput,
+  TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import {
@@ -20,6 +22,7 @@ import { StatusBar } from 'expo-status-bar';
 import Carousel from '../../components/Carousel';
 import * as S from './styles';
 import { AuthContext } from '../../contexts/AuthContext';
+import { Feather } from '@expo/vector-icons';
 
 type ImovelType = {
   name: string;
@@ -53,6 +56,7 @@ export default function Imovel() {
   const [area, setArea] = useState(0);
   const [garagem, setGaragem] = useState(0);
   const [active, setActive] = useState(false);
+  const [refreshing, setRefreshing] = useState(false); // Estado de refreshing
 
   useEffect(() => {
     loadImovel();
@@ -77,6 +81,8 @@ export default function Imovel() {
       setImovel(response?.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setRefreshing(false); // Finaliza o refreshing
     }
   }
 
@@ -118,6 +124,16 @@ export default function Imovel() {
     }
   }
 
+  const handleAddImage = (id: string) => {
+    navigation.navigate('Images', { imovelId: id });
+  };
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    loadImovel();
+    console.log(imovel.id);
+  };
+
   const IMAGE_URL =
     'https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
 
@@ -128,9 +144,41 @@ export default function Imovel() {
         blurRadius={10}
         source={{ uri: IMAGE_URL }}
       />
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <StatusBar style='light' backgroundColor='transparent' />
-        <Carousel images={imovel?.images} />
+        <Carousel images={imovel.id} />
+
+        <TouchableOpacity
+          style={{
+            width: '90%',
+            paddingVertical: 10,
+            borderRadius: 10,
+            marginHorizontal: 'auto',
+            alignItems: 'center',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            paddingRight: 20,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          }}
+          onPress={() => handleAddImage(imovel.id)}
+        >
+          <Feather name='plus' color={'#fff'} size={28} />
+          <Text
+            style={{
+              color: '#fff',
+              fontWeight: 'bold',
+              fontSize: 20,
+            }}
+          >
+            {' '}
+            imagem
+          </Text>
+        </TouchableOpacity>
+
         {imovel && (
           <S.StyledContentView>
             <View style={{ marginBottom: 10 }}>
