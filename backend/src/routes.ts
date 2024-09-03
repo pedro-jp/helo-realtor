@@ -70,7 +70,11 @@ router.get('/imoveis/:ownerId', new ListImoveisController().handle);
 
 router.get('/imovel/:imovelId', new LoadImovelController().handle);
 
-router.delete('/imovel', isAuthenticated, new RemoveImovelController().handle);
+router.delete(
+  '/imovel/:id',
+  isAuthenticated,
+  new RemoveImovelController().handle
+);
 
 router.put('/imovel/:id', isAuthenticated, new UpdateImovelController().handle);
 

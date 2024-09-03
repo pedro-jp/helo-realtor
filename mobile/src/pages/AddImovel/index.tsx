@@ -17,6 +17,7 @@ import {
   NavigationProp,
   ParamListBase,
 } from '@react-navigation/native';
+import { TextInputMask } from 'react-native-masked-text';
 
 export default function AddImovel() {
   const navigation = useNavigation<NavigationProp<ParamListBase>>();
@@ -41,21 +42,25 @@ export default function AddImovel() {
   const [realtorList, setRealtorList] = useState([]);
   const [realtorId, setRealtorId] = useState('');
   const [realtorName, setRealtorName] = useState('');
-  const [realtorModalVisible, setRealtorModalVisible] = useState(false); // New state for realtor modal visibility
+  const [realtorModalVisible, setRealtorModalVisible] = useState(false);
 
   async function getOffice() {
     try {
       const response = await api.get(`/office/${ownerId}`);
       setOffice(response.data);
-      setRealtorList(response.data.realtors); // Correctly setting realtor list
-    } catch (error) {}
+      setRealtorList(response.data.realtors);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async function listCategories() {
     try {
       const response = await api.get(`/category/${ownerId}`);
       setCategoryList(response.data);
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   useEffect(() => {
@@ -81,23 +86,31 @@ export default function AddImovel() {
     }
 
     try {
+      // Converte a string formatada em um valor numérico correto com centavos
+      const numericPrice = parseFloat(
+        price
+          .replace('R$ ', '') // Remove o símbolo da moeda
+          .replace('.', '') // Remove o delimitador de milhar
+          .replace(',', '.') // Substitui a vírgula pelo ponto decimal
+      );
+
       const response = await api.post('/imovel', {
         name,
         description,
-        price,
+        price: numericPrice.toFixed(2), // Garante que o preço seja enviado com duas casas decimais
         categoryId,
         local,
-        quartos,
-        banheiros,
-        area,
-        garagem,
+        quartos: parseInt(quartos),
+        banheiros: parseInt(banheiros),
+        area: parseInt(area),
+        garagem: parseInt(garagem),
         active: true,
         ownerId,
-        officeId: office.id, // Adding officeId
-        realtorId, // Adding selected realtorId
+        officeId: office.id,
+        realtorId,
       });
 
-      // Reset the form after successful creation
+      // Reseta o formulário após a criação bem-sucedida
       setName('');
       setDescription('');
       setPrice('');
@@ -112,7 +125,9 @@ export default function AddImovel() {
       setRealtorName('');
 
       navigation.navigate('Images', { imovelId: response.data.id });
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const handleCategory = (id) => {
@@ -129,7 +144,7 @@ export default function AddImovel() {
   const handleRealtorSelection = (id, name) => {
     setRealtorId(id);
     setRealtorName(name);
-    setRealtorModalVisible(false); // Close modal after selection
+    setRealtorModalVisible(false);
   };
 
   const IMAGE_URL =
@@ -196,12 +211,29 @@ export default function AddImovel() {
           onChangeText={setDescription}
           placeholderTextColor='#fff'
         />
-        <S.StyledTextInput
-          placeholder='Preço'
+        <TextInputMask
+          type={'money'}
+          options={{
+            precision: 2,
+            separator: ',',
+            delimiter: '.',
+            unit: 'R$ ',
+            suffixUnit: '',
+          }}
           value={price}
           onChangeText={setPrice}
-          inputMode='numeric'
+          placeholder='Preço'
           placeholderTextColor='#fff'
+          style={{
+            height: 50,
+            width: '90%',
+            borderRadius: 4,
+            paddingLeft: 10,
+            backgroundColor: '#022859',
+            color: '#fff',
+            fontSize: 16,
+            fontWeight: '500',
+          }}
         />
         <S.StyledTextInput
           placeholder='Local'
@@ -254,14 +286,14 @@ export default function AddImovel() {
 
         <S.StyledModal
           animationType='slide'
-          visible={realtorModalVisible} // Using the correct modal state
+          visible={realtorModalVisible}
           onRequestClose={() => {
             setRealtorModalVisible(!realtorModalVisible);
           }}
         >
           <FlatList
             style={{ backgroundColor: '#1d1d1d' }}
-            data={realtorList} // Correctly using the realtorList here
+            data={realtorList}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
               <S.StyledListView
@@ -273,7 +305,7 @@ export default function AddImovel() {
             refreshing={refreshing}
             onRefresh={() => {
               setRefreshing(true);
-              getOffice(); // Refresh the realtor list
+              getOffice();
               setRefreshing(false);
             }}
           />

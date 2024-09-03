@@ -1,20 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-
-type ImovelProps = {
-  name: string;
-  description: string;
-  price: string;
-  local: string;
-  quartos: string;
-  banheiros: string;
-  area: string;
-  garagem: string;
-  active: boolean;
-  categoryId: string;
-  ownerId: string;
-  realtorId: string;
-  officeId: string;
-};
+import { Imovel } from '../../interfaces';
 
 export class CreateImovelService {
   private prisma: PrismaClient;
@@ -37,13 +22,13 @@ export class CreateImovelService {
     ownerId,
     officeId,
     realtorId,
-  }: ImovelProps) {
+  }: Imovel) {
     const imovel = await this.prisma.imovel.create({
       data: {
         name,
         description,
-        price,
         local,
+        price,
         quartos,
         banheiros,
         area,
