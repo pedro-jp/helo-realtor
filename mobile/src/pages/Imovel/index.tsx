@@ -1,18 +1,24 @@
+import React, { useState, useEffect, useContext } from 'react';
 import {
   Button,
   Image,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
+  View,
+  Text,
+  TextInput,
 } from 'react-native';
-import { useRoute } from '@react-navigation/native';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { TextInputMask } from 'react-native-masked-text';
+import {
+  NavigationProp,
+  ParamListBase,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import { api } from '../../services/api';
 import { StatusBar } from 'expo-status-bar';
 import Carousel from '../../components/Carousel';
-import { Feather } from '@expo/vector-icons';
 import * as S from './styles';
-import { UserProps } from '../../interfaces';
 import { AuthContext } from '../../contexts/AuthContext';
 
 type ImovelType = {
@@ -22,12 +28,12 @@ type ImovelType = {
     url: string;
   }[];
   id: string;
-  price: string;
+  price: number;
   local: string;
-  quartos: string;
-  banheiros: string;
-  area: string;
-  garagem: string;
+  quartos: number;
+  banheiros: number;
+  area: number;
+  garagem: number;
   categoryId: string;
   active: boolean;
 };
@@ -40,24 +46,28 @@ export default function Imovel() {
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
   const [local, setLocal] = useState('');
-  const [quartos, setQuartos] = useState('');
-  const [banheiros, setBanheiros] = useState('');
-  const [area, setArea] = useState('');
-  const [garagem, setGaragem] = useState('');
+  const [price, setPrice] = useState<string>('0');
+  const [quartos, setQuartos] = useState(0);
+  const [banheiros, setBanheiros] = useState(0);
+  const [area, setArea] = useState(0);
+  const [garagem, setGaragem] = useState(0);
   const [active, setActive] = useState(false);
 
   useEffect(() => {
     loadImovel();
   }, [imovelId]);
 
+  const convertNumber = (num: number): string => {
+    return num.toString().replace('.', ',');
+  };
+
   async function loadImovel() {
     try {
       const response = await api.get(`/imovel/${imovelId}`);
       setName(response?.data.name);
       setDescription(response?.data.description);
-      setPrice(response?.data.price);
+      setPrice(convertNumber(response?.data.price));
       setLocal(response?.data.local);
       setQuartos(response?.data.quartos);
       setBanheiros(response?.data.banheiros);
@@ -72,10 +82,14 @@ export default function Imovel() {
 
   async function handleUpdate(categoryId: string) {
     try {
+      const numericPrice = parseFloat(
+        price.replace('R$', '').replace('.', '').replace(',', '.').trim()
+      );
+
       const response = await api.put(`/imovel/${imovelId}`, {
         name,
         description,
-        price,
+        price: numericPrice,
         local,
         quartos,
         banheiros,
@@ -91,13 +105,18 @@ export default function Imovel() {
     }
   }
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const navigation = useNavigation<NavigationProp<ParamListBase>>();
 
-  const handleFocus = () => {
-    if (inputRef.current) {
-      inputRef.current.focus();
+  async function handleDelete(id: string) {
+    console.log(id);
+    try {
+      const response = await api.delete(`/imovel/${id}`);
+      console.log(response.data);
+      navigation.navigate('Imoveis');
+    } catch (error) {
+      console.log(error.response.data ?? error.message);
     }
-  };
+  }
 
   const IMAGE_URL =
     'https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
@@ -109,96 +128,126 @@ export default function Imovel() {
         blurRadius={10}
         source={{ uri: IMAGE_URL }}
       />
-      <StatusBar style='light' backgroundColor='transparent' />
-      <Carousel images={imovel?.images} />
       <ScrollView>
+        <StatusBar style='light' backgroundColor='transparent' />
+        <Carousel images={imovel?.images} />
         {imovel && (
           <S.StyledContentView>
-            <S.StyledRowView>
-              <S.StyledTitle>Nome:</S.StyledTitle>
-              <S.StyledInput value={name} onChangeText={setName} />
-              <TouchableOpacity onPress={handleFocus}>
-                <Feather name='edit-2' size={20} color='white' />
-              </TouchableOpacity>
-            </S.StyledRowView>
-            <S.StyledRowView>
-              <S.StyledInput onChangeText={setDescription} ref={inputRef}>
-                Descrição: {'\n'} {imovel?.description}
-              </S.StyledInput>
-              <TouchableOpacity onPress={handleFocus}>
-                <Feather name='edit-2' size={20} color='white' />
-              </TouchableOpacity>
-            </S.StyledRowView>
-            <S.StyledRowView>
-              <S.StyledInput onChangeText={setPrice} ref={inputRef}>
-                Valor:{' '}
-                {Number(imovel?.price).toLocaleString('pt-br', {
-                  style: 'currency',
-                  currency: 'BRL',
-                })}
-              </S.StyledInput>
-              <TouchableOpacity>
-                <Feather name='edit-2' size={20} color='white' />
-              </TouchableOpacity>
-            </S.StyledRowView>
-            <S.StyledRowView>
-              <S.StyledInput onChangeText={setLocal} ref={inputRef}>
-                Local: {imovel?.local}
-              </S.StyledInput>
-              <TouchableOpacity>
-                <Feather name='edit-2' size={20} color='white' />
-              </TouchableOpacity>
-            </S.StyledRowView>
-
-            <S.StyledRowView></S.StyledRowView>
-
-            {imovel?.quartos === '' ? null : (
-              <S.StyledRowView>
-                <S.StyledInput onChangeText={setQuartos}>
-                  Quartos: {imovel?.quartos}
-                </S.StyledInput>
-                <TouchableOpacity>
-                  <Feather name='edit-2' size={20} color='white' />
-                </TouchableOpacity>
-              </S.StyledRowView>
-            )}
-            {imovel?.banheiros === '' ? null : (
-              <S.StyledRowView>
-                <S.StyledInput onChangeText={setBanheiros}>
-                  Banheiros: {imovel?.banheiros}
-                </S.StyledInput>
-                <TouchableOpacity>
-                  <Feather name='edit-2' size={20} color='white' />
-                </TouchableOpacity>
-              </S.StyledRowView>
-            )}
-            {imovel?.area === '' ? null : (
-              <S.StyledRowView>
-                <S.StyledInput onChangeText={setArea}>
-                  Area: {imovel?.area} m²
-                </S.StyledInput>
-                <TouchableOpacity>
-                  <Feather name='edit-2' size={20} color='white' />
-                </TouchableOpacity>
-              </S.StyledRowView>
-            )}
-            {imovel?.garagem === '' ? null : (
-              <S.StyledRowView>
-                <S.StyledInput onChangeText={setGaragem}>
-                  Garagem: {imovel?.garagem}
-                </S.StyledInput>
-                <TouchableOpacity>
-                  <Feather name='edit-2' size={20} color='white' />
-                </TouchableOpacity>
-              </S.StyledRowView>
-            )}
+            <View style={{ marginBottom: 10 }}>
+              <Text style={{ color: '#fff', marginBottom: 5 }}>Nome:</Text>
+              <TextInput
+                value={name}
+                onChangeText={setName}
+                placeholder='Nome'
+                placeholderTextColor='#999'
+                style={styles.input}
+              />
+            </View>
+            <View style={{ marginBottom: 10 }}>
+              <Text style={{ color: '#fff', marginBottom: 5 }}>Descrição:</Text>
+              <TextInput
+                value={description}
+                onChangeText={setDescription}
+                placeholder='Descrição'
+                placeholderTextColor='#999'
+                style={styles.input}
+                multiline
+              />
+            </View>
+            <View style={{ marginBottom: 10 }}>
+              <Text style={{ color: '#fff', marginBottom: 5 }}>Valor:</Text>
+              <TextInputMask
+                type={'money'}
+                options={{
+                  precision: 2,
+                  separator: ',',
+                  delimiter: '.',
+                  unit: 'R$ ',
+                  suffixUnit: '',
+                }}
+                value={price}
+                onChangeText={setPrice}
+                placeholder='Preço'
+                placeholderTextColor='#fff'
+                style={styles.input}
+              />
+            </View>
+            <View style={{ marginBottom: 10 }}>
+              <Text style={{ color: '#fff', marginBottom: 5 }}>Local:</Text>
+              <TextInput
+                value={local}
+                onChangeText={setLocal}
+                placeholder='Local'
+                placeholderTextColor='#999'
+                style={styles.input}
+              />
+            </View>
+            <View style={{ marginBottom: 10 }}>
+              <Text style={{ color: '#fff', marginBottom: 5 }}>Quartos:</Text>
+              <TextInput
+                value={quartos.toString()}
+                onChangeText={(text) => setQuartos(Number(text))}
+                placeholder='Quartos'
+                placeholderTextColor='#999'
+                keyboardType='numeric'
+                style={styles.input}
+              />
+            </View>
+            <View style={{ marginBottom: 10 }}>
+              <Text style={{ color: '#fff', marginBottom: 5 }}>Banheiros:</Text>
+              <TextInput
+                value={banheiros.toString()}
+                onChangeText={(text) => setBanheiros(Number(text))}
+                placeholder='Banheiros'
+                placeholderTextColor='#999'
+                keyboardType='numeric'
+                style={styles.input}
+              />
+            </View>
+            <View style={{ marginBottom: 10 }}>
+              <Text style={{ color: '#fff', marginBottom: 5 }}>Área:</Text>
+              <TextInput
+                value={area.toString()}
+                onChangeText={(text) => setArea(Number(text))}
+                placeholder='Área em m²'
+                placeholderTextColor='#999'
+                keyboardType='numeric'
+                style={styles.input}
+              />
+            </View>
+            <View style={{ marginBottom: 10 }}>
+              <Text style={{ color: '#fff', marginBottom: 5 }}>
+                Vagas de garagem:
+              </Text>
+              <TextInput
+                value={garagem.toString()}
+                onChangeText={(text) => setGaragem(Number(text))}
+                placeholder='Vagas de garagem'
+                placeholderTextColor='#999'
+                keyboardType='numeric'
+                style={styles.input}
+              />
+            </View>
           </S.StyledContentView>
         )}
       </ScrollView>
-      <Button
+      <S.StyledUpdate
         onPress={() => handleUpdate(imovel?.categoryId)}
         title='Atualizar'
       />
+      <S.StyledDelete onPress={() => handleDelete(imovel.id)} title='Deletar' />
     </S.StyledContainerView>
   );
 }
+
+const styles = StyleSheet.create({
+  input: {
+    height: 50,
+    width: '100%',
+    borderRadius: 4,
+    paddingLeft: 10,
+    backgroundColor: '#222',
+    color: '#fff',
+    padding: 10,
+  },
+});

@@ -3,14 +3,16 @@ import { RemoveImovelService } from '../../services/Imovel/RemoveImovelService';
 
 export class RemoveImovelController {
   async handle(req: Request, res: Response) {
-    const imovel_id = req.query.Imovel_id as string;
+    const { id } = req.params;
 
     const removeImovel = new RemoveImovelService();
 
-    const imovel = await removeImovel.execute({
-      imovel_id,
-    });
+    try {
+      const imovel = await removeImovel.execute({ id });
 
-    return res.json(imovel);
+      return res.json(imovel);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    }
   }
 }

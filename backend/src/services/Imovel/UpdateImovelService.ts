@@ -1,6 +1,6 @@
 import prismaClient from '../../prisma';
 
-import { ImovelExtended } from '../../interfaces';
+import { Imovel } from '../../interfaces';
 
 export class UpdateImovelService {
   async execute({
@@ -15,7 +15,7 @@ export class UpdateImovelService {
     active,
     categoryId,
     id,
-  }: ImovelExtended) {
+  }: Imovel) {
     const imovel = await prismaClient.imovel.update({
       where: {
         id: id,

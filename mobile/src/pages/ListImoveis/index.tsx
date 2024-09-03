@@ -26,11 +26,11 @@ export type ImovelType = {
     url: string;
   }[];
   id: string;
-  price: string;
-  local: string;
-  quartos: string;
-  banheiros: string;
-  area: string;
+  price: number;
+  local: number;
+  quartos: number;
+  banheiros: number;
+  area: number;
   garagem: string;
 };
 
@@ -112,6 +112,8 @@ export default function ListImoveis() {
             outputRange: [1, 1, 1, 0],
           });
 
+          const price = parseInt(item.price.toString());
+
           return (
             <TouchableOpacity onPress={() => handleOpenImovel(item)}>
               <Animated.View
@@ -146,14 +148,22 @@ export default function ListImoveis() {
                 />
 
                 <View>
-                  <Text style={{ fontSize: 22, fontWeight: 700 }}>
-                    {item.name}
-                  </Text>
+                  <View style={{ width: 220 }}>
+                    <Text
+                      style={{
+                        fontSize: 22,
+                        fontWeight: '700',
+                        flexWrap: 'wrap',
+                      }}
+                    >
+                      {item.name}
+                    </Text>
+                  </View>
                   <Text style={{ fontSize: 18, opacity: 0.7 }}>
                     {item.local}
                   </Text>
                   <Text style={{ fontSize: 14, opacity: 0.8, color: 'green' }}>
-                    {Number(item.price).toLocaleString('pt-br', {
+                    {price.toLocaleString('pt-BR', {
                       style: 'currency',
                       currency: 'BRL',
                     })}
@@ -173,35 +183,3 @@ export default function ListImoveis() {
     </View>
   );
 }
-
-//   <S.StyledContainerView>
-//     <StatusBar style='auto' backgroundColor='transparent' />
-
-//     <TouchableOpacity style={{ marginTop: 20 }} onPress={loadImoveis}>
-//       <S.StyledText>Carregar</S.StyledText>
-//     </TouchableOpacity>
-//     <S.StyledScrollView>
-//       {imoveis.map((imovel, index) => (
-//         <S.StyledTouchableOpacity
-//           key={imovel.id}
-//           onPress={() => handleOpenImovel(index)}
-//         >
-//           <S.StyledListView>
-//             <S.StyledDescView>
-//               <S.StyledText>Titulo: {imovel.name}</S.StyledText>
-//               <S.StyledText>Local: {imovel.local}</S.StyledText>
-//               <S.StyledText>Preço: {imovel.price}</S.StyledText>
-//             </S.StyledDescView>
-//             {imovel?.images && (
-//               <S.StyledImage
-//                 source={{
-//                   uri: `http://192.168.1.6:3332/files/${imovel?.images[0]?.url}`,
-//                 }}
-//               />
-//             )}
-//           </S.StyledListView>
-//         </S.StyledTouchableOpacity>
-//       ))}
-//     </S.StyledScrollView>
-//   </S.StyledContainerView>
-//

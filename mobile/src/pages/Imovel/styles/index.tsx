@@ -38,3 +38,19 @@ export const StyledInput = styled.TextInput`
   font-size: 16px;
   font-weight: 500;
 `;
+
+export const StyledDelete = styled.TouchableOpacity`
+  height: 50px;
+  background-color: red;
+  border-radius: 8px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const StyledUpdate = styled.TouchableOpacity`
+  height: 50px;
+  background-color: blue;
+  border-radius: 8px;
+  justify-content: center;
+  align-items: center;
+`;

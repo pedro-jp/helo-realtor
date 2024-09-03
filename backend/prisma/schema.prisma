@@ -96,13 +96,13 @@ model Category {
 model Imovel {
   id          String   @id @unique @default(uuid())
   name        String
-  price       String
+  price       Decimal
   description String
   local       String
-  quartos     String   @default("")
-  banheiros   String   @default("")
-  area        String   @default("")
-  garagem     String   @default("")
+  quartos     Int
+  banheiros   Int
+  area        Int
+  garagem     Int
   active      Boolean
   categoryId  String
   ownerId     String
@@ -111,10 +111,10 @@ model Imovel {
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
 
-  category Category @relation(fields: [categoryId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   owner    User     @relation(fields: [ownerId], references: [id])
-  realtor  Realtor  @relation(fields: [realtorId], references: [id])
-  office   Office   @relation(fields: [officeId], references: [id])
+  realtor  Realtor  @relation(fields: [realtorId], references: [id], onDelete: Cascade)
+  office   Office   @relation(fields: [officeId], references: [id], onDelete: Cascade)
   images   Images[]
 
   @@map("imoveis")
@@ -126,7 +126,7 @@ model Images {
   url        String
   created_at DateTime @default(now())
 
-  imovel Imovel @relation(fields: [imovelId], references: [id])
+  imovel Imovel @relation(fields: [imovelId], references: [id], onDelete: Cascade)
 
   @@map("images")
 }
