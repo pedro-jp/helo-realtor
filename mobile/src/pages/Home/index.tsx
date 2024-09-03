@@ -67,6 +67,12 @@ const Home = () => {
       const response = await api.get(`/office/${ownerId}`);
       setOffice(response.data);
       console.log('office', response.data);
+      setName(response.data.name);
+      setPhone(response.data.phone);
+      setAddress(response.data.address);
+      setAddressCity(response.data.address_city);
+      setDescription(response.data.description);
+      setEmail(response.data.email);
     } catch (error) {
       console.log(error.response?.data ?? error.message);
       setOffice(null);
