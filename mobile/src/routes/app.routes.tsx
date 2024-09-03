@@ -32,6 +32,7 @@ function ListImoveisStackScreen() {
       <ListImoveisStack.Screen name='Imovel' component={Imovel} />
       <ListImoveisStack.Screen name='AddImovel' component={AddImovel} />
       <ListImoveisStack.Screen name='Home' component={Home} />
+      <addImovelStack.Screen name='Images' component={Images} />
     </ListImoveisStack.Navigator>
   );
 }

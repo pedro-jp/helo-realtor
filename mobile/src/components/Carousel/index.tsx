@@ -1,12 +1,91 @@
-import { useRef } from 'react';
-import { Animated, Dimensions, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { Animated, Dimensions, TouchableOpacity, View } from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import {
+  ref,
+  deleteObject,
+  getDownloadURL,
+  uploadBytesResumable,
+} from 'firebase/storage';
+import { storage } from '../../services/firebaseConfig';
+import { api } from '../../services/api';
+import * as ImagePicker from 'expo-image-picker';
 
 const { width, height } = Dimensions.get('screen');
 const ITEM_WIDTH = width * 0.9;
 const ITEM_HEIGHT = height / 1.9;
 
-export default function Carousel({ images }: any) {
+export default function Carousel(imovel) {
+  const [images, setImages] = useState([]);
   const scrollX = useRef(new Animated.Value(0)).current;
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  async function loadImages() {
+    try {
+      const response = await api.get(`/images/${imovel.images}`);
+      setImages(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    loadImages();
+  }, [imovel.images]);
+
+  const handleDeleteImage = async (image) => {
+    setIsDeleting(true);
+    try {
+      const imagePath = image.url;
+      const imageRef = ref(storage, imagePath);
+
+      await api.delete(`/images/${image.id}`);
+      await deleteObject(imageRef);
+
+      console.log('Imagem deletada com sucesso');
+      loadImages();
+    } catch (error) {
+      console.error('Erro ao deletar a imagem:', error.message);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const handleUpdateImage = async (image) => {
+    setIsUpdating(true);
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        const newImageUri = result.assets[0].uri;
+        const imagePath = image.url;
+        const imageRef = ref(storage, imagePath);
+
+        const response = await fetch(newImageUri);
+        const blob = await response.blob();
+        await uploadBytesResumable(imageRef, blob);
+
+        const newImageUrl = await getDownloadURL(imageRef);
+
+        await api.put(`/images/${image.id}`, {
+          url: newImageUrl,
+        });
+
+        console.log('Imagem atualizada com sucesso');
+        loadImages();
+      }
+    } catch (error) {
+      console.error('Erro ao atualizar a imagem:', error.message);
+    } finally {
+      setIsUpdating(false);
+    }
+  };
 
   return (
     <View>
@@ -51,7 +130,6 @@ export default function Carousel({ images }: any) {
                   },
                   shadowOpacity: 0.58,
                   shadowRadius: 1.0,
-
                   elevation: 5,
                   padding: 3,
                   backgroundColor: '#ffffff52',
@@ -64,19 +142,43 @@ export default function Carousel({ images }: any) {
                     overflow: 'hidden',
                     alignItems: 'center',
                     borderRadius: 14,
+                    position: 'relative',
                   }}
                 >
+                  <TouchableOpacity
+                    onPress={() => handleUpdateImage(item)}
+                    style={{
+                      position: 'absolute',
+                      top: 10,
+                      left: 10,
+                      zIndex: 1,
+                    }}
+                  >
+                    <Feather name='edit' size={30} color='blue' />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => handleDeleteImage(item)}
+                    style={{
+                      position: 'absolute',
+                      top: 10,
+                      right: 10,
+                      zIndex: 1,
+                    }}
+                  >
+                    <Feather name='trash-2' size={30} color='red' />
+                  </TouchableOpacity>
                   <Animated.Image
                     style={{
                       width: ITEM_WIDTH,
                       height: ITEM_HEIGHT,
                       resizeMode: 'cover',
-                      translateX,
+                      transform: [{ translateX }],
                     }}
                     source={{
                       uri: item.url,
                     }}
                   />
+                  <View></View>
                 </View>
               </View>
             </View>

@@ -3,11 +3,10 @@ import { ListImagesService } from '../../services/image/ListImagesService';
 
 export class ListImagesController {
   async handle(req: Request, res: Response) {
-    const { imovelId } = req.body;
+    const id = req.params.id;
     const listImagesService = new ListImagesService();
 
-    const images = await listImagesService.execute(imovelId);
-
+    const images = await listImagesService.execute(id);
     return res.json(images);
   }
 }

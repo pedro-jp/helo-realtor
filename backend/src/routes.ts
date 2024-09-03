@@ -26,6 +26,8 @@ import { UpdateImovelController } from './controllers/Imovel/UpdateImovelControl
 import { CreateRealtorController } from './controllers/Realtor/CreateRealtorController';
 import { UpdateRealtorController } from './controllers/Realtor/UpdateRealtorController';
 import { GetRealtorController } from './controllers/Realtor/GetRealtorController';
+import { RemoveImageController } from './controllers/image/RemoveImageController';
+import { UpdateImageController } from './controllers/image/UpdateImageController';
 
 const router = Router();
 
@@ -33,7 +35,15 @@ const upload = multer(uploadConfig.upload('./tmp'));
 
 router.post('/images', isAuthenticated, new CreateImageController().handle);
 
-router.get('/images', isAuthenticated, new ListImagesController().handle);
+router.get('/images/:id', isAuthenticated, new ListImagesController().handle);
+
+router.delete(
+  '/images/:id',
+  isAuthenticated,
+  new RemoveImageController().handle
+);
+
+router.put('/images/:id', isAuthenticated, new UpdateImageController().handle);
 
 //--ROTAS USER
 
