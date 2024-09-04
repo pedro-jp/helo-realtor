@@ -176,137 +176,138 @@ const Home = () => {
         style={StyleSheet.absoluteFillObject}
         blurRadius={10}
       />
-
-      {office ? (
-        <>
-          <Text style={{ fontSize: 36, color: '#000' }}>{office.name}</Text>
-          <TextInput
-            value={name}
-            onChangeText={setName}
-            placeholder='Nome'
-            style={styles.input}
-          />
-          <TextInput
-            value={phone}
-            onChangeText={setPhone}
-            placeholder='Telefone'
-            style={styles.input}
-          />
-          <TextInput
-            value={address}
-            onChangeText={setAddress}
-            placeholder='Rua demontrativa, 29'
-            style={styles.input}
-          />
-
-          <TextInput
-            value={address_city}
-            onChangeText={setAddressCity}
-            placeholder='Taboão da Serra - SP'
-            style={styles.input}
-          />
-          <TextInput
-            value={description}
-            onChangeText={setDescription}
-            placeholder='Descrição'
-            style={styles.input}
-          />
-          <TextInput
-            value={email}
-            onChangeText={setEmail}
-            placeholder='E-mail'
-            style={styles.input}
-          />
-
-          <Button title='Atualizar Escritório' onPress={handleUpdateOffice} />
-        </>
-      ) : (
-        <>
-          <Text style={{ fontSize: 36, color: '#000' }}>Criar Escritório</Text>
-          <TextInput
-            value={name}
-            onChangeText={setName}
-            placeholder='Nome'
-            style={styles.input}
-          />
-          <TextInput
-            value={phone}
-            onChangeText={setPhone}
-            placeholder='Telefone'
-            style={styles.input}
-          />
-          <TextInput
-            value={address}
-            onChangeText={setAddress}
-            placeholder='Rua demontrativa, 29'
-            style={styles.input}
-          />
-
-          <TextInput
-            value={address_city}
-            onChangeText={setAddressCity}
-            placeholder='Taboão da Serra - SP'
-            style={styles.input}
-          />
-          <TextInput
-            value={description}
-            onChangeText={setDescription}
-            placeholder='Descrição'
-            style={styles.input}
-          />
-          <TextInput
-            value={email}
-            onChangeText={setEmail}
-            placeholder='E-mail'
-            style={styles.input}
-          />
-
-          <Button title='Criar Escritório' onPress={handleCreateOffice} />
-        </>
-      )}
-
-      <Text style={{ fontSize: 36, color: '#000', marginTop: 20 }}>
-        Realtor
-      </Text>
-
-      <TextInput
-        value={realtorName}
-        onChangeText={setRealtorName}
-        placeholder='Nome do Realtor'
-        style={styles.input}
-      />
-      <TextInput
-        value={realtorEmail}
-        onChangeText={setRealtorEmail}
-        keyboardType='email-address'
-        placeholder='Email do Realtor'
-        style={styles.input}
-      />
-      <TextInput
-        value={realtorCreci}
-        onChangeText={setRealtorCreci}
-        placeholder='Creci do Realtor'
-        style={styles.input}
-      />
-      <TextInput
-        value={realtorPhone}
-        onChangeText={setRealtorPhone}
-        keyboardType='number-pad'
-        placeholder='Telefone do Realtor'
-        style={styles.input}
-      />
-      <TextInput
-        value={realtorMessage}
-        onChangeText={setRealtorMessage}
-        keyboardType='default'
-        multiline
-        placeholder='Mensagem do whatsapp'
-        style={styles.input}
-      />
-
-      <Button title='Criar Realtor' onPress={handleCreateRealtor} />
-
       <ScrollView>
+        {office ? (
+          <>
+            <Text style={{ fontSize: 36, color: '#000' }}>{office.name}</Text>
+            <TextInput
+              value={name}
+              onChangeText={setName}
+              placeholder='Nome'
+              style={styles.input}
+            />
+            <TextInput
+              value={phone}
+              onChangeText={setPhone}
+              placeholder='Telefone'
+              style={styles.input}
+            />
+            <TextInput
+              value={address}
+              onChangeText={setAddress}
+              placeholder='Rua demontrativa, 29'
+              style={styles.input}
+            />
+
+            <TextInput
+              value={address_city}
+              onChangeText={setAddressCity}
+              placeholder='Taboão da Serra - SP'
+              style={styles.input}
+            />
+            <TextInput
+              value={description}
+              onChangeText={setDescription}
+              placeholder='Descrição'
+              style={styles.input}
+            />
+            <TextInput
+              value={email}
+              onChangeText={setEmail}
+              placeholder='E-mail'
+              style={styles.input}
+            />
+
+            <Button title='Atualizar Escritório' onPress={handleUpdateOffice} />
+          </>
+        ) : (
+          <>
+            <Text style={{ fontSize: 36, color: '#000' }}>
+              Criar Escritório
+            </Text>
+            <TextInput
+              value={name}
+              onChangeText={setName}
+              placeholder='Nome'
+              style={styles.input}
+            />
+            <TextInput
+              value={phone}
+              onChangeText={setPhone}
+              placeholder='Telefone'
+              style={styles.input}
+            />
+            <TextInput
+              value={address}
+              onChangeText={setAddress}
+              placeholder='Rua demontrativa, 29'
+              style={styles.input}
+            />
+
+            <TextInput
+              value={address_city}
+              onChangeText={setAddressCity}
+              placeholder='Taboão da Serra - SP'
+              style={styles.input}
+            />
+            <TextInput
+              value={description}
+              onChangeText={setDescription}
+              placeholder='Descrição'
+              style={styles.input}
+            />
+            <TextInput
+              value={email}
+              onChangeText={setEmail}
+              placeholder='E-mail'
+              style={styles.input}
+            />
+
+            <Button title='Criar Escritório' onPress={handleCreateOffice} />
+          </>
+        )}
+
+        <Text style={{ fontSize: 36, color: '#000', marginTop: 20 }}>
+          Realtor
+        </Text>
+
+        <TextInput
+          value={realtorName}
+          onChangeText={setRealtorName}
+          placeholder='Nome do Realtor'
+          style={styles.input}
+        />
+        <TextInput
+          value={realtorEmail}
+          onChangeText={setRealtorEmail}
+          keyboardType='email-address'
+          placeholder='Email do Realtor'
+          style={styles.input}
+        />
+        <TextInput
+          value={realtorCreci}
+          onChangeText={setRealtorCreci}
+          placeholder='Creci do Realtor'
+          style={styles.input}
+        />
+        <TextInput
+          value={realtorPhone}
+          onChangeText={setRealtorPhone}
+          keyboardType='number-pad'
+          placeholder='Telefone do Realtor'
+          style={styles.input}
+        />
+        <TextInput
+          value={realtorMessage}
+          onChangeText={setRealtorMessage}
+          keyboardType='default'
+          multiline
+          placeholder='Mensagem do whatsapp'
+          style={styles.input}
+        />
+
+        <Button title='Criar Realtor' onPress={handleCreateRealtor} />
+
         {office?.realtors?.map((realtor) => (
           <View key={realtor.id} style={{ marginTop: 20 }}>
             <Text style={{ fontSize: 24, color: '#000' }}>{realtor.name}</Text>
@@ -352,15 +353,15 @@ const Home = () => {
             />
           </View>
         ))}
+
+        <TouchableOpacity onPress={signOut}>
+          <Text>Sair</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={handleCategory}>
+          <Text>Categorias</Text>
+        </TouchableOpacity>
       </ScrollView>
-
-      <TouchableOpacity onPress={signOut}>
-        <Text>Sair</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={handleCategory}>
-        <Text>Categorias</Text>
-      </TouchableOpacity>
     </StyledContainerView>
   );
 };
