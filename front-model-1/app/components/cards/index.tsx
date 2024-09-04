@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './style.module.scss';
 import { FaInfoCircle } from 'react-icons/fa';
+import { Imagem } from '../Image';
 
 export default async function Cards() {
   const imoveis = await getImoveis();
@@ -24,13 +25,7 @@ export default async function Cards() {
                   <Link href={`/imovel/${imovel.id}`}>
                     <FaInfoCircle className={styles.houseIcon} />
                   </Link>
-                  <Image
-                    src={imovel.images[0].url}
-                    alt='House Image'
-                    layout='responsive'
-                    width={500}
-                    height={300}
-                  />
+                  <Imagem id={imovel.id} />
                 </div>
 
                 <div className={styles.housePrice}>

@@ -352,6 +352,7 @@ export default function AddImovel() {
                   )}
                 />
               </S.StyledModal>
+
               <S.StyledButton
                 onPress={() => setRealtorModalVisible(!realtorModalVisible)}
               >
