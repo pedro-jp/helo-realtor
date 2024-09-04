@@ -59,12 +59,15 @@ export default function AddImovel() {
   }, []);
 
   async function getOffice() {
+    setLoading(true);
     try {
       const response = await api.get(`/office/${ownerId}`);
       setOffice(response.data);
       setRealtorList(response.data.realtors);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -80,9 +83,8 @@ export default function AddImovel() {
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [3, 4],
-      quality: 1,
+      allowsEditing: false,
+      quality: 0.1,
     });
 
     if (!result.canceled) {
@@ -116,6 +118,7 @@ export default function AddImovel() {
         {
           text: 'Confirmar',
           onPress: async () => {
+            setLoading(true);
             try {
               const numericPrice = parseFloat(
                 price.replace('R$ ', '').replace('.', '').replace(',', '.')
@@ -153,6 +156,8 @@ export default function AddImovel() {
                 text1: 'Erro ao criar imóvel',
                 text2: error.message,
               });
+            } finally {
+              setLoading(false);
             }
           },
         },
@@ -222,6 +227,11 @@ export default function AddImovel() {
         blurRadius={10}
         source={{ uri: IMAGE_URL }}
       />
+      {loading && (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size='large' color='#343438ca' />
+        </View>
+      )}
       <S.StyledContainerView>
         <View style={{ zIndex: 10 }}>
           <Toast />
@@ -306,8 +316,6 @@ export default function AddImovel() {
             </S.StyledButton>
           )}
 
-          {loading && <ActivityIndicator size='large' color='#0000ff' />}
-
           {imovelCreated && !loading && !imageUri && (
             <S.StyledButton onPress={pickImage}>
               <S.StyledText>Adicionar Imagem</S.StyledText>
@@ -388,3 +396,26 @@ export default function AddImovel() {
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  input: {
+    height: 50,
+    width: '100%',
+    borderRadius: 4,
+    paddingLeft: 10,
+    backgroundColor: '#222',
+    color: '#fff',
+    padding: 10,
+  },
+  loadingContainer: {
+    position: 'absolute',
+    zIndex: 10,
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+});

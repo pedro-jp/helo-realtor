@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {
-  Button,
+  ActivityIndicator,
   Image,
   ScrollView,
   StyleSheet,
@@ -23,6 +23,10 @@ import Carousel from '../../components/Carousel';
 import * as S from './styles';
 import { AuthContext } from '../../contexts/AuthContext';
 import { Feather } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
+import Toast from 'react-native-toast-message';
+import { addImage } from '../../utils/addImage';
+import { sendNotification } from '../../utils/sendNotifications';
 
 type ImovelType = {
   name: string;
@@ -57,6 +61,9 @@ export default function Imovel() {
   const [garagem, setGaragem] = useState(0);
   const [active, setActive] = useState(false);
   const [refreshing, setRefreshing] = useState(false); // Estado de refreshing
+  const [imageUri, setImageUri] = useState(null);
+  const [loading, setLoading] = useState(false); // Estado de loading
+  const [carouselKey, setCarouselKey] = useState(Math.random());
 
   useEffect(() => {
     loadImovel();
@@ -67,6 +74,7 @@ export default function Imovel() {
   };
 
   async function loadImovel() {
+    setLoading(true);
     try {
       const response = await api.get(`/imovel/${imovelId}`);
       setName(response?.data.name);
@@ -83,10 +91,12 @@ export default function Imovel() {
       console.log(error);
     } finally {
       setRefreshing(false); // Finaliza o refreshing
+      setLoading(false);
     }
   }
 
   async function handleUpdate(categoryId: string) {
+    setLoading(true);
     try {
       const numericPrice = parseFloat(
         price.replace('R$', '').replace('.', '').replace(',', '.').trim()
@@ -108,30 +118,56 @@ export default function Imovel() {
       console.log(response.data);
     } catch (error) {
       console.log(error.response.data ?? error.message);
+    } finally {
+      setLoading(false);
     }
   }
 
   const navigation = useNavigation<NavigationProp<ParamListBase>>();
 
   async function handleDelete(id: string) {
-    console.log(id);
+    setLoading(true);
     try {
       const response = await api.delete(`/imovel/${id}`);
       console.log(response.data);
       navigation.navigate('Imoveis');
     } catch (error) {
       console.log(error.response.data ?? error.message);
+    } finally {
+      setLoading(false);
     }
   }
 
-  const handleAddImage = (id: string) => {
-    navigation.navigate('Images', { imovelId: id });
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: false,
+      quality: 0.1,
+    });
+
+    if (!result.canceled) {
+      setImageUri(result.assets[0].uri);
+      handleAddImage(result.assets[0].uri);
+    }
+  };
+
+  const handleAddImage = async (uri) => {
+    if (uri && imovelId) {
+      setLoading(true);
+      await addImage(uri, imovelId);
+      Toast.show({
+        type: 'success',
+        text1: 'Imagem enviada com sucesso!',
+      });
+      setImageUri(null);
+      setCarouselKey(Math.random());
+      setLoading(false);
+    }
   };
 
   const onRefresh = () => {
     setRefreshing(true);
     loadImovel();
-    console.log(imovel.id);
   };
 
   const IMAGE_URL =
@@ -144,13 +180,21 @@ export default function Imovel() {
         blurRadius={10}
         source={{ uri: IMAGE_URL }}
       />
+
+      {/* Mostra o indicador de carregamento se loading estiver verdadeiro */}
+      {loading && (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size='large' color='#343438ca' />
+        </View>
+      )}
+
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
         <StatusBar style='light' backgroundColor='transparent' />
-        <Carousel images={imovel.id} />
+        <Carousel images={imovelId} key={carouselKey} />
 
         <TouchableOpacity
           style={{
@@ -164,7 +208,7 @@ export default function Imovel() {
             paddingRight: 20,
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
           }}
-          onPress={() => handleAddImage(imovel.id)}
+          onPress={() => pickImage()}
         >
           <Feather name='plus' color={'#fff'} size={28} />
           <Text
@@ -288,7 +332,7 @@ export default function Imovel() {
   );
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   input: {
     height: 50,
     width: '100%',
@@ -297,5 +341,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#222',
     color: '#fff',
     padding: 10,
+  },
+  loadingContainer: {
+    position: 'absolute',
+    zIndex: 10,
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
 });
