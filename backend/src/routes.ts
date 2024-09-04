@@ -35,7 +35,7 @@ const upload = multer(uploadConfig.upload('./tmp'));
 
 router.post('/images', isAuthenticated, new CreateImageController().handle);
 
-router.get('/images/:id', isAuthenticated, new ListImagesController().handle);
+router.get('/images/:id', new ListImagesController().handle);
 
 router.delete(
   '/images/:id',

@@ -18,6 +18,7 @@ import {
   ParamListBase,
   useNavigation,
 } from '@react-navigation/native';
+import { Imagem } from '../../components/Image';
 
 export type ImovelType = {
   name: string;
@@ -37,6 +38,7 @@ export type ImovelType = {
 export default function ListImoveis() {
   const navigation = useNavigation<NavigationProp<ParamListBase>>();
   const [refreshing, setRefreshing] = useState(false);
+  const [refreshImages, setRefreshImages] = useState(false);
   const [imoveis, setImoveis] = useState<ImovelType[]>([]);
   const { user } = useContext(AuthContext);
   const ownerId = user.id;
@@ -53,6 +55,15 @@ export default function ListImoveis() {
       console.log(error);
     }
   }
+
+  const image = async function loadImages(id: string) {
+    try {
+      const response = await api.get(`/images/${id}`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   function handleOpenImovel(item: ImovelType) {
     navigation.navigate('Imovel', { imovelId: item.id });
@@ -135,18 +146,7 @@ export default function ListImoveis() {
                   transform: [{ scale }],
                 }}
               >
-                <Image
-                  source={{
-                    uri: `${item?.images[0]?.url}`,
-                  }}
-                  style={{
-                    width: IMAGE,
-                    height: IMAGE,
-                    borderRadius: IMAGE,
-                    marginRight: SPACING / 2,
-                  }}
-                />
-
+                <Imagem id={item.id} refreshing={refreshImages} />
                 <View>
                   <View style={{ width: 220 }}>
                     <Text
@@ -178,6 +178,7 @@ export default function ListImoveis() {
           setRefreshing(true);
           loadImoveis();
           setRefreshing(false);
+          setRefreshImages(!refreshImages);
         }}
       />
     </View>
