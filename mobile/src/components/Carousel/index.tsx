@@ -1,5 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { Animated, Dimensions, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Animated,
+  Dimensions,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import {
   ref,
@@ -15,7 +22,7 @@ const { width, height } = Dimensions.get('screen');
 const ITEM_WIDTH = width * 0.9;
 const ITEM_HEIGHT = height / 1.9;
 
-export default function Carousel(imovel) {
+export default function Carousel(imovel, key) {
   const [images, setImages] = useState([]);
   const scrollX = useRef(new Animated.Value(0)).current;
   const [isDeleting, setIsDeleting] = useState(false);
@@ -32,7 +39,7 @@ export default function Carousel(imovel) {
 
   useEffect(() => {
     loadImages();
-  }, [imovel.images]);
+  }, [key]);
 
   const handleDeleteImage = async (image) => {
     setIsDeleting(true);
@@ -57,9 +64,8 @@ export default function Carousel(imovel) {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
+        allowsEditing: false,
+        quality: 0.1,
       });
 
       if (!result.canceled && result.assets && result.assets.length > 0) {
@@ -89,6 +95,18 @@ export default function Carousel(imovel) {
 
   return (
     <View>
+      {isUpdating && (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size='large' color='#343438ca' />
+        </View>
+      )}
+
+      {isDeleting && (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size='large' color='#343438ca' />
+        </View>
+      )}
+
       <Animated.FlatList
         data={images}
         keyExtractor={(item) => item.id}
@@ -188,3 +206,26 @@ export default function Carousel(imovel) {
     </View>
   );
 }
+export const styles = StyleSheet.create({
+  input: {
+    height: 50,
+    width: '100%',
+    borderRadius: 4,
+    paddingLeft: 10,
+    backgroundColor: '#222',
+    color: '#fff',
+    padding: 10,
+  },
+  loadingContainer: {
+    position: 'absolute',
+    zIndex: 10,
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
