@@ -16,7 +16,7 @@ const HomeStack = createNativeStackNavigator();
 function HomeStackScreen() {
   return (
     <HomeStack.Navigator screenOptions={{ headerShown: false }}>
-      <HomeStack.Screen name='Home' component={Home} />
+      <HomeStack.Screen name='HomeMain' component={Home} />
       <HomeStack.Screen name='Add Imovel' component={AddImovel} />
       <HomeStack.Screen name='Imóveis' component={ListImoveis} />
       <HomeStack.Screen name='Category' component={Category} />
@@ -42,7 +42,7 @@ function ListImoveisStackScreen() {
       <ListImoveisStack.Screen name='Imoveis' component={ListImoveis} />
       <ListImoveisStack.Screen name='Imovel' component={Imovel} />
       <ListImoveisStack.Screen name='AddImovel' component={AddImovel} />
-      <ListImoveisStack.Screen name='Home' component={Home} />
+      <ListImoveisStack.Screen name='HomeList' component={Home} />
       <addImovelStack.Screen name='Images' component={Images} />
     </ListImoveisStack.Navigator>
   );
@@ -54,7 +54,7 @@ function AddImovelStackScreen() {
   return (
     <addImovelStack.Navigator screenOptions={{ headerShown: false }}>
       <addImovelStack.Screen name='Add Imovel' component={AddImovel} />
-      <addImovelStack.Screen name='Home' component={Home} />
+      <addImovelStack.Screen name='HomeAdd' component={Home} />
       <addImovelStack.Screen name='Imovel' component={Imovel} />
       <addImovelStack.Screen name='Images' component={Images} />
     </addImovelStack.Navigator>

@@ -27,6 +27,10 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
+app.get('/', (req: Request, res: Response) => {
+  return res.send('Helotech Realtors');
+});
+
 app.listen(3332, () => {
   console.log('Servidor online');
 });
