@@ -66,7 +66,6 @@ const Home = () => {
     try {
       const response = await api.get(`/office/${ownerId}`);
       setOffice(response.data);
-      console.log('office', response.data);
       setName(response.data.name);
       setPhone(response.data.phone);
       setAddress(response.data.address);
@@ -91,7 +90,6 @@ const Home = () => {
         description,
         email,
       });
-      console.log('Escritório criado:', response.data);
       setOffice(response.data);
     } catch (error) {
       console.log(error.response?.data ?? error.message);
@@ -109,7 +107,6 @@ const Home = () => {
         description,
         email,
       });
-      console.log('Escritório atualizado:', response.data);
       setOffice(response.data);
     } catch (error) {
       console.log(error.response?.data ?? error.message);
@@ -126,7 +123,6 @@ const Home = () => {
         creci: realtorCreci,
         whatsapp_message: realtorMessage,
       });
-      console.log('Realtor criado:', response.data);
       setOffice({
         ...office,
         realtors: [...office.realtors, response.data],
@@ -153,7 +149,6 @@ const Home = () => {
           whatsapp_message: realtorMessage,
         }
       );
-      console.log('Realtor atualizado:', response.data);
       setOffice({
         ...office,
         realtors: office.realtors.map((r) =>

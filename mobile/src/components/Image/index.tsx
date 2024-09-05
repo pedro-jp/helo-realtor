@@ -29,7 +29,7 @@ export const Imagem = ({ id, refreshing }) => {
   return (
     <Image
       source={{
-        uri: imageUrl,
+        uri: imageUrl || 'https://via.placeholder.com/80',
       }}
       style={{
         width: IMAGE_SIZE,
