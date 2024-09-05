@@ -1,7 +1,7 @@
+import { Carousel } from '@/app/components/Carousel';
 import { getImovelData } from '@/app/services/getImoveis';
 import { Metadata } from 'next';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
+import style from './styles.module.scss';
 
 type ImovelType = {
   name: string;
@@ -56,18 +56,21 @@ export default async function ImovelPage({
   const imovel: ImovelType = await getImovelData(params.id);
 
   return (
-    <div>
+    <main className={style.main}>
       <h1>{imovel.name}</h1>
-      <p>{imovel.description}</p>
-      {imovel.images.map((image) => (
-        <Image
-          key={image.url}
-          src={image.url}
-          alt={imovel.name}
-          width={500}
-          height={500}
-        />
-      ))}
-    </div>
+      <div className={style.container}>
+        <Carousel images={imovel.images} />
+        <div>
+          <ul>
+            <li>{imovel.local}</li>
+            <li>{imovel.price}</li>
+            <li>{imovel?.quartos}</li>
+            <li>{imovel?.banheiros}</li>
+            <li>{imovel.area}</li>
+            <li>{imovel?.garagem}</li>
+          </ul>
+        </div>
+      </div>
+    </main>
   );
 }

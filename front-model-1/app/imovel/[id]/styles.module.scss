@@ -1,0 +1,26 @@
+.main {
+  max-width: 1440px;
+  margin-inline: auto;
+  margin-top: 5rem;
+
+  .container {
+    width: 100vw;
+    max-width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    & > div {
+      width: 50%;
+    }
+
+    @media screen and (width < 768px) {
+      & {
+        flex-direction: column;
+
+        & > div {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
