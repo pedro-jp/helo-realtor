@@ -54,6 +54,9 @@ export default async function ImovelPage({
   params: { id: string };
 }) {
   const imovel: ImovelType = await getImovelData(params.id);
+  function convertNewlinesToBreaks(text: string) {
+    return text.replace(/\n/g, '<br />');
+  }
 
   return (
     <main className={style.main}>
@@ -96,10 +99,14 @@ export default async function ImovelPage({
           </ul>
         </div>
       </section>
-      <section>
+      <section className={style.description}>
         <h2>{imovel?.local}</h2>
         <h3>Descricão</h3>
-        <p>{imovel.description}</p>
+        <p
+          dangerouslySetInnerHTML={{
+            __html: convertNewlinesToBreaks(imovel.description),
+          }}
+        />
       </section>
     </main>
   );

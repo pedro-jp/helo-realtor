@@ -38,3 +38,12 @@
     }
   }
 }
+
+.description {
+  margin-block: 2rem;
+  width: 40%;
+
+  @media screen and (width < 768px) {
+    width: 100%;
+  }
+}
