@@ -73,7 +73,7 @@ export const Carousel = ({ images }: CarouselProps) => {
         className={styles.thumbsSwiper}
         onSwiper={setThumbsSwiper}
         spaceBetween={10}
-        slidesPerView={4}
+        slidesPerView={5}
         watchSlidesProgress
         modules={[Thumbs]}
       >

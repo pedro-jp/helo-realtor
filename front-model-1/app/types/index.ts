@@ -13,6 +13,9 @@ export type ImovelType = {
   garagem: string;
   categoryId: string;
   active: boolean;
+  latitude: string;
+  longitude: string;
+  marker: boolean;
 };
 
 export type OfficeType = {
@@ -23,6 +26,8 @@ export type OfficeType = {
   address: string;
   address_city: string;
   email: string;
+  latitude: string;
+  longitude: string;
   realtors: RealtorType[];
 };
 

@@ -22,6 +22,9 @@ export class CreateImovelService {
     ownerId,
     officeId,
     realtorId,
+    latitude,
+    longitude,
+    marker,
   }: Imovel) {
     const imovel = await this.prisma.imovel.create({
       data: {
@@ -38,6 +41,9 @@ export class CreateImovelService {
         ownerId,
         officeId,
         realtorId,
+        latitude,
+        longitude,
+        marker,
       },
     });
 

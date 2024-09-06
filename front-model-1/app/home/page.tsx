@@ -5,6 +5,8 @@ import Hero from '../components/hero';
 
 import style from './style.module.scss';
 import Map from '../components/map';
+import MapWithCircle from '../components/map';
+import { getOffice } from '../services/getOffice';
 
 export async function generateMetadata(): Promise<Metadata> {
   const imoveis = await getImoveis(); // Busca os imóveis
@@ -41,6 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
+  const office = await getOffice();
   return (
     <>
       <Hero />
@@ -63,7 +66,18 @@ export default async function Home() {
       >
         <Cards />
       </section>
-      <Map />
+      <div
+        style={{
+          width: '100%',
+          maxWidth: '1440px',
+        }}
+      >
+        <MapWithCircle
+          latitude={office.latitude}
+          longitude={office.longitude}
+          marker
+        />
+      </div>
     </>
   );
 }

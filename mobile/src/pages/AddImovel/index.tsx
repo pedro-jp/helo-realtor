@@ -28,6 +28,7 @@ export default function AddImovel() {
   const { user } = useContext(AuthContext);
   const ownerId = user.id;
 
+  // Estados para os inputs e configuração
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
@@ -36,6 +37,7 @@ export default function AddImovel() {
   const [quartos, setQuartos] = useState('');
   const [banheiros, setBanheiros] = useState('');
   const [garagem, setGaragem] = useState('');
+  const [marker, setMarker] = useState(false); // Estado para o booleano marker
 
   const [categoryList, setCategoryList] = useState([]);
   const [categoryId, setCategoryId] = useState('');
@@ -138,6 +140,7 @@ export default function AddImovel() {
                 ownerId,
                 officeId: office.id,
                 realtorId,
+                marker, // Valor do marker (booleano) enviado na requisição
               });
 
               setImovelId(response.data.id);
@@ -228,7 +231,7 @@ export default function AddImovel() {
         source={{ uri: IMAGE_URL }}
       />
       {loading && (
-        <View style={styles.loadingContainer}>
+        <View style={stylesAdd.loadingContainer}>
           <ActivityIndicator size='large' color='#343438ca' />
         </View>
       )}
@@ -288,6 +291,31 @@ export default function AddImovel() {
             onChangeText={setLocal}
             placeholderTextColor='#fff'
           />
+
+          {/* Input Radio para o marcador */}
+          <Text>Deseja adicionar um marcador?</Text>
+          <View style={stylesAdd.radioContainer}>
+            <TouchableOpacity
+              style={stylesAdd.radioButton}
+              onPress={() => setMarker(true)}
+            >
+              <View style={stylesAdd.outerCircle}>
+                {marker === true && <View style={stylesAdd.innerCircle} />}
+              </View>
+              <Text style={stylesAdd.radioText}>Sim</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={stylesAdd.radioButton}
+              onPress={() => setMarker(false)}
+            >
+              <View style={stylesAdd.outerCircle}>
+                {marker === false && <View style={stylesAdd.innerCircle} />}
+              </View>
+              <Text style={stylesAdd.radioText}>Não</Text>
+            </TouchableOpacity>
+          </View>
+
           <S.StyledTextInput
             placeholder='Quartos'
             value={quartos}
@@ -397,7 +425,7 @@ export default function AddImovel() {
   );
 }
 
-const styles = StyleSheet.create({
+export const stylesAdd = StyleSheet.create({
   input: {
     height: 50,
     width: '100%',
@@ -417,5 +445,35 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  radioContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  radioButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 20,
+  },
+  outerCircle: {
+    height: 24,
+    width: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 8,
+  },
+  innerCircle: {
+    height: 12,
+    width: 12,
+    borderRadius: 6,
+    backgroundColor: '#fff',
+  },
+  radioText: {
+    color: '#fff',
+    fontSize: 16,
   },
 });
