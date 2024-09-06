@@ -58,19 +58,49 @@ export default async function ImovelPage({
   return (
     <main className={style.main}>
       <h1>{imovel.name}</h1>
-      <div className={style.container}>
+      <section className={style.container}>
         <Carousel images={imovel.images} />
         <div>
           <ul>
-            <li>{imovel.local}</li>
-            <li>{imovel.price}</li>
-            <li>{imovel?.quartos}</li>
-            <li>{imovel?.banheiros}</li>
-            <li>{imovel.area}</li>
-            <li>{imovel?.garagem}</li>
+            <li>
+              <strong>Preço: </strong>
+              {imovel.price}
+            </li>
+            {imovel?.quartos && parseInt(imovel?.quartos) > 1 ? (
+              <li>
+                <strong>Quartos: </strong>
+                <span>{imovel?.quartos}</span>
+              </li>
+            ) : null}
+
+            {imovel?.banheiros && parseInt(imovel?.banheiros) > 1 && (
+              <li>
+                <strong>Banheiros: </strong>
+                <span>{imovel?.banheiros}</span>
+              </li>
+            )}
+            {imovel?.area && (
+              <li>
+                <strong>Área: </strong>
+                <span>
+                  {imovel.area}m<sup>2</sup>
+                </span>
+              </li>
+            )}
+            {imovel?.garagem && parseInt(imovel?.garagem) > 1 && (
+              <li>
+                <strong>Garagem: </strong>
+                <span>{imovel?.garagem}</span>
+              </li>
+            )}
           </ul>
         </div>
-      </div>
+      </section>
+      <section>
+        <h2>{imovel?.local}</h2>
+        <h3>Descricão</h3>
+        <p>{imovel.description}</p>
+      </section>
     </main>
   );
 }
