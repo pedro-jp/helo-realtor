@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import style from './styles.module.scss';
 import dynamic from 'next/dynamic';
 import { ImovelType } from '@/app/types';
+import BtnCompartilhar from '@/app/components/BtnCompartlhar';
 
 // Importa o componente dinamicamente para evitar SSR
 const MapWithCircle = dynamic(() => import('@/app/components/map'), {
@@ -53,6 +54,8 @@ export default async function ImovelPage({
       <h1>{imovel.name}</h1>
       <section className={style.container}>
         <Carousel images={imovel.images} />
+        <BtnCompartilhar title={imovel.name} text={imovel.description} />
+
         <div>
           <ul>
             <li>
