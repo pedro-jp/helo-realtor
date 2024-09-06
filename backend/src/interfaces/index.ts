@@ -1,8 +1,8 @@
 export interface Imovel {
   name: string;
   description: string;
-  local: string;
   price: number;
+  local: string;
   quartos: number;
   banheiros: number;
   area: number;
@@ -10,9 +10,11 @@ export interface Imovel {
   active: boolean;
   categoryId: string;
   ownerId: string;
-  id?: string;
-  officeId?: string;
-  realtorId?: string;
+  officeId: string;
+  realtorId: string;
+  latitude: string;
+  longitude: string;
+  marker: boolean;
 }
 
 export interface ImovelExtended extends Imovel {

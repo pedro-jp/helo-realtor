@@ -3,14 +3,7 @@ import { UpdateOfficeService } from '../../services/Office/UpdateOfficeService';
 
 export class UpdateOfficeController {
   async handle(req: Request, res: Response) {
-    const {
-      name,
-      phone,
-      address,
-      address_city,
-      description,
-      email,
-    } = req.body;
+    const { name, phone, address, address_city, description, email } = req.body;
 
     const updateOfficeService = new UpdateOfficeService();
 

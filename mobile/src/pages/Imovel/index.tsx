@@ -27,6 +27,7 @@ import * as ImagePicker from 'expo-image-picker';
 import Toast from 'react-native-toast-message';
 import { addImage } from '../../utils/addImage';
 import { sendNotification } from '../../utils/sendNotifications';
+import { stylesAdd } from '../../pages/AddImovel';
 
 type ImovelType = {
   name: string;
@@ -64,6 +65,7 @@ export default function Imovel() {
   const [imageUri, setImageUri] = useState(null);
   const [loading, setLoading] = useState(false); // Estado de loading
   const [carouselKey, setCarouselKey] = useState(Math.random());
+  const [marker, setMarker] = useState(false);
 
   useEffect(() => {
     loadImovel();
@@ -87,6 +89,7 @@ export default function Imovel() {
       setGaragem(response?.data.garagem);
       setActive(response?.data.active);
       setImovel(response?.data);
+      setMarker(response?.data.marker);
     } catch (error) {
       console.log(error);
     } finally {
@@ -114,6 +117,7 @@ export default function Imovel() {
         active,
         ownerId: user.id,
         categoryId,
+        marker,
       });
       console.log(response.data);
     } catch (error) {
@@ -273,6 +277,30 @@ export default function Imovel() {
                 placeholderTextColor='#999'
                 style={styles.input}
               />
+            </View>
+
+            {/* Input Radio para o marcador */}
+            <Text>Deseja adicionar um marcador?</Text>
+            <View style={stylesAdd.radioContainer}>
+              <TouchableOpacity
+                style={stylesAdd.radioButton}
+                onPress={() => setMarker(true)}
+              >
+                <View style={stylesAdd.outerCircle}>
+                  {marker === true && <View style={stylesAdd.innerCircle} />}
+                </View>
+                <Text style={stylesAdd.radioText}>Sim</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={stylesAdd.radioButton}
+                onPress={() => setMarker(false)}
+              >
+                <View style={stylesAdd.outerCircle}>
+                  {marker === false && <View style={stylesAdd.innerCircle} />}
+                </View>
+                <Text style={stylesAdd.radioText}>Não</Text>
+              </TouchableOpacity>
             </View>
             <View style={{ marginBottom: 10 }}>
               <Text style={{ color: '#fff', marginBottom: 5 }}>Quartos:</Text>

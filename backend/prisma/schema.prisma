@@ -40,6 +40,8 @@ model Office {
   ownerId      String          @unique
   address_city String          @default(" ")
   address      String          @default(" ")
+  latitude     String          @default(" ")
+  longitude    String          @default(" ")
   email        String
   created_at   DateTime        @default(now())
   updated_at   DateTime        @updatedAt
@@ -99,11 +101,14 @@ model Imovel {
   price       Decimal
   description String
   local       String
+  latitude    String   @default(" ")
+  longitude   String   @default(" ")
   quartos     Int
   banheiros   Int
   area        Int
   garagem     Int
   active      Boolean
+  marker      Boolean  @default(false)
   categoryId  String
   ownerId     String
   realtorId   String   @default("")

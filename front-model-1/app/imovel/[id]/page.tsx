@@ -2,23 +2,13 @@ import { Carousel } from '@/app/components/Carousel';
 import { getImovelData } from '@/app/services/getImoveis';
 import { Metadata } from 'next';
 import style from './styles.module.scss';
+import dynamic from 'next/dynamic';
+import { ImovelType } from '@/app/types';
 
-type ImovelType = {
-  name: string;
-  description: string;
-  images: {
-    url: string;
-  }[];
-  id: string;
-  price: string;
-  local: string;
-  quartos: string;
-  banheiros: string;
-  area: string;
-  garagem: string;
-  categoryId: string;
-  active: boolean;
-};
+// Importa o componente dinamicamente para evitar SSR
+const MapWithCircle = dynamic(() => import('@/app/components/map'), {
+  ssr: false, // Desabilita SSR para o mapa
+});
 
 // Função para gerar metadados dinamicamente
 export async function generateMetadata({
@@ -99,14 +89,23 @@ export default async function ImovelPage({
           </ul>
         </div>
       </section>
-      <section className={style.description}>
-        <h2>{imovel?.local}</h2>
-        <h3>Descricão</h3>
-        <p
-          dangerouslySetInnerHTML={{
-            __html: convertNewlinesToBreaks(imovel.description),
-          }}
-        />
+      <section className={style.description_container}>
+        <div className={style.description}>
+          <h2>{imovel?.local}</h2>
+          <h3>Descricão</h3>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: convertNewlinesToBreaks(imovel.description),
+            }}
+          />
+        </div>
+        <div className={style.map}>
+          <MapWithCircle
+            latitude={imovel.latitude}
+            longitude={imovel.longitude}
+            marker={imovel.marker}
+          />
+        </div>
       </section>
     </main>
   );

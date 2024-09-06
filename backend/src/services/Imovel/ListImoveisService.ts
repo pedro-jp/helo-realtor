@@ -15,6 +15,7 @@ export class ListImoveisService {
       },
       include: {
         images: true,
+        office: true,
       },
     });
     return imoveis;

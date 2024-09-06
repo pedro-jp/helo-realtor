@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { UpdateImovelService } from '../../services/Imovel/UpdateImovelService';
-
 import { Imovel } from '../../interfaces';
 
 export class UpdateImovelController {
@@ -17,11 +16,16 @@ export class UpdateImovelController {
       active,
       ownerId,
       categoryId,
-    } = req.body as Imovel;
+      marker,
+    } = req.body as Partial<Imovel>; // Usar Partial para aceitar campos opcionais
 
     const id = req.params.id;
+
     const updateImovelService = new UpdateImovelService();
+
+    // Apenas os campos que são enviados no corpo serão atualizados
     const imovel = await updateImovelService.execute({
+      id,
       name,
       description,
       price,
@@ -33,8 +37,9 @@ export class UpdateImovelController {
       active,
       ownerId,
       categoryId,
-      id,
+      marker,
     });
+
     return res.json(imovel);
   }
 }

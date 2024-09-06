@@ -22,6 +22,7 @@ export async function getImoveis(): Promise<ImovelType[]> {
 export async function getImovelData(id: string): Promise<ImovelType> {
   try {
     const response = await api.get(`/imovel/${id}`);
+    console.log('Dados do imóvel:', response.data); // Verifique se latitude e longitude estão aqui
     return response.data;
   } catch (err) {
     console.log('Erro ao buscar o imóvel:', err);

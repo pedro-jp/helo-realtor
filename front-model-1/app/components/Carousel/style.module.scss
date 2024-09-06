@@ -24,7 +24,7 @@
   max-width: 800px;
   height: 70%;
   max-height: 500px;
-  margin: 0 auto;
+  margin: 0 0;
   aspect-ratio: 9/16;
 }
 
@@ -51,7 +51,7 @@
 .thumbsSwiper {
   width: 100%;
   max-width: 800px;
-  margin: 10px auto;
+  float: left;
   padding-top: 10px;
 }
 
