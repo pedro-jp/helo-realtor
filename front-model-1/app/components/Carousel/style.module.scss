@@ -39,7 +39,6 @@
   height: 100%;
   width: 100%;
   object-fit: contain;
-
   &:hover {
     object-fit: contain;
     cursor: grab;
@@ -61,6 +60,7 @@
   width: 100%;
   aspect-ratio: 1;
   overflow: hidden;
+  border-radius: 10px;
 }
 
 .thumbImage {
@@ -69,6 +69,7 @@
   height: 100%;
   border: 2px solid transparent;
   transition: border 0.3s;
+  border-radius: 4px;
 }
 
 .thumbSlide-active .thumbImage {

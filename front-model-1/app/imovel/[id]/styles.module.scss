@@ -3,14 +3,28 @@
   margin-inline: auto;
   margin-top: 5rem;
 
+  @media screen and (width < 1440px) {
+    padding-inline: 1rem;
+  }
   .container {
     width: 100vw;
     max-width: 100%;
     display: flex;
     justify-content: space-between;
     gap: 2rem;
-    & > div {
-      width: 50%;
+
+    & > div:nth-child(1) {
+      width: 70%;
+    }
+
+    & > div:nth-child(2) {
+      width: 30%;
+      margin-right: 3rem;
+    }
+    ul > li {
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
     }
 
     @media screen and (width < 768px) {

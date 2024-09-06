@@ -47,9 +47,6 @@ export const Carousel = ({ images }: CarouselProps) => {
       className={`${styles.container} ${isFullScreen ? styles.fullScreen : ''}`}
       ref={containerRef}
     >
-      <button className={styles.fullScreenBtn} onClick={handleFullScreen}>
-        {isFullScreen ? 'Sair da Tela Cheia' : 'Tela Cheia'}
-      </button>
       <Swiper
         className={styles.swiper}
         spaceBetween={0}
@@ -63,10 +60,10 @@ export const Carousel = ({ images }: CarouselProps) => {
             <Image
               className={styles.image}
               src={image.url}
-              alt='Imagem do carousel'
+              alt='Imagem do imóvel'
               width={1920}
               height={1080}
-              style={{ objectFit: isFullScreen ? 'contain' : 'contain' }} // Muda para 'contain' em tela cheia
+              style={{ objectFit: isFullScreen ? 'contain' : 'contain' }}
             />
           </SwiperSlide>
         ))}
@@ -85,7 +82,7 @@ export const Carousel = ({ images }: CarouselProps) => {
             <Image
               className={styles.thumbImage}
               src={image.url}
-              alt='Miniatura do carousel'
+              alt='Miniatura do imóvel'
               width={500}
               height={500}
             />
