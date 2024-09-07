@@ -5,6 +5,8 @@ import style from './styles.module.scss';
 import dynamic from 'next/dynamic';
 import { ImovelType } from '@/app/types';
 import BtnCompartilhar from '@/app/components/BtnCompartlhar';
+import { Favorite } from '@/app/assets/svg';
+import Favoritar from '@/app/components/Favoritar';
 
 // Importa o componente dinamicamente para evitar SSR
 const MapWithCircle = dynamic(() => import('@/app/components/map'), {
@@ -49,12 +51,17 @@ export default async function ImovelPage({
     return text.replace(/\n/g, '<br />');
   }
 
+  function handleFavorite() {
+    // Lógica para favoritar o imóvel
+  }
+
   return (
     <main className={style.main}>
       <h1>{imovel.name}</h1>
       <section className={style.container}>
         <Carousel images={imovel.images} />
         <BtnCompartilhar title={imovel.name} text={imovel.description} />
+        <Favoritar imovel={imovel} />
 
         <div>
           <ul>

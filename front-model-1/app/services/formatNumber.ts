@@ -11,7 +11,3 @@ export function formatarNumero(numero: string) {
     return numero;
   }
 }
-
-// Exemplo de uso
-const numeroFormatado = formatarNumero('11970707400');
-console.log(numeroFormatado); // Saída: (11) 97070-7400

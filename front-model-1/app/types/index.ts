@@ -16,6 +16,7 @@ export type ImovelType = {
   latitude: string;
   longitude: string;
   marker: boolean;
+  favorites: string[];
 };
 
 export type OfficeType = {

@@ -73,8 +73,8 @@ export default async function Home() {
         }}
       >
         <MapWithCircle
-          latitude={office.latitude}
-          longitude={office.longitude}
+          latitude={office?.latitude}
+          longitude={office?.longitude}
           marker
         />
       </div>

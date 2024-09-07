@@ -1,73 +1,22 @@
 {
   "pages": {
-    "/_not-found/page": [
-      "static/chunks/webpack-745d37cb65914ba8.js",
-      "static/chunks/fd9d1056-8428111b1c4f893f.js",
-      "static/chunks/23-53819e0b37fe1a82.js",
-      "static/chunks/main-app-23c22adfbd7593ef.js",
-      "static/chunks/app/_not-found/page-8aea52d1a5e38e5a.js"
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/page.css",
+      "static/chunks/app/page.js"
     ],
     "/layout": [
-      "static/chunks/webpack-745d37cb65914ba8.js",
-      "static/chunks/fd9d1056-8428111b1c4f893f.js",
-      "static/chunks/23-53819e0b37fe1a82.js",
-      "static/chunks/main-app-23c22adfbd7593ef.js",
-      "static/css/52d1e89d38693c86.css",
-      "static/chunks/231-12cc8580f09fb880.js",
-      "static/chunks/607-32b583b543e1fa5f.js",
-      "static/chunks/app/layout-50b596bf83f1f3eb.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
     ],
     "/imovel/[id]/page": [
-      "static/chunks/webpack-745d37cb65914ba8.js",
-      "static/chunks/fd9d1056-8428111b1c4f893f.js",
-      "static/chunks/23-53819e0b37fe1a82.js",
-      "static/chunks/main-app-23c22adfbd7593ef.js",
-      "static/css/b9fe994959f23c66.css",
-      "static/chunks/4e6af11a-ce0cf531d3cae554.js",
-      "static/chunks/173-d3eab9157e16af41.js",
-      "static/chunks/552-a15a0b2ad2bc98c9.js",
-      "static/chunks/app/imovel/[id]/page-978539a0d1de1bdf.js"
-    ],
-    "/imoveis/page": [
-      "static/chunks/webpack-745d37cb65914ba8.js",
-      "static/chunks/fd9d1056-8428111b1c4f893f.js",
-      "static/chunks/23-53819e0b37fe1a82.js",
-      "static/chunks/main-app-23c22adfbd7593ef.js",
-      "static/css/acf3d89d81b6dd1e.css",
-      "static/chunks/231-12cc8580f09fb880.js",
-      "static/chunks/173-d3eab9157e16af41.js",
-      "static/chunks/app/imoveis/page-be2046b076f43241.js"
-    ],
-    "/teste/page": [
-      "static/chunks/webpack-745d37cb65914ba8.js",
-      "static/chunks/fd9d1056-8428111b1c4f893f.js",
-      "static/chunks/23-53819e0b37fe1a82.js",
-      "static/chunks/main-app-23c22adfbd7593ef.js",
-      "static/chunks/app/teste/page-9aa47941eda009cc.js"
-    ],
-    "/home/page": [
-      "static/chunks/webpack-745d37cb65914ba8.js",
-      "static/chunks/fd9d1056-8428111b1c4f893f.js",
-      "static/chunks/23-53819e0b37fe1a82.js",
-      "static/chunks/main-app-23c22adfbd7593ef.js",
-      "static/css/acf3d89d81b6dd1e.css",
-      "static/css/b9fe994959f23c66.css",
-      "static/chunks/4e6af11a-ce0cf531d3cae554.js",
-      "static/chunks/231-12cc8580f09fb880.js",
-      "static/chunks/173-d3eab9157e16af41.js",
-      "static/chunks/app/home/page-7970c5cd595f2c94.js"
-    ],
-    "/page": [
-      "static/chunks/webpack-745d37cb65914ba8.js",
-      "static/chunks/fd9d1056-8428111b1c4f893f.js",
-      "static/chunks/23-53819e0b37fe1a82.js",
-      "static/chunks/main-app-23c22adfbd7593ef.js",
-      "static/css/acf3d89d81b6dd1e.css",
-      "static/css/b9fe994959f23c66.css",
-      "static/chunks/4e6af11a-ce0cf531d3cae554.js",
-      "static/chunks/231-12cc8580f09fb880.js",
-      "static/chunks/173-d3eab9157e16af41.js",
-      "static/chunks/app/page-b618ea3d7ee7a946.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/imovel/[id]/page.css",
+      "static/chunks/app/imovel/[id]/page.js"
     ]
   }
 }
