@@ -33,6 +33,30 @@ export async function generateMetadata({
           height: 1080,
           alt: imovel.name,
         },
+        {
+          url: imovel.images[2].url,
+          width: 1920,
+          height: 1080,
+          alt: imovel.name,
+        },
+        {
+          url: imovel.images[3].url,
+          width: 1920,
+          height: 1080,
+          alt: imovel.name,
+        },
+        {
+          url: imovel.images[4].url,
+          width: 1920,
+          height: 1080,
+          alt: imovel.name,
+        },
+        {
+          url: imovel.images[5].url,
+          width: 1920,
+          height: 1080,
+          alt: imovel.name,
+        },
       ],
     },
   };
