@@ -29,9 +29,22 @@ import { GetRealtorController } from './controllers/Realtor/GetRealtorController
 import { RemoveImageController } from './controllers/image/RemoveImageController';
 import { UpdateImageController } from './controllers/image/UpdateImageController';
 
+import { CreateFavoriteController } from './controllers/Favorite/CreateFavoriteController';
+import { RemoveFavoriteController } from './controllers/Favorite/RemoveFavoriteController';
+
 const router = Router();
 
 const upload = multer(uploadConfig.upload('./tmp'));
+
+router.post(
+  '/imoveis/favorites/:imovelId/:ip',
+  new CreateFavoriteController().handle
+);
+
+router.delete(
+  '/imoveis/favorites/:id/:ip',
+  new RemoveFavoriteController().handle
+);
 
 router.post('/images', isAuthenticated, new CreateImageController().handle);
 

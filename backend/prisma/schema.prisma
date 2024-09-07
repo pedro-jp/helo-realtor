@@ -116,11 +116,12 @@ model Imovel {
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
 
-  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  owner    User     @relation(fields: [ownerId], references: [id])
-  realtor  Realtor  @relation(fields: [realtorId], references: [id], onDelete: Cascade)
-  office   Office   @relation(fields: [officeId], references: [id], onDelete: Cascade)
-  images   Images[]
+  category  Category    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  owner     User        @relation(fields: [ownerId], references: [id])
+  realtor   Realtor     @relation(fields: [realtorId], references: [id], onDelete: Cascade)
+  office    Office      @relation(fields: [officeId], references: [id], onDelete: Cascade)
+  images    Images[]
+  favorites Favorites[]
 
   @@map("imoveis")
 }
@@ -134,4 +135,15 @@ model Images {
   imovel Imovel @relation(fields: [imovelId], references: [id], onDelete: Cascade)
 
   @@map("images")
+}
+
+model Favorites {
+  id         String   @id @unique @default(uuid())
+  imovelId   String
+  ip         String
+  created_at DateTime @default(now())
+
+  imovel Imovel @relation(fields: [imovelId], references: [id], onDelete: Cascade)
+
+  @@map("favorites")
 }

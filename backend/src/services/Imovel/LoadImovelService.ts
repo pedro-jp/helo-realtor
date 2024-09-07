@@ -9,6 +9,7 @@ export class LoadImovelService {
       },
       include: {
         images: true,
+        favorites: true,
       },
     });
     return imovel;
