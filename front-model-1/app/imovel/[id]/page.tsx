@@ -25,12 +25,12 @@ export async function generateMetadata({
     openGraph: {
       title: imovel.name,
       description: imovel.description,
-      url: `${process.env.NEXT_PUBLIC_URL}/imovel/${params.id}`,
+      url: `https://helo-realtor.vercel.app/imovel/${params.id}`,
       images: [
         {
-          url: 'https://firebasestorage.googleapis.com/v0/b/upload-imoveis.appspot.com/o/images%2FA5F3DC61-5A66-4FAF-866D-A9990E2208D4.png?alt=media&token=5e87c5a4-45a5-428e-b42b-870576bf9420',
-          width: 630,
-          height: 1200,
+          url: imovel.images[0].url,
+          width: 1920,
+          height: 1080,
           alt: imovel.name,
         },
       ],
