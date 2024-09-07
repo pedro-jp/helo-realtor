@@ -44,7 +44,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   async function loadImoveis() {
     try {
       const response = await fetch(
-        `http://192.168.1.21:3332/imoveis/${ownerId}`
+        `${process.env.NEXT_PUBLIC_URL}/imoveis/${ownerId}`
       );
 
       if (!response.ok) {
