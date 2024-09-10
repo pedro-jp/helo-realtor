@@ -23,7 +23,7 @@ const MapWithCircle: React.FC<MapWithCircleProps> = ({
   latitude,
   longitude,
   marker,
-  radius = 200,
+  radius = 300,
 }) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: 'AIzaSyCXUysejG26jQvuyCl6arN8ueQYVR4MLqo',
@@ -47,13 +47,18 @@ const MapWithCircle: React.FC<MapWithCircleProps> = ({
           zoom={15}
           mapContainerStyle={{ height: '100%', width: '100%' }}
           options={{
-            streetViewControl: false,
-            mapTypeControl: false,
             fullscreenControl: false,
           }}
         >
           {marker ? (
-            <Marker position={center} />
+            <Marker
+              position={center}
+              onClick={() => {
+                window.open(
+                  `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`
+                );
+              }}
+            />
           ) : (
             <Circle
               center={center}

@@ -47,6 +47,9 @@ const Favoritar = ({ imovel }: FavoritarProps) => {
 
   async function handleFavorite() {
     setFavorito(!favorito);
+    if ('vibrate' in navigator) {
+      navigator.vibrate(100);
+    }
     const clientIp = await getClientIp(); // Obtém o IP do cliente
 
     if (!clientIp) {
