@@ -70,6 +70,7 @@ export default async function Home() {
         style={{
           width: '100%',
           maxWidth: '1440px',
+          margin: '0 auto',
         }}
       >
         <MapWithCircle

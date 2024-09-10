@@ -3,6 +3,7 @@ import { Favorite } from '@/app/assets/svg';
 import { api } from '@/app/services/api';
 import { ImovelType } from '@/app/types';
 import React, { useEffect, useState } from 'react';
+import styles from './style.module.scss';
 
 // Função para buscar o IP do cliente usando a API ipify
 async function getClientIp() {
@@ -45,6 +46,7 @@ const Favoritar = ({ imovel }: FavoritarProps) => {
   }, [imovel.favorites]); // Executa sempre que 'imovel.favorites' mudar
 
   async function handleFavorite() {
+    setFavorito(!favorito);
     const clientIp = await getClientIp(); // Obtém o IP do cliente
 
     if (!clientIp) {
@@ -75,8 +77,11 @@ const Favoritar = ({ imovel }: FavoritarProps) => {
   }
 
   return (
-    <button style={{ all: 'unset' }} onClick={handleFavorite}>
-      <Favorite style={{ fill: favorito ? 'red' : 'black' }} />
+    <button className={styles.favoritar} onClick={handleFavorite}>
+      <Favorite
+        className={styles.icon}
+        style={{ fill: favorito ? 'red' : 'black' }}
+      />
     </button>
   );
 };

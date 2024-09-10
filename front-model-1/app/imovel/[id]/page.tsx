@@ -30,9 +30,33 @@ export async function generateMetadata({
       url: `${process.env.NEXT_PUBLIC_URL}/imovel/${params.id}`,
       images: [
         {
-          url: 'https://firebasestorage.googleapis.com/v0/b/upload-imoveis.appspot.com/o/images%2FA5F3DC61-5A66-4FAF-866D-A9990E2208D4.png?alt=media&token=5e87c5a4-45a5-428e-b42b-870576bf9420',
-          width: 630,
-          height: 1200,
+          url: `${imovel.images[0]?.url}`,
+          width: 1920,
+          height: 1080,
+          alt: imovel.name,
+        },
+        {
+          url: `${imovel.images[1]?.url}`,
+          width: 1920,
+          height: 1080,
+          alt: imovel.name,
+        },
+        {
+          url: `${imovel.images[2]?.url}`,
+          width: 1920,
+          height: 1080,
+          alt: imovel.name,
+        },
+        {
+          url: `${imovel.images[3]?.url}`,
+          width: 1920,
+          height: 1080,
+          alt: imovel.name,
+        },
+        {
+          url: `${imovel.images[4]?.url}`,
+          width: 1920,
+          height: 1080,
           alt: imovel.name,
         },
       ],
@@ -51,17 +75,15 @@ export default async function ImovelPage({
     return text.replace(/\n/g, '<br />');
   }
 
-  function handleFavorite() {
-    // Lógica para favoritar o imóvel
-  }
-
   return (
     <main className={style.main}>
       <h1>{imovel.name}</h1>
       <section className={style.container}>
         <Carousel images={imovel.images} />
-        <BtnCompartilhar title={imovel.name} text={imovel.description} />
-        <Favoritar imovel={imovel} />
+        <div>
+          <Favoritar imovel={imovel} />
+          <BtnCompartilhar title={imovel.name} text={imovel.description} />
+        </div>
 
         <div>
           <ul>
