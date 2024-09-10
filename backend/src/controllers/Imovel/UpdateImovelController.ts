@@ -17,6 +17,7 @@ export class UpdateImovelController {
       ownerId,
       categoryId,
       marker,
+      transaction,
     } = req.body as Partial<Imovel>; // Usar Partial para aceitar campos opcionais
 
     const id = req.params.id;
@@ -38,6 +39,7 @@ export class UpdateImovelController {
       ownerId,
       categoryId,
       marker,
+      transaction,
     });
 
     return res.json(imovel);

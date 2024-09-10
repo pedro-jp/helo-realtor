@@ -107,6 +107,7 @@ model Imovel {
   banheiros   Int
   area        Int
   garagem     Int
+  transaction String   @default("Venda")
   active      Boolean
   marker      Boolean  @default(false)
   categoryId  String

@@ -15,6 +15,7 @@ export interface Imovel {
   latitude: string;
   longitude: string;
   marker: boolean;
+  transaction: string;
 }
 
 export interface ImovelExtended extends Imovel {

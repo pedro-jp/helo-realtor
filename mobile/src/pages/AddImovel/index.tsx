@@ -38,6 +38,8 @@ export default function AddImovel() {
   const [banheiros, setBanheiros] = useState('');
   const [garagem, setGaragem] = useState('');
   const [marker, setMarker] = useState(false); // Estado para o booleano marker
+  const [marker2, setMarker2] = useState(false);
+  const [transaction, setTransaction] = useState('venda');
 
   const [categoryList, setCategoryList] = useState([]);
   const [categoryId, setCategoryId] = useState('');
@@ -140,7 +142,8 @@ export default function AddImovel() {
                 ownerId,
                 officeId: office.id,
                 realtorId,
-                marker, // Valor do marker (booleano) enviado na requisição
+                marker,
+                transaction,
               });
 
               setImovelId(response.data.id);
@@ -313,6 +316,35 @@ export default function AddImovel() {
                 {marker === false && <View style={stylesAdd.innerCircle} />}
               </View>
               <Text style={stylesAdd.radioText}>Não</Text>
+            </TouchableOpacity>
+          </View>
+
+          <Text>Venda ou locação?</Text>
+          <View style={stylesAdd.radioContainer}>
+            <TouchableOpacity
+              style={stylesAdd.radioButton}
+              onPress={() => {
+                setTransaction('venda');
+                setMarker2(true);
+              }}
+            >
+              <View style={stylesAdd.outerCircle}>
+                {marker2 && <View style={stylesAdd.innerCircle} />}
+              </View>
+              <Text style={stylesAdd.radioText}>Venda</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={stylesAdd.radioButton}
+              onPress={() => {
+                setTransaction('locação');
+                setMarker2(false);
+              }}
+            >
+              <View style={stylesAdd.outerCircle}>
+                {!marker2 && <View style={stylesAdd.innerCircle} />}
+              </View>
+              <Text style={stylesAdd.radioText}>Locação</Text>
             </TouchableOpacity>
           </View>
 

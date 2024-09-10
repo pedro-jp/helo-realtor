@@ -66,6 +66,8 @@ export default function Imovel() {
   const [loading, setLoading] = useState(false); // Estado de loading
   const [carouselKey, setCarouselKey] = useState(Math.random());
   const [marker, setMarker] = useState(false);
+  const [marker2, setMarker2] = useState(false);
+  const [transaction, setTransaction] = useState('venda');
 
   useEffect(() => {
     loadImovel();
@@ -118,6 +120,7 @@ export default function Imovel() {
         ownerId: user.id,
         categoryId,
         marker,
+        transaction,
       });
       console.log(response.data);
     } catch (error) {
@@ -300,6 +303,35 @@ export default function Imovel() {
                   {marker === false && <View style={stylesAdd.innerCircle} />}
                 </View>
                 <Text style={stylesAdd.radioText}>Não</Text>
+              </TouchableOpacity>
+            </View>
+
+            <Text>Venda ou locação?</Text>
+            <View style={stylesAdd.radioContainer}>
+              <TouchableOpacity
+                style={stylesAdd.radioButton}
+                onPress={() => {
+                  setTransaction('venda');
+                  setMarker2(true);
+                }}
+              >
+                <View style={stylesAdd.outerCircle}>
+                  {marker2 && <View style={stylesAdd.innerCircle} />}
+                </View>
+                <Text style={stylesAdd.radioText}>Venda</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={stylesAdd.radioButton}
+                onPress={() => {
+                  setTransaction('locação');
+                  setMarker2(false);
+                }}
+              >
+                <View style={stylesAdd.outerCircle}>
+                  {!marker2 && <View style={stylesAdd.innerCircle} />}
+                </View>
+                <Text style={stylesAdd.radioText}>Locação</Text>
               </TouchableOpacity>
             </View>
             <View style={{ marginBottom: 10 }}>

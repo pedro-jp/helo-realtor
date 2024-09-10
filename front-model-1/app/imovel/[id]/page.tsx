@@ -75,9 +75,15 @@ export default async function ImovelPage({
     return text.replace(/\n/g, '<br />');
   }
 
+  const transaction =
+    imovel.transaction[0].toUpperCase() + imovel.transaction.slice(1);
+
   return (
     <main className={style.main}>
-      <h1>{imovel.name}</h1>
+      <h1>
+        <span className={style.transaction}>{transaction} </span>
+        {imovel.name}
+      </h1>
       <section className={style.container}>
         <Carousel images={imovel.images} />
         <div>

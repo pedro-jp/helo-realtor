@@ -3,6 +3,11 @@
   margin-inline: auto;
   margin-top: 5rem;
 
+  .transaction {
+    color: var(--primary-color);
+    font-weight: 700;
+  }
+
   @media screen and (width < 1440px) {
     margin-inline: 1rem;
   }

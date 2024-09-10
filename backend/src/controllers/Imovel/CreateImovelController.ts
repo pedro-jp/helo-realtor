@@ -18,6 +18,7 @@ export class CreateImovelController {
       realtorId,
       officeId,
       marker,
+      transaction,
     } = req.body;
 
     // Busca as coordenadas baseadas no local usando a função estática
@@ -50,6 +51,7 @@ export class CreateImovelController {
       latitude: coordinates.lat.toString(),
       longitude: coordinates.lng.toString(),
       marker,
+      transaction,
     });
 
     return res.json(imovel);

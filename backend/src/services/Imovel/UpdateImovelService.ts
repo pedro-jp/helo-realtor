@@ -16,6 +16,7 @@ export class UpdateImovelService {
     ownerId,
     categoryId,
     marker,
+    transaction,
   }: Partial<ImovelExtended> & { id: string }) {
     // Primeiro, buscamos o imóvel atual para manter os campos não enviados
     const existingImovel = await prismaClient.imovel.findUnique({
@@ -59,6 +60,7 @@ export class UpdateImovelService {
         officeId: existingImovel.officeId, // Mantém o valor existente
         realtorId: existingImovel.realtorId, // Mantém o valor existente
         marker,
+        transaction,
       },
     });
 
