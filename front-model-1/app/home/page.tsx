@@ -26,14 +26,14 @@ export async function generateMetadata(): Promise<Metadata> {
         : 'Imóveis Disponíveis',
       description:
         firstImovel?.description || 'Veja os imóveis disponíveis no HeloTech.',
-      url: `${process.env.NEXT_PUBLIC_URL}/imoveis`,
+      url: `https://helo-realtor.vercel.app`,
       images:
         firstImovel && firstImovel.images.length > 0
           ? [
               {
-                url: `${process.env.NEXT_PUBLIC_URL}/files/${firstImovel.images[0].url}`,
-                width: 800,
-                height: 600,
+                url: firstImovel.images[0].url,
+                width: 1920,
+                height: 1080,
                 alt: firstImovel.name,
               },
             ]

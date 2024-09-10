@@ -27,7 +27,7 @@ export async function generateMetadata({
     openGraph: {
       title: imovel.name,
       description: imovel.description,
-      url: `${process.env.NEXT_PUBLIC_URL}/imovel/${params.id}`,
+      url: `https://helo-realtor.vercel.app/imovel/${params.id}`,
       images: [
         {
           url: `${imovel.images[0]?.url}`,

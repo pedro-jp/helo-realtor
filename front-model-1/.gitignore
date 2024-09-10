@@ -8,7 +8,9 @@ node_modules
 
 # testing
 /coverage
+node_modules
 
+/.next/
 .next
 /out/
 
