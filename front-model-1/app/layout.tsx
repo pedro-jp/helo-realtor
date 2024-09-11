@@ -7,10 +7,7 @@ import { Footer } from './components/footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata: Metadata = {
-  title: 'HeloTech - Imóveis',
-  description: 'HeloTech - Imóveis',
-};
+export const metadata: Metadata = {};
 
 export default function RootLayout({
   children,
