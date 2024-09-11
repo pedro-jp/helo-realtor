@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 export const StyledContainerView = styled.View`
   flex: 1;
   flex-direction: column;
-  background-color: #111111;
+  background-color: rgba(0, 0, 0, 0.5);
   justify-content: space-between;
   padding: 16px;
 `;

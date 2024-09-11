@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   button: {
     width: '95%',
     height: 50,
-    backgroundColor: '#3fffa2ef',
+    backgroundColor: '#4246ff',
     borderRadius: 4,
     justifyContent: 'center',
     alignItems: 'center',
@@ -97,6 +97,6 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#101026',
+    color: '#fff',
   },
 });

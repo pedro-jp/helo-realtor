@@ -60,16 +60,16 @@ export default function App() {
 
         tabBarBackground: () => <MenuBlur />,
         tabBarStyle: {
-          width: '70%',
-          height: 50,
-          position: 'absolute',
+          width: '100%',
+          height: 100,
           borderTopWidth: 0,
-          bottom: 30,
-          left: '38%',
-          transform: [{ translateX: -100 }],
+          position: 'absolute',
           alignItems: 'center',
           elevation: 0,
           overflow: 'visible',
+          marginTop: 100,
+          marginHorizontal: 'auto',
+          marginBottom: -10,
         },
 
         tabBarIconStyle: {
@@ -81,7 +81,8 @@ export default function App() {
       <Tab.Screen
         name='Home'
         options={{
-          tabBarLabel: '',
+          tabBarLabel: 'Home',
+          tabBarLabelStyle: { color: '#fff' },
           tabBarIcon: () => <Feather name='edit' color={'#fff'} size={28} />,
         }}
         component={HomeStackScreen}
@@ -90,7 +91,8 @@ export default function App() {
         name='Add'
         options={{
           title: 'Adicionar imóveis',
-          tabBarLabel: '',
+          tabBarLabel: 'Add imóvel',
+          tabBarLabelStyle: { color: '#fff' },
           tabBarIcon: () => (
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Feather name='plus' color={'#fff'} size={22} />
@@ -104,7 +106,8 @@ export default function App() {
         name='Imóveis'
         options={{
           title: 'Listar imóveis',
-          tabBarLabel: '',
+          tabBarLabel: 'Lista',
+          tabBarLabelStyle: { color: '#fff' },
           tabBarIcon: () => (
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Feather name='home' color={'#fff'} size={28} />
@@ -129,16 +132,19 @@ const MenuBlur = () => {
       <View
         style={{
           width: '100%',
-          height: 50,
-          borderRadius: 90,
+          height: '100%',
           borderTopColor: 'white',
           borderBottomColor: 'white',
           overflow: 'hidden',
+          borderRadius: 20,
         }}
       >
         <BlurView
           intensity={50}
-          style={{ flex: 1, backgroundColor: ' rgba(61, 53, 105, 0.4)' }}
+          style={{
+            flex: 1,
+            backgroundColor: ' rgba(66, 100, 255, 0.3)',
+          }}
         />
       </View>
     </View>
