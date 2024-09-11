@@ -9,31 +9,50 @@ import MapWithCircle from '../components/map';
 import { getOffice } from '../services/getOffice';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const imoveis = await getImoveis(); // Busca os imóveis
+  const imoveis = await getImoveis();
+  const office = await getOffice();
 
   // Se houver imóveis, use o primeiro imóvel para o título e a descrição.
   const firstImovel = imoveis[0];
 
   return {
-    title: firstImovel
-      ? `Imóveis Disponíveis - ${firstImovel.name}`
-      : 'Imóveis Disponíveis',
-    description:
-      firstImovel?.description || 'Veja os imóveis disponíveis no HeloTech.',
+    title: office?.name || 'Imóveis Disponíveis',
+    description: office?.description,
     openGraph: {
-      title: firstImovel
-        ? `Imóveis Disponíveis - ${firstImovel.name}`
-        : 'Imóveis Disponíveis',
-      description:
-        firstImovel?.description || 'Veja os imóveis disponíveis no HeloTech.',
-      url: `${process.env.NEXT_PUBLIC_URL}/imoveis`,
+      title: office.name,
+      description: office?.description,
+      url: `${process.env.NEXT_PUBLIC_FRONT_URL}`,
       images:
         firstImovel && firstImovel.images.length > 0
           ? [
               {
-                url: `${process.env.NEXT_PUBLIC_URL}/files/${firstImovel.images[0].url}`,
-                width: 800,
-                height: 600,
+                url: `${firstImovel.images[0]?.url}`,
+                width: 1920,
+                height: 1080,
+                alt: firstImovel.name,
+              },
+              {
+                url: `${firstImovel.images[1]?.url}`,
+                width: 1920,
+                height: 1080,
+                alt: firstImovel.name,
+              },
+              {
+                url: `${firstImovel.images[2]?.url}`,
+                width: 1920,
+                height: 1080,
+                alt: firstImovel.name,
+              },
+              {
+                url: `${firstImovel.images[3]?.url}`,
+                width: 1920,
+                height: 1080,
+                alt: firstImovel.name,
+              },
+              {
+                url: `${firstImovel.images[4]?.url}`,
+                width: 1920,
+                height: 1080,
                 alt: firstImovel.name,
               },
             ]

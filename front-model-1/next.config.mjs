@@ -31,6 +31,7 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_URL: process.env.URL,
     NEXT_PUBLIC_OWNER_ID: process.env.OWNER_ID,
+    NEXT_PUBLIC_FRONT_URL: process.env.PUBLIC_URL,
   },
 };
 
