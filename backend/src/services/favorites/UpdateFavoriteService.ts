@@ -7,7 +7,7 @@ interface Favorite {
 
 export class UpdateFavoriteService {
   async execute({ id, ip }: Favorite) {
-    const fav = await prismaClient.favorite.update({
+    const fav = await prismaClient.favorites.update({
       where: {
         id: id,
       },
