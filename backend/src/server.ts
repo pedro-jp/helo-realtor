@@ -2,17 +2,26 @@ import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 import cors from 'cors';
 import path from 'path';
-
 import { router } from './routes';
 const stripe = require('stripe')(
   'sk_test_51OIWpBFkkC3ZoBrE0CdfikwVVdeBAdLEsQNKuv4cwGogWVvqZAtw2f0kp9kIngjf7PAS7VSOkosp9k16Wf5RG0fu00OKveoqD8'
 );
+
 const app = express();
-app.use(express.json());
 app.use(cors());
 
-app.use(router);
+// Use express.json() apenas para rotas que não sejam o webhook
+app.use(
+  express.json({
+    verify: (req: Request, res: Response, buf: Buffer) => {
+      if (req.originalUrl === '/webhook') {
+        req.rawBody = buf.toString(); // Armazena o corpo bruto como Buffer
+      }
+    },
+  })
+);
 
+app.use(router);
 app.use('/files', express.static(path.resolve(__dirname, '..', 'tmp')));
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
@@ -32,16 +41,22 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 const endpointSecret =
   'whsec_7dd7a5068b1369072225e294aaa103f75a124df7002c3f7f71f6e7c3b38a4bb0';
 
+// Use express.raw() para a rota do webhook
 app.post(
   '/webhook',
   express.raw({ type: 'application/json' }),
-  (request, response) => {
+  (request: Request, response: Response) => {
     const sig = request.headers['stripe-signature'];
 
     let event;
 
     try {
-      event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+      // Use o corpo bruto para verificar a assinatura
+      event = stripe.webhooks.constructEvent(
+        request.rawBody,
+        sig,
+        endpointSecret
+      );
     } catch (err) {
       response.status(400).send(`Webhook Error: ${err.message}`);
       return;
@@ -51,22 +66,21 @@ app.post(
     switch (event.type) {
       case 'payment_intent.payment_failed':
         const paymentIntentPaymentFailed = event.data.object;
-        // Then define and call a function to handle the event payment_intent.payment_failed
+        // Lida com o evento payment_intent.payment_failed
         break;
       case 'payment_intent.processing':
         const paymentIntentProcessing = event.data.object;
-        // Then define and call a function to handle the event payment_intent.processing
+        // Lida com o evento payment_intent.processing
         break;
       case 'payment_intent.succeeded':
         const paymentIntentSucceeded = event.data.object;
-        // Then define and call a function to handle the event payment_intent.succeeded
+        // Lida com o evento payment_intent.succeeded
         break;
-      // ... handle other event types
       default:
         console.log(`Unhandled event type ${event.type}`);
     }
 
-    // Return a 200 response to acknowledge receipt of the event
+    // Retorna 200 para reconhecer o recebimento do evento
     response.send();
   }
 );
@@ -76,5 +90,5 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.listen(3332, () => {
-  console.log('Servidor online');
+  console.log('Servidor online stripe');
 });
