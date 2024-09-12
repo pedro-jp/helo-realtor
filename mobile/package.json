@@ -16,6 +16,7 @@
     "@react-navigation/drawer": "^6.6.15",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
+    "@stripe/stripe-react-native": "^0.38.6",
     "@types/react-navigation": "^3.4.0",
     "@types/styled-components-react-native": "^5.2.5",
     "axios": "^1.6.8",
