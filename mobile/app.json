@@ -13,7 +13,14 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "helotech"
+      "bundleIdentifier": "helotech",
+      "infoPlist": {
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": ["helo-realtor"]
+          }
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {

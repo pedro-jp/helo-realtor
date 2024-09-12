@@ -5,10 +5,17 @@ export interface SignInProps {
   password: string;
 }
 
+export interface SignUpProps {
+  email: string;
+  name: string;
+  password: string;
+}
+
 export type AuthContextData = {
   user: UserProps;
   isAuthenticated: boolean;
   signIn: ({ email, password }: SignInProps) => Promise<void>;
+  signUp: ({ name, email, password }: SignUpProps) => Promise<void>;
   loadingAuth: boolean;
   loading: boolean;
   signOut: () => Promise<void>;

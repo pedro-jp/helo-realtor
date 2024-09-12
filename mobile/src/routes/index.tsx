@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import 'react-native-gesture-handler';
 import AuthRoutes from './auth.routes';
 import { AuthContext } from '../contexts/AuthContext';
 import App from './app.routes';
+import Toast from 'react-native-toast-message';
 
 export default function Routes() {
   const { isAuthenticated, loading } = useContext(AuthContext);
@@ -23,5 +24,19 @@ export default function Routes() {
     );
   }
 
-  return isAuthenticated ? <App /> : <AuthRoutes />;
+  return (
+    <>
+      {isAuthenticated ? (
+        <>
+          <Toast />
+          <App />
+        </>
+      ) : (
+        <>
+          <Toast />
+          <AuthRoutes />
+        </>
+      )}
+    </>
+  );
 }

@@ -11,8 +11,10 @@ import {
   AuthContextData,
   AuthProviderProps,
   SignInProps,
+  SignUpProps,
   UserProps,
 } from '../interfaces';
+import Toast from 'react-native-toast-message';
 
 export const AuthContext = createContext({} as AuthContextData);
 
@@ -51,6 +53,24 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
     getUser();
   }, []);
+
+  async function signUp({ name, email, password }: SignUpProps) {
+    setLoadingAuth(true);
+    try {
+      const response = await api.post('/users', {
+        name,
+        email,
+        password,
+      });
+      console.log('register', response.data);
+      await signIn({ email, password });
+    } catch (error) {
+      console.log(error.response.data);
+      if (error.response.data.error === 'User already exists')
+        alert('Email já cadastrado! Faça o login');
+      setLoadingAuth(false);
+    }
+  }
 
   async function signIn({ email, password }: SignInProps) {
     setLoadingAuth(true);
@@ -92,7 +112,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, signIn, loadingAuth, loading, signOut }}
+      value={{
+        user,
+        isAuthenticated,
+        signIn,
+        signUp,
+        loadingAuth,
+        loading,
+        signOut,
+      }}
     >
       {children}
     </AuthContext.Provider>
