@@ -4,30 +4,30 @@ export const StyledContainerView = styled.View`
   flex: 1;
   flex-direction: column;
   justify-content: space-between;
-  padding: 16px;
 `;
 
 export const StyledInputsView = styled.View`
   flex: auto;
   margin: 40px 0;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   gap: 12px;
 `;
 
 export const StyledTextInput = styled.TextInput`
   height: 50px;
-  width: 250px;
-  background-color: #022859;
+  width: 60%;
+  background-color: #f3f3f3;
   border-radius: 4px;
   padding: 8px;
-  color: #fff;
+  color: #000;
 `;
 
 export const StyledButton = styled.TouchableOpacity`
   height: 50px;
-  background-color: #0583f2;
+  width: max-content;
+  background-color: #4246ff;
   border-radius: 4px;
   padding: 8px;
   color: #fff;
@@ -53,4 +53,5 @@ export const StyledListView = styled.View`
   padding: 16px;
   border: 1px solid #ffffff20;
   border-radius: 4px;
+  background-color: #4246ff;
 `;

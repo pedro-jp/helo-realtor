@@ -151,7 +151,7 @@ export default function ListImoveis() {
                   <View style={{ width: 220 }}>
                     <Text
                       style={{
-                        fontSize: 22,
+                        fontSize: 18,
                         fontWeight: '700',
                         flexWrap: 'wrap',
                       }}
@@ -159,7 +159,7 @@ export default function ListImoveis() {
                       {item.name}
                     </Text>
                   </View>
-                  <Text style={{ fontSize: 18, opacity: 0.7 }}>
+                  <Text style={{ fontSize: 14, opacity: 0.7, width: 220 }}>
                     {item.local}
                   </Text>
                   <Text style={{ fontSize: 14, opacity: 0.8, color: 'green' }}>

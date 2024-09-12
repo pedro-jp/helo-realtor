@@ -44,7 +44,6 @@ const Favoritar = ({ imovel }: FavoritarProps) => {
 
     checkIfFavorited(); // Chama a função ao carregar a página
   }, [imovel.favorites]); // Executa sempre que 'imovel.favorites' mudar
-
   async function handleFavorite() {
     setFavorito(!favorito);
     const clientIp = await getClientIp(); // Obtém o IP do cliente
