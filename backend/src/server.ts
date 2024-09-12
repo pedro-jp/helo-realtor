@@ -32,7 +32,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 const endpointSecret =
   'whsec_7dd7a5068b1369072225e294aaa103f75a124df7002c3f7f71f6e7c3b38a4bb0';
 
-router.post(
+app.post(
   '/webhook',
   express.raw({ type: 'application/json' }),
   (request, response) => {
