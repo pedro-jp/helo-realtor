@@ -246,18 +246,22 @@ const Home = () => {
         'Content-Type': 'application/json',
       },
     });
-    const { paymentIntent, ephemeralKey, customer } = await response.json();
+    const { paymentIntent, ephemeralKey, customer, publishableKey } =
+      await response.json();
 
     return {
       paymentIntent,
       ephemeralKey,
       customer,
+      publishableKey,
     };
   };
 
   const initializePaymentSheet = async () => {
-    const { paymentIntent, ephemeralKey, customer } =
+    const { paymentIntent, ephemeralKey, customer, publishableKey } =
       await fetchPaymentSheetParams();
+
+    setPublishableKey(publishableKey);
 
     const { error } = await initPaymentSheet({
       merchantDisplayName: 'Example, Inc.',
