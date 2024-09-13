@@ -1,6 +1,11 @@
+import Stripe from 'stripe';
 import prismaClient from '../../prisma';
 
 import { hash } from 'bcryptjs';
+
+const stripe = new Stripe(
+  'sk_test_51OIWpBFkkC3ZoBrE0CdfikwVVdeBAdLEsQNKuv4cwGogWVvqZAtw2f0kp9kIngjf7PAS7VSOkosp9k16Wf5RG0fu00OKveoqD8'
+);
 
 interface UserRequest {
   name: string;
@@ -25,6 +30,28 @@ class CreateUserService {
 
     const passwordHash = await hash(password, 8);
 
+    const customer = await stripe.customers.create({
+      email: email,
+      name: name,
+      shipping: {
+        address: {
+          city: 'Brothers',
+          country: 'US',
+          line1: '27 Fredrick Ave',
+          postal_code: '97712',
+          state: 'CA',
+        },
+        name,
+      },
+      address: {
+        city: 'Brothers',
+        country: 'US',
+        line1: '27 Fredrick Ave',
+        postal_code: '97712',
+        state: 'CA',
+      },
+    });
+
     const user = await prismaClient.user.create({
       data: {
         name: name,
@@ -38,7 +65,7 @@ class CreateUserService {
       },
     });
 
-    return user;
+    return { user, customer };
   }
 }
 export { CreateUserService };

@@ -32,6 +32,7 @@ import {
   presentPaymentSheet,
   StripeProvider,
 } from '@stripe/stripe-react-native';
+import SubscribeView from '../../components/SubscribeView';
 
 type OfficeType = {
   id: string;
@@ -74,8 +75,9 @@ const Home = () => {
   const [category, setCategory] = useState('');
   const [state, setState] = useState(false);
   const [top, setTop] = useState('30%');
-
+  const [clientSecret, setClientSecret] = useState('');
   const [publishableKey, setPublishableKey] = useState('');
+  const [token, setToken] = useState('');
 
   const [categoryList, setCategoryList] = useState([]);
 
@@ -86,9 +88,19 @@ const Home = () => {
 
   useEffect(() => {
     getOffice();
-    initializePaymentSheet();
+    getSubscription();
     listCategories();
   }, [state]);
+
+  const getSubscription = async () => {
+    const response = await api.post('/create-subscription', {
+      email: user.email,
+      priceId: 'prod_Qq5V1eOvXg0LRy',
+    });
+    setClientSecret(response.data.clientSecret);
+    setPublishableKey(response.data.publishableKey);
+    setToken(response.data.token);
+  };
 
   const getHeightMinus30Percent = () => {
     const screenHeight = Dimensions.get('window').height;
@@ -239,67 +251,6 @@ const Home = () => {
     } catch (error) {}
   }
 
-  const fetchPaymentSheetParams = async () => {
-    const response = await fetch(`http://192.168.1.21:3332/payment-sheet`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const { paymentIntent, ephemeralKey, customer, publishableKey } =
-      await response.json();
-
-    return {
-      paymentIntent,
-      ephemeralKey,
-      customer,
-      publishableKey,
-    };
-  };
-
-  const initializePaymentSheet = async () => {
-    const { paymentIntent, ephemeralKey, customer, publishableKey } =
-      await fetchPaymentSheetParams();
-
-    setPublishableKey(publishableKey);
-
-    const { error } = await initPaymentSheet({
-      merchantDisplayName: 'Example, Inc.',
-      customerId: customer,
-      customerEphemeralKeySecret: ephemeralKey,
-      paymentIntentClientSecret: paymentIntent,
-      allowsDelayedPaymentMethods: true,
-      defaultBillingDetails: {
-        name: 'Jane Doe',
-      },
-      returnURL: 'helo-realtor://stripe-redirect', // Definido com o esquema do app
-    });
-
-    if (!error) {
-      console.log('Payment Sheet initialized');
-      return true; // Payment sheet initialized successfully
-    } else {
-      console.log(`Payment sheet initialization failed: ${error.message}`);
-      return false; // Initialization failed
-    }
-  };
-
-  // Função para abrir o PaymentSheet
-  const openPaymentSheet = async () => {
-    const isInitialized = await initializePaymentSheet();
-    if (!isInitialized) {
-      console.log('Payment sheet was not initialized properly.');
-      return;
-    }
-
-    const { error } = await presentPaymentSheet();
-
-    if (error) {
-      console.log(`Error code: ${error.code}`, error.message);
-    } else {
-      console.log('Success', 'Your order is confirmed!');
-    }
-  };
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StripeProvider
@@ -570,9 +521,9 @@ const Home = () => {
                 </PanGestureHandler>
               </StyledModal>
             </View>
-            <TouchableOpacity style={styles.btn} onPress={openPaymentSheet}>
-              <Feather name='credit-card' size={24} color='black' />
-            </TouchableOpacity>
+            {clientSecret !== '' && (
+              <SubscribeView clientSecret={clientSecret} token={token} />
+            )}
           </ScrollView>
         </StyledContainerView>
       </StripeProvider>
