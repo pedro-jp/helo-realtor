@@ -12,7 +12,7 @@ class WebhookService {
       event = stripe.webhooks.constructEvent(
         req.rawBody, // This should be the raw body as a string
         sig,
-        'whsec_iKPC3yK5tjcnVVXfDtisjow612T9fC0d'
+        'whsec_wGTgYSsoHmL4KGkfMeSHggCXr4rO3oOV'
       );
     } catch (err) {
       console.error(`Webhook Error: ${err.message}`);
