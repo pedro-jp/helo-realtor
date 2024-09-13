@@ -32,6 +32,7 @@ import { UpdateImageController } from './controllers/image/UpdateImageController
 import { CreateFavoriteController } from './controllers/Favorite/CreateFavoriteController';
 import { RemoveFavoriteController } from './controllers/Favorite/RemoveFavoriteController';
 import { CreateSubscriptionController } from './controllers/Subscription/CreateSubscriptionController';
+import { WebhookController } from './controllers/Webhook/WebhookController';
 
 const router = Router();
 
@@ -51,42 +52,8 @@ router.post(
 
 router.use('/webhook', express.raw({ type: 'application/json' }));
 
-router.post('/webhook', (req, res) => {
-  const sig = req.headers['stripe-signature'];
-  let event;
+router.post('/webhook', new WebhookController().handle);
 
-  try {
-    // Use the raw body stored in req.rawBody
-    event = stripe.webhooks.constructEvent(
-      req.rawBody, // This should be the raw body as a string
-      sig,
-      'whsec_iKPC3yK5tjcnVVXfDtisjow612T9fC0d'
-    );
-  } catch (err) {
-    console.error(`Webhook Error: ${err.message}`);
-    return res.status(400).send(`Webhook Error: ${err.message}`);
-  }
-
-  // Handle the event
-  switch (event.type) {
-    case 'invoice.payment_succeeded':
-      const invoice = event.data.object;
-      // Handle successful payment
-      console.log(`Payment for invoice ${invoice.id} succeeded`);
-      break;
-    case 'invoice.payment_failed':
-      const failedInvoice = event.data.object;
-      // Handle failed payment
-      console.log(`Payment for invoice ${failedInvoice.id} failed`);
-      break;
-    // Add other event types as needed
-    default:
-      console.log(`Unhandled event type ${event.type}`);
-  }
-
-  // Return a 200 response to acknowledge receipt of the event
-  res.json({ received: true });
-});
 router.post('/payment-sheet', async (req, res) => {
   // Use an existing Customer ID if this is a returning customer.
   const customer = await stripe.customers.create();
