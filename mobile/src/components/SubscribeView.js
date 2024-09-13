@@ -2,7 +2,7 @@ import React from 'react';
 import { useStripe, PaymentSheetError } from '@stripe/stripe-react-native';
 import { View, Button, Alert } from 'react-native';
 
-function SubscribeView({ clientSecret, token }) {
+function SubscribeView({ clientSecret }) {
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
 
   React.useEffect(() => {
@@ -19,7 +19,7 @@ function SubscribeView({ clientSecret, token }) {
         console.log('Payment sheet initialized successfully');
       }
     };
-
+    console.log('A CLIENT_SECRET: ' + clientSecret);
     initializePaymentSheet();
   }, [clientSecret, initPaymentSheet]);
 

@@ -129,7 +129,7 @@ router.post('/payment-sheet', async (req, res) => {
   const customer = await stripe.customers.create();
   const ephemeralKey = await stripe.ephemeralKeys.create(
     { customer: customer.id },
-    { apiVersion: '2023-10-16' }
+    { apiVersion: '2024-06-20' }
   );
   const paymentIntent = await stripe.paymentIntents.create({
     amount: 500,

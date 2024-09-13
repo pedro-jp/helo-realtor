@@ -5,14 +5,22 @@ const createSubscription = async (priceId, customerId) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${'sk_test_51OIWpBFkkC3ZoBrE0CdfikwVVdeBAdLEsQNKuv4cwGogWVvqZAtw2f0kp9kIngjf7PAS7VSOkosp9k16Wf5RG0fu00OKveoqD8'}`, // Adiciona o Bearer token no cabeçalho
     },
     body: JSON.stringify({
       priceId: priceId,
       customerId: customerId,
     }),
   });
+
   if (response.status === 200) {
     const subscription = await response.json();
     return subscription;
+  } else {
+    console.error(
+      'Erro ao criar a assinatura:',
+      response.status,
+      await response.json()
+    );
   }
 };

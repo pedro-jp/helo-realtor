@@ -254,9 +254,11 @@ const Home = () => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StripeProvider
-        publishableKey={publishableKey}
+        publishableKey={
+          'pk_test_51OIWpBFkkC3ZoBrEMdWdJncsxGrKKa9ywredrgU85KWrsz59OfByanFTbqeZLtEZBLnwJwjP7sADdNKzFyGa9rBy00RiCi52tW'
+        }
         merchantIdentifier='merchant.identifier' // required for Apple Pay
-        urlScheme='your-url-scheme' // required for 3D Secure and bank redirects
+        urlScheme='helo-realtor' // required for 3D Secure and bank redirects
       >
         <StyledContainerView>
           <Image
@@ -522,7 +524,7 @@ const Home = () => {
               </StyledModal>
             </View>
             {clientSecret !== '' && (
-              <SubscribeView clientSecret={clientSecret} token={token} />
+              <SubscribeView clientSecret={clientSecret} />
             )}
           </ScrollView>
         </StyledContainerView>
