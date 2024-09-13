@@ -10,8 +10,9 @@ function SubscribeView({ clientSecret }) {
       const { error } = await initPaymentSheet({
         paymentIntentClientSecret: clientSecret,
         returnURL: 'helo-realtor://payment-sheet',
-        allowsDelayedPaymentMethods: true,
+        allowsDelayedPaymentMethods: false,
         merchantDisplayName: 'Helo Realtor',
+        paymentMethodTypes: ['card', 'apple_pay'],
       });
       if (error) {
         console.log('Error initializing payment sheet:', error);
