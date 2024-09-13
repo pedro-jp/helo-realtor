@@ -31,6 +31,7 @@ import { UpdateImageController } from './controllers/image/UpdateImageController
 
 import { CreateFavoriteController } from './controllers/Favorite/CreateFavoriteController';
 import { RemoveFavoriteController } from './controllers/Favorite/RemoveFavoriteController';
+import { CreateSubscriptionController } from './controllers/Subscription/CreateSubscriptionController';
 
 const router = Router();
 
@@ -42,52 +43,14 @@ const stripe = require('stripe')(
 // This example sets up an endpoint using the Express framework.
 // Watch this video to get started: https://youtu.be/rPR2aJ6XnAc.
 
-router.post('/create-subscription', async (req, res) => {
-  const email = req.body.email;
-  const priceId = req.body.priceId;
-
-  try {
-    // List customers with the provided email
-    const customers = await stripe.customers.list({
-      email: email,
-      limit: 1,
-    });
-
-    console.log(customers.data[0].email); // Check if any customer was found
-
-    if (customers.data.length === 0) {
-      return res.status(404).send({ error: { message: 'Customer not found' } });
-    }
-
-    const customer = customers.data[0];
-    console.log(customer.id); // Create the subscription
-
-    const subscription = await stripe.subscriptions.create({
-      customer: customer.id,
-      items: [
-        {
-          price: 'price_1PyPKbFkkC3ZoBrEhihlBkHZ',
-        },
-      ],
-      payment_behavior: 'default_incomplete',
-      payment_settings: { save_default_payment_method: 'on_subscription' },
-      expand: ['latest_invoice.payment_intent'],
-    });
-    console.log(subscription.latest_invoice.payment_intent.client_secret);
-
-    res.send({
-      subscriptionId: subscription.id,
-      clientSecret: subscription.latest_invoice.payment_intent.client_secret,
-    });
-  } catch (error) {
-    return res.status(400).send({ error: { message: error.message } });
-  }
-});
+router.post(
+  '/create-subscription',
+  isAuthenticated,
+  new CreateSubscriptionController().handle
+);
 
 router.use('/webhook', express.raw({ type: 'application/json' }));
 
-// Endpoint to handle Stripe webhooks
-// Endpoint to handle Stripe webhooks
 router.post('/webhook', (req, res) => {
   const sig = req.headers['stripe-signature'];
   let event;
