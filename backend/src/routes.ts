@@ -31,6 +31,8 @@ import { UpdateImageController } from './controllers/image/UpdateImageController
 
 import { CreateFavoriteController } from './controllers/Favorite/CreateFavoriteController';
 import { RemoveFavoriteController } from './controllers/Favorite/RemoveFavoriteController';
+import { CreateSubscriptionController } from './controllers/Subscription/CreateSubscriptionController';
+import { WebhookController } from './controllers/Webhook/WebhookController';
 
 const router = Router();
 
@@ -42,88 +44,16 @@ const stripe = require('stripe')(
 // This example sets up an endpoint using the Express framework.
 // Watch this video to get started: https://youtu.be/rPR2aJ6XnAc.
 
-router.post('/create-subscription', async (req, res) => {
-  const email = req.body.email;
-  const priceId = req.body.priceId;
-
-  try {
-    // List customers with the provided email
-    const customers = await stripe.customers.list({
-      email: email,
-      limit: 1,
-    });
-
-    console.log(customers.data[0].email); // Check if any customer was found
-
-    if (customers.data.length === 0) {
-      return res.status(404).send({ error: { message: 'Customer not found' } });
-    }
-
-    const customer = customers.data[0];
-    console.log(customer.id); // Create the subscription
-
-    const subscription = await stripe.subscriptions.create({
-      customer: customer.id,
-      items: [
-        {
-          price: 'price_1PyPKbFkkC3ZoBrEhihlBkHZ',
-        },
-      ],
-      payment_behavior: 'default_incomplete',
-      payment_settings: { save_default_payment_method: 'on_subscription' },
-      expand: ['latest_invoice.payment_intent'],
-    });
-    console.log(subscription.latest_invoice.payment_intent.client_secret);
-
-    res.send({
-      subscriptionId: subscription.id,
-      clientSecret: subscription.latest_invoice.payment_intent.client_secret,
-    });
-  } catch (error) {
-    return res.status(400).send({ error: { message: error.message } });
-  }
-});
+router.post(
+  '/create-subscription',
+  isAuthenticated,
+  new CreateSubscriptionController().handle
+);
 
 router.use('/webhook', express.raw({ type: 'application/json' }));
 
-// Endpoint to handle Stripe webhooks
-// Endpoint to handle Stripe webhooks
-router.post('/webhook', (req, res) => {
-  const sig = req.headers['stripe-signature'];
-  let event;
+router.post('/webhook', new WebhookController().handle);
 
-  try {
-    // Use the raw body stored in req.rawBody
-    event = stripe.webhooks.constructEvent(
-      req.rawBody, // This should be the raw body as a string
-      sig,
-      'whsec_iKPC3yK5tjcnVVXfDtisjow612T9fC0d'
-    );
-  } catch (err) {
-    console.error(`Webhook Error: ${err.message}`);
-    return res.status(400).send(`Webhook Error: ${err.message}`);
-  }
-
-  // Handle the event
-  switch (event.type) {
-    case 'invoice.payment_succeeded':
-      const invoice = event.data.object;
-      // Handle successful payment
-      console.log(`Payment for invoice ${invoice.id} succeeded`);
-      break;
-    case 'invoice.payment_failed':
-      const failedInvoice = event.data.object;
-      // Handle failed payment
-      console.log(`Payment for invoice ${failedInvoice.id} failed`);
-      break;
-    // Add other event types as needed
-    default:
-      console.log(`Unhandled event type ${event.type}`);
-  }
-
-  // Return a 200 response to acknowledge receipt of the event
-  res.json({ received: true });
-});
 router.post('/payment-sheet', async (req, res) => {
   // Use an existing Customer ID if this is a returning customer.
   const customer = await stripe.customers.create();
