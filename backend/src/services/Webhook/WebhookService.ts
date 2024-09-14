@@ -1,3 +1,4 @@
+import prismaClient from '../../prisma';
 const stripe = require('stripe')(
   'sk_test_51OIWpBFkkC3ZoBrE0CdfikwVVdeBAdLEsQNKuv4cwGogWVvqZAtw2f0kp9kIngjf7PAS7VSOkosp9k16Wf5RG0fu00OKveoqD8'
 );
@@ -21,17 +22,85 @@ class WebhookService {
 
     // Handle the event
     switch (event.type) {
-      case 'invoice.payment_succeeded':
-        const invoice = event.data.object;
-        // Handle successful payment
-        console.log(`Payment for invoice ${invoice.id} succeeded`);
+      case 'payment_intent.succeeded':
+        const paymentIntent = event.data.object;
+
+        // Process the payment intent success
+        console.log(`PaymentIntent for ${paymentIntent.amount} succeeded.`);
+
+        // Retrieve the associated invoice
+        if (paymentIntent.invoice) {
+          const invoice = await stripe.invoices.retrieve(paymentIntent.invoice);
+
+          // Extract the priceID from the invoice
+          const lineItems = invoice.lines.data;
+          const priceID = lineItems.length > 0 ? lineItems[0].price.id : null;
+
+          const usuario = await prismaClient.user.findFirst({
+            where: {
+              email: invoice.customer_email,
+            },
+          });
+
+          async function cancelSubscription() {
+            if (usuario.subscriptionId !== '') {
+              try {
+                await stripe.subscriptions.cancel(usuario.subscriptionId);
+                console.log('Assinatura cancelada');
+              } catch (error) {
+                console.log(error);
+              }
+            }
+          }
+
+          usuario.subscriptionId !== ''
+            ? cancelSubscription()
+            : console.log('Não existe assinatura no stripe');
+
+          // Atualiza o status do pagamento no banco de dados
+          const user = await prismaClient.user.update({
+            where: {
+              email: invoice.customer_email,
+            },
+            data: {
+              paymentStatus: 'succeeded',
+              subscriptionId: invoice.subscription,
+              priceId: priceID, // Salva o priceID, se necessário
+              planIsActive: true,
+            },
+          });
+
+          return res.json({ received: true, user, priceID });
+        } else {
+          console.log('No associated invoice found.');
+        }
         break;
-      case 'invoice.payment_failed':
-        const failedInvoice = event.data.object;
-        // Handle failed payment
-        console.log(`Payment for invoice ${failedInvoice.id} failed`);
-        break;
-      // Add other event types as needed
+
+      case 'payment_intent.payment_failed':
+        const failedPaymentIntent = event.data.object;
+
+        // Process the payment intent failure
+        console.log(`PaymentIntent for ${failedPaymentIntent.amount} failed.`);
+
+        if (failedPaymentIntent.invoice) {
+          const invoice = await stripe.invoices.retrieve(
+            failedPaymentIntent.invoice
+          );
+          // Similar processing as above if needed
+        }
+
+        // Atualiza o status do pagamento no banco de dados
+        const failedUser = await prismaClient.user.update({
+          where: {
+            email: failedPaymentIntent.charges.data[0].billing_details.email,
+          },
+          data: {
+            paymentStatus: 'failed',
+          },
+        });
+
+        return res.json({ received: true, failedUser, failedPaymentIntent });
+
       default:
         console.log(`Unhandled event type ${event.type}`);
     }

@@ -75,9 +75,6 @@ const Home = () => {
   const [category, setCategory] = useState('');
   const [state, setState] = useState(false);
   const [top, setTop] = useState('30%');
-  const [clientSecret, setClientSecret] = useState('');
-  const [publishableKey, setPublishableKey] = useState('');
-  const [token, setToken] = useState('');
 
   const [categoryList, setCategoryList] = useState([]);
 
@@ -88,19 +85,8 @@ const Home = () => {
 
   useEffect(() => {
     getOffice();
-    getSubscription();
     listCategories();
   }, [state]);
-
-  const getSubscription = async () => {
-    const response = await api.post('/create-subscription', {
-      email: user.email,
-      priceId: 'prod_Qq5V1eOvXg0LRy',
-    });
-    setClientSecret(response.data.clientSecret);
-    setPublishableKey(response.data.publishableKey);
-    setToken(response.data.token);
-  };
 
   const getHeightMinus30Percent = () => {
     const screenHeight = Dimensions.get('window').height;
@@ -523,9 +509,7 @@ const Home = () => {
                 </PanGestureHandler>
               </StyledModal>
             </View>
-            {clientSecret !== '' && (
-              <SubscribeView clientSecret={clientSecret} />
-            )}
+            <SubscribeView />
           </ScrollView>
         </StyledContainerView>
       </StripeProvider>

@@ -33,6 +33,7 @@ import { CreateFavoriteController } from './controllers/Favorite/CreateFavoriteC
 import { RemoveFavoriteController } from './controllers/Favorite/RemoveFavoriteController';
 import { CreateSubscriptionController } from './controllers/Subscription/CreateSubscriptionController';
 import { WebhookController } from './controllers/Webhook/WebhookController';
+import { GetUserController } from './controllers/user/GetUserController';
 
 const router = Router();
 
@@ -109,7 +110,7 @@ router.post('/users', new CreateUserController().handle);
 
 router.post('/session', new AuthUserController().handle);
 
-router.get('/me', isAuthenticated, new DetailUserController().handle);
+router.get('/me:id', isAuthenticated, new GetUserController().handle);
 
 //--ROTAS CATEGORY
 router.post(

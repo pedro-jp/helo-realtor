@@ -1,11 +1,16 @@
 import prismaClient from '../../prisma';
-
 const stripe = require('stripe')(
   'sk_test_51OIWpBFkkC3ZoBrE0CdfikwVVdeBAdLEsQNKuv4cwGogWVvqZAtw2f0kp9kIngjf7PAS7VSOkosp9k16Wf5RG0fu00OKveoqD8'
 );
 
+export type Subscription = {
+  email: string;
+  priceId: string;
+};
+
 class CreateSubscriptionService {
-  async execute({ email }) {
+  async execute({ email, priceId }: Subscription) {
+    let resposta = '';
     try {
       // List customers with the provided email
       const customers = await stripe.customers.list({
@@ -22,11 +27,21 @@ class CreateSubscriptionService {
       const customer = customers.data[0];
       console.log(customer.id); // Create the subscription
 
+      const usuario = await prismaClient.user.findFirst({
+        where: {
+          email,
+        },
+      });
+
+      if (usuario && usuario.priceId === priceId) {
+        return { resposta: 'Plano já contratado' };
+      }
+
       const subscription = await stripe.subscriptions.create({
         customer: customer.id,
         items: [
           {
-            price: 'price_1PyPKbFkkC3ZoBrEhihlBkHZ',
+            price: priceId,
           },
         ],
         payment_behavior: 'default_incomplete',
@@ -34,18 +49,9 @@ class CreateSubscriptionService {
         expand: ['latest_invoice.payment_intent'],
       });
       console.log(subscription.latest_invoice.payment_intent.client_secret);
-
-      const user = await prismaClient.user.update({
-        where: {
-          email,
-        },
-        data: {
-          subscriptionId: subscription.id,
-        },
-      });
-
+      console.log(resposta);
       return {
-        user,
+        resposta,
         subscriptionId: subscription.id,
         clientSecret: subscription.latest_invoice.payment_intent.client_secret,
       };
