@@ -2,9 +2,9 @@ import { CreateSubscriptionService } from '../../services/Subscription/CreateSub
 
 class CreateSubscriptionController {
   async handle(req, res) {
-    const { email } = req.body;
+    const { email, priceId } = req.body;
     const service = new CreateSubscriptionService();
-    const result = await service.execute({ email });
+    const result = await service.execute({ email, priceId });
     return res.json(result);
   }
 }

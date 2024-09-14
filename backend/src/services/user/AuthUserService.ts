@@ -36,7 +36,15 @@ class AuthUserService {
         expiresIn: '30d',
       }
     );
-    return { id: user.id, name: user.name, email: user.email, token };
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      token,
+      subscriptionId: user.subscriptionId,
+      priceId: user.priceId,
+      planIsActive: user.planIsActive,
+    };
   }
 }
 

@@ -19,6 +19,7 @@ export type AuthContextData = {
   loadingAuth: boolean;
   loading: boolean;
   signOut: () => Promise<void>;
+  setUser: (user: UserProps) => void;
 };
 
 export type UserProps = {
@@ -26,6 +27,9 @@ export type UserProps = {
   name: string;
   email: string;
   token: string;
+  subscriptionId: string;
+  priceId: string;
+  planIsActive: boolean;
 };
 
 export type AuthProviderProps = {

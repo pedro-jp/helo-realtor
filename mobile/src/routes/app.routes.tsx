@@ -9,6 +9,8 @@ import Imovel from '../pages/Imovel';
 import Category from '../pages/Category';
 import { View } from 'react-native';
 import { BlurView } from 'expo-blur';
+import { AuthContext } from '../contexts/AuthContext';
+import { useContext } from 'react';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -53,6 +55,7 @@ function AddImovelStackScreen() {
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+  const { user } = useContext(AuthContext);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -78,50 +81,66 @@ export default function App() {
         },
       }}
     >
-      <Tab.Screen
-        name='Home'
-        options={{
-          tabBarLabel: 'Home',
-          tabBarLabelStyle: { color: '#fff' },
-          tabBarIcon: () => <Feather name='edit' color={'#fff'} size={28} />,
-        }}
-        component={HomeStackScreen}
-      />
-      <Tab.Screen
-        name='Add'
-        options={{
-          title: 'Adicionar imóveis',
-          tabBarLabel: 'Add imóvel',
-          tabBarLabelStyle: { color: '#fff' },
-          tabBarIcon: () => (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Feather name='plus' color={'#fff'} size={22} />
-              <Feather name='home' color={'#fff'} size={28} />
-            </View>
-          ),
-        }}
-        component={AddImovelStackScreen}
-      />
-      <Tab.Screen
-        name='Imóveis'
-        options={{
-          title: 'Listar imóveis',
-          tabBarLabel: 'Lista',
-          tabBarLabelStyle: { color: '#fff' },
-          tabBarIcon: () => (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Feather name='home' color={'#fff'} size={28} />
-              <Feather
-                name='edit-2'
-                color={'#fff'}
-                size={10}
-                style={{ marginTop: -20 }}
-              />
-            </View>
-          ),
-        }}
-        component={ListImoveisStackScreen}
-      />
+      {!user.planIsActive ? (
+        <Tab.Screen
+          name='Home'
+          options={{
+            tabBarLabel: 'Home',
+            tabBarLabelStyle: { color: '#fff' },
+            tabBarIcon: () => <Feather name='edit' color={'#fff'} size={28} />,
+          }}
+          component={HomeStackScreen}
+        />
+      ) : (
+        <>
+          <Tab.Screen
+            name='Home'
+            options={{
+              tabBarLabel: 'Home',
+              tabBarLabelStyle: { color: '#fff' },
+              tabBarIcon: () => (
+                <Feather name='edit' color={'#fff'} size={28} />
+              ),
+            }}
+            component={HomeStackScreen}
+          />
+          <Tab.Screen
+            name='Add'
+            options={{
+              title: 'Adicionar imóveis',
+              tabBarLabel: 'Add imóvel',
+              tabBarLabelStyle: { color: '#fff' },
+              tabBarIcon: () => (
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Feather name='plus' color={'#fff'} size={22} />
+                  <Feather name='home' color={'#fff'} size={28} />
+                </View>
+              ),
+            }}
+            component={AddImovelStackScreen}
+          />
+          <Tab.Screen
+            name='Imóveis'
+            options={{
+              title: 'Listar imóveis',
+              tabBarLabel: 'Lista',
+              tabBarLabelStyle: { color: '#fff' },
+              tabBarIcon: () => (
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Feather name='home' color={'#fff'} size={28} />
+                  <Feather
+                    name='edit-2'
+                    color={'#fff'}
+                    size={10}
+                    style={{ marginTop: -20 }}
+                  />
+                </View>
+              ),
+            }}
+            component={ListImoveisStackScreen}
+          />
+        </>
+      )}
     </Tab.Navigator>
   );
 }
