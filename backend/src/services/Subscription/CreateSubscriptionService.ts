@@ -1,3 +1,5 @@
+import prismaClient from '../../prisma';
+
 const stripe = require('stripe')(
   'sk_test_51OIWpBFkkC3ZoBrE0CdfikwVVdeBAdLEsQNKuv4cwGogWVvqZAtw2f0kp9kIngjf7PAS7VSOkosp9k16Wf5RG0fu00OKveoqD8'
 );
@@ -33,7 +35,17 @@ class CreateSubscriptionService {
       });
       console.log(subscription.latest_invoice.payment_intent.client_secret);
 
+      const user = await prismaClient.user.update({
+        where: {
+          email,
+        },
+        data: {
+          subscriptionId: subscription.id,
+        },
+      });
+
       return {
+        user,
         subscriptionId: subscription.id,
         clientSecret: subscription.latest_invoice.payment_intent.client_secret,
       };
