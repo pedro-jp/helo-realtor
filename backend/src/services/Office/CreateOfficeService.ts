@@ -25,6 +25,12 @@ export class CreateOfficeService {
       `${address}, ${address_city}`
     );
 
+    const url = name
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/\s+/g, '')
+      .replace(/[^\w-]+/g, '');
+
     const office = await prismaClient.office.create({
       data: {
         name,
@@ -34,6 +40,7 @@ export class CreateOfficeService {
         address,
         address_city,
         email,
+        url,
         latitude: coordinates ? coordinates.lat.toString() : null, // Converte latitude para string
         longitude: coordinates ? coordinates.lng.toString() : null, // Converte longitude para string
       },

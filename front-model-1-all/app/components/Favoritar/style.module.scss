@@ -1,0 +1,20 @@
+.favoritar {
+  all: unset;
+  width: max-content;
+  height: max-content;
+  cursor: pointer;
+  transition: 0.3s;
+  display: block;
+
+  &:hover {
+    scale: 1.05;
+
+    .icon {
+      fill: red !important;
+    }
+  }
+
+  &:active {
+    scale: 0.9;
+  }
+}

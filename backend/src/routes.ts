@@ -34,6 +34,9 @@ import { RemoveFavoriteController } from './controllers/Favorite/RemoveFavoriteC
 import { CreateSubscriptionController } from './controllers/Subscription/CreateSubscriptionController';
 import { WebhookController } from './controllers/Webhook/WebhookController';
 import { GetUserController } from './controllers/user/GetUserController';
+import { GetOfficesController } from './controllers/Office/GetOfficesController';
+import { GetOfficeByNameController } from './controllers/Office/GetOfficeByNameController';
+import { ListImoveisByNameController } from './controllers/Imovel/ListImovelByNameController';
 
 const router = Router();
 
@@ -136,6 +139,7 @@ router.post(
 );
 
 router.get('/imoveis/:ownerId', new ListImoveisController().handle);
+router.get('/imoveis/:name', new ListImoveisByNameController().handle);
 
 router.get('/imovel/:imovelId', new LoadImovelController().handle);
 
@@ -150,6 +154,9 @@ router.put('/imovel/:id', isAuthenticated, new UpdateImovelController().handle);
 router.post('/office', isAuthenticated, new CreateOfficeController().handle);
 
 router.get('/office/:ownerId', new GetOfficeController().handle);
+router.get('/offices/:name', new GetOfficeByNameController().handle);
+
+router.get('/offices', new GetOfficesController().handle);
 
 router.put(
   '/office/:officeId',
