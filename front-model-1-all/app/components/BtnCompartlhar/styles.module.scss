@@ -1,0 +1,8 @@
+.share {
+  cursor: pointer;
+
+  &:hover {
+    fill: var(--primary-color);
+    scale: 1.05;
+  }
+}

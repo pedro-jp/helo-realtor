@@ -12,11 +12,11 @@ export async function generateMetadata(): Promise<Metadata> {
   const office = await getOffice();
 
   return {
-    title: office.name, // Use o nome do escritório nos metadados
-    description: office.description,
+    title: office?.name, // Use o nome do escritório nos metadados
+    description: office?.description,
     openGraph: {
-      title: office.name,
-      description: office.description,
+      title: office?.name,
+      description: office?.description,
       url: `${process.env.NEXT_PUBLIC_URL}`,
     },
   };

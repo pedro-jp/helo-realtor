@@ -1,0 +1,55 @@
+.sell {
+  height: 100vh;
+  width: 100vw;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 24px;
+  padding: 1rem;
+  h1 {
+    font-size: 3rem;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  button {
+    font-size: 2rem;
+    background: none;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 20px;
+    padding: 0 20px;
+    transition: 0.4s;
+
+    &:hover {
+      transform: scale(1.01);
+    }
+
+    &:active {
+      transform: scale(0.99);
+    }
+  }
+  @media (width < 720px) {
+    & {
+      h1 {
+        font-size: 2rem;
+        white-space: wrap;
+      }
+    }
+  }
+}
+
+.card_section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 2rem auto;
+  width: min(100% - 2rem, 1440px);
+  justify-content: center;
+}

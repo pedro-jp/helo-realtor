@@ -162,7 +162,7 @@ const SubscribeView = () => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.btn} onPress={openModal}>
-        <Text>Assine já</Text>
+        <Text>{user.planIsActive ? 'Trocar assinatura' : 'Assine já'}</Text>
         <Feather name='chevron-up' size={20} />
       </TouchableOpacity>
 

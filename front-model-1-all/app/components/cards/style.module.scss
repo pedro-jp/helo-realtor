@@ -1,0 +1,144 @@
+.houseInfo {
+  --_br: 1rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr auto;
+  width: 20rem;
+  position: relative;
+
+  &:hover {
+    .houseIcon {
+      animation: pulse 1s infinite;
+    }
+  }
+}
+
+.houseImage {
+  grid-row: 1 / 3;
+  grid-column: 1 / 3;
+  border-radius: var(--_br);
+  overflow: hidden;
+
+  img {
+    display: block;
+    max-width: 100%;
+    max-height: 300px;
+
+    object-fit: cover;
+  }
+
+  .houseIcon {
+    position: absolute;
+
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    color: white;
+    mix-blend-mode: difference;
+
+    &:hover {
+      transform: scale(1.1);
+      animation: none;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+  }
+}
+
+.houseImage::before,
+.houseImage::after,
+.housePrice::after {
+  --_size: var(--_br);
+  content: '';
+  position: absolute;
+  width: var(--_size);
+  aspect-ratio: 1;
+  background-image: radial-gradient(
+    circle at 100% 100%,
+    transparent var(--_size),
+    var(--_corner-color, white) calc(var(--_size) + 1px)
+  );
+  rotate: -90deg;
+}
+
+.houseImage::before {
+  left: 0;
+  bottom: 0;
+  grid-column: 2;
+  grid-row: 2 / 3;
+}
+
+.houseImage::after {
+  left: 0;
+  bottom: 0;
+  grid-column: 1;
+  grid-row: 1 / 2;
+  box-shadow: -1rem 0 0 white;
+}
+
+.houseImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.housePrice {
+  display: grid;
+  padding: 1rem 1rem 0 1rem;
+  background: black;
+  font-weight: 500;
+  grid-row: 2 / 3;
+  grid-column: 1 / 2;
+  border-radius: var(--_br) var(--_br) 0 0;
+  box-shadow: 0 1rem 0 black, 0 0 0 1rem white;
+}
+
+.housePrice::after {
+  --_size: calc(var(--_br) * 1.5);
+  --_corner-color: black;
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  left: -1rem;
+  bottom: -1rem;
+}
+
+.housePrice span {
+  display: grid;
+  place-items: center;
+  background: white;
+  padding: 0.75rem 0;
+  border-radius: calc(var(--_br) / 2);
+}
+
+.houseMeta {
+  margin: 0;
+  background: black;
+  color: white;
+  font-size: 1.25rem;
+  line-height: 1.8;
+  padding: 1rem;
+  border-radius: 0 var(--_br) var(--_br) var(--_br);
+  grid-column: span 2;
+  align-self: start;
+
+  li {
+    list-style: none;
+  }
+}
+
+.houseSvg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
