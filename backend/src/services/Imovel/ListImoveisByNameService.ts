@@ -1,22 +1,24 @@
 import prismaClient from '../../prisma';
 
+interface OfficeId {
+  office: string;
+}
 export class ListImoveisByNameService {
-  async execute(ownerId: string) {
+  async execute({ office }: OfficeId) {
+    console.log('id:', office);
     const imoveis = await prismaClient.imovel.findMany({
       where: {
         active: true,
-        ownerId,
+        officeId: office,
       },
-      orderBy: {
-        created_at: 'desc',
-      },
+
       include: {
         images: true,
         office: true,
         realtor: true,
       },
     });
-    console.log('oi');
+    console.table(imoveis);
     return imoveis;
   }
 }

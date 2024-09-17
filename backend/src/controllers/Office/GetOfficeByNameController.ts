@@ -4,9 +4,10 @@ import { GetOfficeByNameService } from '../../services/Office/GetOfficeByNameSer
 export class GetOfficeByNameController {
   async handle(req: Request, res: Response) {
     const { url } = req.params;
-    console.log(url);
+
+    console.log('Url: ' + url);
     const getOfficeByNameController = new GetOfficeByNameService();
-    const office = await getOfficeByNameController.execute(url);
+    const office = await getOfficeByNameController.execute({ url });
 
     return res.json(office);
   }

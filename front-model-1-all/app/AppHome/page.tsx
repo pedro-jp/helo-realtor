@@ -7,7 +7,7 @@ import { OfficesType } from '../types';
 
 async function fetchOffices(url: string): Promise<OfficesType> {
   try {
-    const response = await fetch(`${url}/offices`, { cache: 'no-store' });
+    const response = await fetch(`${url}/offices`);
     const data = await response.json();
     return { offices: data };
   } catch (error) {
@@ -17,14 +17,12 @@ async function fetchOffices(url: string): Promise<OfficesType> {
 }
 
 const AppHome = () => {
-  const { office, setOffice } = useAppContext();
   const [officesData, setOfficesData] = useState<OfficesType>({ offices: [] });
 
   useEffect(() => {
     async function loadOffices() {
       const data = await fetchOffices('http://localhost:3332');
       setOfficesData(data);
-      console.log('daqui', data);
     }
 
     loadOffices();

@@ -5,8 +5,10 @@ import styles from './style.module.scss';
 import { FaInfoCircle } from 'react-icons/fa';
 import { Imagem } from '../Image';
 
-export default async function Cards(name: any) {
-  const imoveis = await getImoveis(name);
+export default async function Cards({ officeName }: any) {
+  console.log(officeName);
+  const imoveis = await getImoveis(officeName);
+
   function formatarPrecoReal(numero: number) {
     return numero.toLocaleString('pt-BR', {
       style: 'currency',

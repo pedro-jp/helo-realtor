@@ -44,6 +44,21 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
+export async function loadImoveis(name: string) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}offices/imoveis/${name}`
+    );
+
+    if (!response.ok) {
+      throw new Error(`Erro ao buscar os imóveis: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Erro ao carregar os imóveis:', error);
+  }
+}
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [imoveis, setImoveis] = useState<Imovel[] | null>(null);
@@ -52,23 +67,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const ownerId = process.env.NEXT_PUBLIC_OWNER_ID;
 
   useEffect(() => {}, []);
-
-  async function loadImoveis() {
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}/imoveis/${ownerId}`
-      );
-
-      if (!response.ok) {
-        throw new Error(`Erro ao buscar os imóveis: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      setImoveis(data);
-    } catch (error) {
-      console.error('Erro ao carregar os imóveis:', error);
-    }
-  }
 
   // Função para carregar os detalhes do office, por exemplo
   async function loadOffice() {

@@ -1,11 +1,12 @@
 import prismaClient from '../../prisma';
 
-type OwnerType = {
-  name: string;
+type OfficeRequest = {
+  url: string;
 };
 
 export class GetOfficeByNameService {
-  async execute(url: string) {
+  async execute({ url }: OfficeRequest) {
+    console.log('Url: ' + url);
     const office = await prismaClient.office.findFirst({
       where: {
         url,
@@ -13,9 +14,15 @@ export class GetOfficeByNameService {
       include: {
         banner_image: true,
         realtors: true,
-        imoveis: true,
+        imoveis: {
+          include: {
+            images: true,
+          },
+        },
       },
     });
+
+    console.log(office);
     return office;
   }
 }

@@ -139,7 +139,7 @@ router.post(
 );
 
 router.get('/imoveis/:ownerId', new ListImoveisController().handle);
-router.get('/imoveis/:name', new ListImoveisByNameController().handle);
+router.get('/office/imoveis/:url', new ListImoveisByNameController().handle);
 
 router.get('/imovel/:imovelId', new LoadImovelController().handle);
 
@@ -154,7 +154,7 @@ router.put('/imovel/:id', isAuthenticated, new UpdateImovelController().handle);
 router.post('/office', isAuthenticated, new CreateOfficeController().handle);
 
 router.get('/office/:ownerId', new GetOfficeController().handle);
-router.get('/offices/:name', new GetOfficeByNameController().handle);
+router.get('/offices/:url', new GetOfficeByNameController().handle);
 
 router.get('/offices', new GetOfficesController().handle);
 

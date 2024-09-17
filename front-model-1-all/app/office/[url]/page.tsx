@@ -6,8 +6,24 @@ import Hero from '../../components/hero';
 
 import style from './style.module.scss';
 import MapWithCircle from '../../components/map';
-import { getOfficeByName } from '../../services/getOffice';
 import { ImovelType } from '@/app/types';
+
+async function getOfficeByName(url: string) {
+  try {
+    const response = await fetch(`http://192.168.1.21:3332/offices/${url}`);
+    console.log('retorno: ' + url);
+
+    if (!response.ok) {
+      throw new Error(`Erro: ${response.status} - ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Erro ao buscar escritório:', error);
+    return null;
+  }
+}
 
 // Função para gerar metadata dinâmico baseado no officeName
 export async function generateMetadata({
@@ -16,6 +32,8 @@ export async function generateMetadata({
   params: { url: string };
 }): Promise<Metadata> {
   const office = await getOfficeByName(params.url); // Busca o escritório pelo nome
+  console.log('params: ' + params.url);
+  console.log('nome: ' + office.name);
 
   if (!office) {
     return {
@@ -53,13 +71,12 @@ export default async function OfficePage({
   params: { url: string };
 }) {
   const office: OfficeType = await getOfficeByName(params.url);
-  console.log(office);
+  console.log(params);
+  console.log(params.url);
 
   if (!office) {
     return <div>Escritório não encontrado</div>;
   }
-
-  const name = office.name.toString() as string;
 
   return (
     <>
@@ -76,13 +93,8 @@ export default async function OfficePage({
           <a href='/imoveis'>Quer vender o seu imóvel?</a>
         </button>
       </section>
-      <section
-        className={style.card_section}
-        style={{
-          backgroundImage: `url('/assets/patterns/image.png')`,
-        }}
-      >
-        {office.imoveis && <Cards name={name} />}
+      <section className={style.card_section}>
+        {office.imoveis && <Cards officeName={office.name} />}
       </section>
       <div
         style={{
