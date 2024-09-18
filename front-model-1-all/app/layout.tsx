@@ -30,7 +30,6 @@ export default function RootLayout({
       <body className={inter.className}>
         <Navbar />
         <AppProvider>{children}</AppProvider>
-        <Footer />
       </body>
     </html>
   );

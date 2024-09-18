@@ -7,6 +7,7 @@ import Hero from '../../components/hero';
 import style from './style.module.scss';
 import MapWithCircle from '../../components/map';
 import { ImovelType } from '@/app/types';
+import { Footer } from '@/app/components/footer';
 
 async function getOfficeByName(url: string) {
   try {
@@ -109,6 +110,7 @@ export default async function OfficePage({
           marker
         />
       </div>
+      <Footer name={office.name} />
     </>
   );
 }

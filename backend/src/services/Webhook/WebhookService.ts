@@ -76,6 +76,68 @@ class WebhookService {
         }
         break;
 
+      case 'customer.subscription.deleted':
+        const subscriptionDeleted = event.data.object;
+
+        try {
+          // Verifica se a assinatura tem um invoice associado
+          if (subscriptionDeleted.latest_invoice) {
+            const invoice = await stripe.invoices.retrieve(
+              subscriptionDeleted.latest_invoice
+            );
+
+            // Extrai o priceID do invoice
+            const lineItems = invoice.lines.data;
+            const priceID = lineItems.length > 0 ? lineItems[0].price.id : null;
+
+            // Busca o usuário pelo email do invoice
+            const usuario = await prismaClient.user.findFirst({
+              where: {
+                email: invoice.customer_email,
+              },
+            });
+
+            // Cancela a assinatura se houver um subscriptionId associado ao usuário
+            if (usuario && usuario.subscriptionId !== '') {
+              try {
+                await stripe.subscriptions.del(subscriptionDeleted.id);
+                console.log('Assinatura cancelada no Stripe');
+              } catch (error) {
+                console.log(
+                  `Erro ao cancelar assinatura no Stripe: ${error.message}`
+                );
+              }
+            } else {
+              console.log(
+                'Usuário não encontrado ou sem subscriptionId no banco.'
+              );
+            }
+
+            // Atualiza o status do pagamento e assinatura no banco de dados
+            const updatedUser = await prismaClient.user.update({
+              where: {
+                email: invoice.customer_email,
+              },
+              data: {
+                paymentStatus: 'canceled', // Altera o status do pagamento para cancelado
+                subscriptionId: '', // Remove o subscriptionId pois foi cancelada
+                priceId: priceID, // Atualiza o priceID, se necessário
+                planIsActive: false, // Define o plano como inativo
+              },
+            });
+
+            return res.json({ received: true, updatedUser, priceID });
+          } else {
+            console.log('Nenhum invoice associado foi encontrado.');
+          }
+        } catch (error) {
+          console.error(
+            `Erro no processamento do cancelamento da assinatura: ${error.message}`
+          );
+          return res.status(500).json({ error: 'Erro interno no servidor' });
+        }
+        break;
+
       case 'payment_intent.payment_failed':
         const failedPaymentIntent = event.data.object;
 

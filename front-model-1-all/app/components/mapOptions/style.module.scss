@@ -2,11 +2,11 @@
   display: flex;
   align-items: center;
   margin-inline-start: -7px;
+  overflow: hidden;
   svg {
     border-radius: 4px;
     object-fit: contain;
     aspect-ratio: 3/2;
-    mix-blend-mode: color-burn;
 
     &:nth-child(2) {
       margin-inline: 8px;

@@ -18,6 +18,7 @@ export type ImovelType = {
   marker: boolean;
   favorites: string[];
   transaction: string;
+  ownerId: string;
 };
 
 export type OfficeType = {
@@ -58,4 +59,8 @@ export interface Office {
   banner_image?: { url: string };
   realtors?: { name: string }[];
   imoveis?: ImovelType[];
+}
+
+export interface UserResponse {
+  offices: Office[];
 }
