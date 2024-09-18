@@ -16,7 +16,6 @@ export class GetOfficeService {
         imoveis: true,
       },
     });
-    console.log(office);
     return office;
   }
 }

@@ -1,45 +1,58 @@
 'use client';
-// app/app-home/page.tsx
+
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useAppContext } from '../context/appContext'; // Ajuste o caminho conforme necessário
-import { OfficesType } from '../types';
+import { OfficeType } from '../types'; // Tipagem dos escritórios
+import MapWithCircle from '../components/mapOffices';
 
-async function fetchOffices(url: string): Promise<OfficesType> {
+async function fetchOffices(): Promise<OfficeType[]> {
   try {
-    const response = await fetch(`${url}/offices`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/offices`);
     const data = await response.json();
-    return { offices: data };
+    const offices = data.flatMap((user: any) => user.office); // Extrai todos os escritórios de cada usuário
+    return offices;
   } catch (error) {
     console.error('Failed to fetch offices:', error);
-    return { offices: [] };
+    return [];
   }
 }
 
 const AppHome = () => {
-  const [officesData, setOfficesData] = useState<OfficesType>({ offices: [] });
+  const [offices, setOffices] = useState<OfficeType[]>([]);
 
   useEffect(() => {
     async function loadOffices() {
-      const data = await fetchOffices('http://localhost:3332');
-      setOfficesData(data);
+      const data = await fetchOffices();
+      setOffices(data);
     }
-
     loadOffices();
   }, []);
 
-  if (officesData.offices.length === 0) {
+  if (offices.length === 0) {
     return <div>No offices data available.</div>;
   }
 
+  // Mapeando as localizações dos escritórios
+  const officeLocations = offices.map((office) => ({
+    latitude: office.latitude.toString(),
+    longitude: office.longitude.toString(),
+    marker: true, // Exibir marcador
+    officeName: office.name, // Nome do escritório para exibir no popup
+    officeId: office.id, // ID do escritório para futura utilização
+  }));
+
   return (
-    <div style={{ marginTop: '200px' }}>
-      {officesData.offices.map((office, index) => (
-        <Link key={index} href={`/office/${office.url}`}>
-          <div>{office.url}</div>
-        </Link>
-      ))}
-    </div>
+    <>
+      <div style={{ marginTop: '200px' }}>
+        {offices.map((office, index) => (
+          <Link key={index} href={`/office/${office.url}`}>
+            <div>{office.name}</div>
+          </Link>
+        ))}
+      </div>
+      <MapWithCircle locations={officeLocations} />{' '}
+      {/* Passando várias localizações */}
+    </>
   );
 };
 

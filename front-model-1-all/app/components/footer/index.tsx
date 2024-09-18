@@ -7,9 +7,11 @@ import { OfficeType, RealtorType } from '@/app/types';
 import formatWhatsapp from '../../services/formatWhatsapp';
 import { formatarNumero } from '@/app/services/formatNumber';
 
-export const Footer = () => {
+type Props = {
+  name: string;
+};
+export const Footer = ({ name }: Props) => {
   const [officeData, setOfficeData] = useState<OfficeType>({} as OfficeType);
-  const name = 'Miracle';
 
   useEffect(() => {
     const fetchOfficeData = async () => {
