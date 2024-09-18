@@ -66,7 +66,9 @@ export async function generateMetadata({
 }
 
 async function getOffice(ownerId: string): Promise<OfficeType> {
-  const response = await fetch(`http://localhost:3332/office/${ownerId}`);
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_URL}/office/${ownerId}`
+  );
   const office: OfficeType = await response.json();
   console.log(office);
   return office;

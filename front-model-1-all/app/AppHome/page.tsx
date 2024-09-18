@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { OfficeType } from '../types'; // Tipagem dos escritórios
 import MapWithCircle from '../components/mapOffices';
 
-async function fetchOffices(url: string): Promise<OfficeType[]> {
+async function fetchOffices(): Promise<OfficeType[]> {
   try {
-    const response = await fetch(`${url}/offices`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/offices`);
     const data = await response.json();
     const offices = data.flatMap((user: any) => user.office); // Extrai todos os escritórios de cada usuário
     return offices;
@@ -22,7 +22,7 @@ const AppHome = () => {
 
   useEffect(() => {
     async function loadOffices() {
-      const data = await fetchOffices('http://localhost:3332');
+      const data = await fetchOffices();
       setOffices(data);
     }
     loadOffices();

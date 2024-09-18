@@ -11,7 +11,9 @@ import { Footer } from '@/app/components/footer';
 
 async function getOfficeByName(url: string) {
   try {
-    const response = await fetch(`http://192.168.1.21:3332/offices/${url}`);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/offices/${url}`
+    );
     console.log('retorno: ' + url);
 
     if (!response.ok) {

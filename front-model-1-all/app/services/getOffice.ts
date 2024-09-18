@@ -6,7 +6,9 @@ const url = process.env.NEXT_PUBLIC_URL;
 
 export async function getOfficeByName(name: string) {
   try {
-    const response = await fetch(`http://192.168.1.21:3332/offices/${name}`);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/offices/${name}`
+    );
     console.log(name);
 
     if (!response.ok) {
