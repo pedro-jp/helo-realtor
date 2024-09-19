@@ -28,7 +28,6 @@ export default function RootLayout({
   return (
     <html lang='pt-BR'>
       <body className={inter.className}>
-        <Navbar />
         <AppProvider>{children}</AppProvider>
       </body>
     </html>

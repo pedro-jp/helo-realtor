@@ -1,0 +1,30 @@
+.loading {
+  z-index: 99999999;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  inset: 0;
+  background-color: #4246ff20;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    border-radius: 100%;
+    border: 5px solid #fff;
+    border-right: solid transparent;
+    height: 50px;
+    width: 50px;
+    animation: spin 0.5s ease-in-out infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
