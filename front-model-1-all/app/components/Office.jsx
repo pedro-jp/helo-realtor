@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import gsap from 'gsap';
 import { useLayoutEffect, useRef } from 'react';
 import MapWithCircle from '../components/mapOffices'; // Importa o componente do mapa
+import MapWithGlobe from '../components/mapOffices';
 
 export const FLOOR_HEIGHT = 2.3;
 export const NB_FLOORS = 3;
@@ -111,35 +112,47 @@ export function Office({ officeLocations, ...props }) {
       0
     );
 
-    tl.current.from(
-      mapRef.current.position,
-      {
-        duration: 2,
-        x: -1,
-        y: 3,
-        z: -2.5,
-      },
-      0.5
-    );
+    // tl.current.from(
+    //   mapRef.current.position,
+    //   {
+    //     duration: 2,
+    //     x: -1,
+    //     y: 3,
+    //     z: -2.5,
+    //   },
+    //   0.5
+    // );
 
-    // Animações para o mapa
-    tl.current.from(
-      mapRef.current.position,
-      {
-        duration: 2,
-        x: -2,
-      },
-      0.5
-    );
+    // tl.current.from(
+    //   mapRef.current.scale,
+    //   {
+    //     duration: 2,
+    //     x: 1,
+    //     y: 1,
+    //     z: 1,
+    //   },
+    //   0.5
+    // );
 
-    tl.current.from(
-      mapRef.current.rotation,
-      {
-        duration: 0.5,
-        y: -Math.PI / 2,
-      },
-      1
-    );
+    // // Animações para o mapa
+    // tl.current.from(
+    //   mapRef.current.position,
+    //   {
+    //     duration: 2,
+    //     x: -2,
+    //   },
+    //   0.5
+    // );
+
+    // tl.current.from(
+    //   mapRef.current.rotation,
+    //   {
+    //     duration: 0.5,
+    //     y: -Math.PI / 2,
+    //   },
+
+    //   1
+    // );
 
     return () => {
       tl.current.kill(); // Limpeza da animação
@@ -167,19 +180,9 @@ export function Office({ officeLocations, ...props }) {
           geometry={nodes['02_library'].geometry}
           material={materials['02']}
         />
-      </group>
 
-      {/* Mapa HTML independente com animações */}
-      <group
-        ref={mapRef}
-        position={[0, 3.114, -2.23]}
-        rotation={[0, -3, 0]}
-        renderOrder={0}
-      >
         <Html transform>
-          <div style={{ width: '100px', height: '50px', overflow: 'hidden' }}>
-            <MapWithCircle locations={officeLocations} />
-          </div>
+          <MapWithCircle locations={officeLocations} />
         </Html>
       </group>
 

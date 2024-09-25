@@ -175,27 +175,27 @@ const darkModeStyle = [
   {
     featureType: 'road',
     elementType: 'geometry.fill',
-    stylers: [{ color: '#2c2c2c' }],
+    stylers: [{ color: '#253536' }],
   },
   {
     featureType: 'road',
     elementType: 'labels.text.fill',
-    stylers: [{ color: '#8a8a8a' }],
+    stylers: [{ color: '#5c5c5c' }],
   },
   {
     featureType: 'road.arterial',
     elementType: 'geometry',
-    stylers: [{ color: '#373737' }],
+    stylers: [{ color: '#2c4749' }],
   },
   {
     featureType: 'road.highway',
     elementType: 'geometry',
-    stylers: [{ color: '#3c3c3c' }],
+    stylers: [{ color: '#b97cb9' }],
   },
   {
     featureType: 'road.highway.controlled_access',
     elementType: 'geometry',
-    stylers: [{ color: '#4e4e4e' }],
+    stylers: [{ color: '#ad68ad' }],
   },
   {
     featureType: 'road.local',

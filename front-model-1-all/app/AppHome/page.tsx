@@ -39,16 +39,83 @@ export const Content = ({
   return (
     <Scroll html>
       <main className={style.main}>
-        <h1>Encontre o lar que você sempre sonhou</h1>
-        <div style={{ marginTop: '200px' }}>
-          {offices.map((office: any) => (
-            <Link key={office.id} href={`/${office.url}`}>
-              <div>{office.name}</div>
-            </Link>
-          ))}
+        <div className={style.container}>
+          <Section>
+            <h1>Encontre o lar que você sempre sonhou</h1>
+          </Section>
+          <Section>
+            <h2>Nossos escritórios</h2>
+            <div style={{ marginTop: '24px' }}>
+              {offices.map((office: any) => (
+                <Link key={office.id} href={`/${office.url}`}>
+                  <div>
+                    {office.name} - {office.address}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </Section>
+          <Section>
+            <h2>Localize o escritório mais próximo de você</h2>
+            <MapWithCircle locations={officeLocations} />
+          </Section>
+          <Section>
+            <h2>Por que ter um site para expor seus imóveis?</h2>
+
+            <Paragraph>
+              Ter um site dedicado para a venda de imóveis não é apenas uma
+              tendência moderna, mas uma necessidade fundamental para qualquer
+              negócio imobiliário. Aqui estão alguns números que demonstram os
+              benefícios:
+            </Paragraph>
+            <Paragraph>
+              Aumento nas taxas de conversão: Imóveis expostos em um site
+              dedicado têm uma taxa de conversão média de 2,5%, em comparação
+              com apenas 0,5% para anúncios em redes sociais e marketplaces.
+            </Paragraph>
+            <Paragraph>
+              Visibilidade 24/7: Com um site, seus imóveis estão disponíveis
+              para visualização a qualquer hora, todos os dias, permitindo que
+              os potenciais compradores pesquisem e explorem as opções no
+              momento que for mais conveniente para eles.
+            </Paragraph>
+            <Paragraph>
+              Melhor segmentação de público: Com um site, você pode usar SEO
+              (Otimização para Mecanismos de Busca) para alcançar diretamente o
+              seu público-alvo, aumentando a probabilidade de que visitantes
+              qualificados entrem em contato.
+            </Paragraph>
+            <Paragraph>
+              Credibilidade e profissionalismo: Um site bem projetado passa uma
+              imagem de credibilidade e profissionalismo, aumentando a confiança
+              do cliente em sua marca.
+            </Paragraph>
+            <Paragraph>
+              Aumento no engajamento do cliente: Sites interativos podem
+              aumentar o engajamento dos visitantes em até 50%, proporcionando
+              uma melhor experiência do usuário e incentivando a exploração de
+              mais imóveis.
+            </Paragraph>
+            <Paragraph>
+              Capacidade de coleta de dados: Ter um site permite que você colete
+              dados valiosos sobre seus visitantes, ajudando a personalizar suas
+              ofertas e melhorar suas estratégias de marketing.
+            </Paragraph>
+          </Section>
+          <Section>
+            <h2>Baixe o aplicativo para android no link abaixo</h2>
+            <a href='/apps/helorealtor.apk'>Baixe aqui</a>
+          </Section>
         </div>
-        <MapWithCircle locations={officeLocations} />
       </main>
     </Scroll>
   );
+};
+
+const Section = ({ children }: { children: React.ReactNode }) => {
+  return <section className={style.section}>{children}</section>;
+};
+
+const Paragraph = ({ children }: { children: React.ReactNode }) => {
+  return <p className={style.paragraph}>{children}</p>;
 };

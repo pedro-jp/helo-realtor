@@ -1,7 +1,6 @@
 /*eslint-disable*/
 import { OrbitControls, ScrollControls } from '@react-three/drei';
 import { Office } from './Office';
-import { Overlay } from './Overlay';
 import { Content } from '../AppHome/page';
 import { OfficeType } from '../types/index';
 import { useEffect, useState } from 'react';
@@ -44,7 +43,7 @@ export const Experience = () => {
     }));
   return (
     <>
-      <ambientLight intensity={2} />
+      <ambientLight intensity={1.4} />
       <OrbitControls enableZoom={false} />
       <ScrollControls pages={3} damping={0.25}>
         <Office officeLocations={officeLocations} />
