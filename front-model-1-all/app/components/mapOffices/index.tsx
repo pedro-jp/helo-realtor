@@ -11,6 +11,7 @@ import {
 import style from './style.module.scss';
 import MapOptions from '../mapOptions';
 import { Loading } from '../Loading';
+import Link from 'next/link';
 
 interface MapWithCircleProps {
   locations: {
@@ -37,6 +38,12 @@ const MapWithCircle: React.FC<MapWithCircleProps> = ({ locations }) => {
     officeName: string;
     officeId: string;
   }>(null);
+
+  const url = selectedOffice?.officeName
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, '')
+    .replace(/[^\w-]+/g, '');
 
   const defaultCenter =
     locations.length > 0
@@ -99,7 +106,9 @@ const MapWithCircle: React.FC<MapWithCircleProps> = ({ locations }) => {
               onCloseClick={() => setSelectedOffice(null)} // Fecha o popup quando clicar no "X"
             >
               <div style={{ paddingTop: '10px' }}>
-                <h3>{selectedOffice.officeName}</h3>
+                <Link href={`/${url}`}>
+                  <h3>{selectedOffice.officeName}</h3>
+                </Link>
                 {/* O componente MapOptions é exibido ao clicar no marcador */}
                 <MapOptions
                   latitude={selectedOffice.latitude}
