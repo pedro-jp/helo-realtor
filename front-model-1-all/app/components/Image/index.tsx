@@ -6,7 +6,9 @@ export const Imagem = async ({ id }: { id: string }) => {
 
   if (id) {
     try {
-      const response = await api.get(`http://192.168.1.21:3332/images/${id}`);
+      const response = await api.get(
+        `${process.env.NEXT_PUBLIC_URL}/images/${id}`
+      );
       imageUrl = response.data[0]?.url;
     } catch (error) {
       console.error('Error fetching image:', error);

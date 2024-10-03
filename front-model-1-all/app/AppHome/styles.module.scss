@@ -1,0 +1,88 @@
+html:has(.main),
+body:has(.main) {
+  background-color: #d9afd9;
+  background-image: linear-gradient(0deg, #1a1e26 0%, #2e3640 100%);
+}
+
+.main {
+  width: 100vw;
+  height: 300vh;
+  h1 {
+    margin-inline: auto;
+    color: #fff;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1440px;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    margin: 0 auto;
+
+    @media (width < 1440px) {
+      margin-inline: 1rem;
+    }
+
+    .section {
+      width: max-content;
+      max-width: 100vw;
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 8px;
+      animation: fadeout linear forwards;
+      animation-timeline: view();
+      animation-range: exit 200px;
+
+      h1,
+      h2 {
+        font-weight: bold;
+        background: linear-gradient(
+          90deg,
+          rgba(217, 175, 217, 1) 0%,
+          var(--primary-blue) 100%
+        );
+        background-size: 200% 200%;
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        animation: gradient 5s ease infinite forwards;
+      }
+
+      @keyframes gradient {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+
+        100% {
+          background-position: 50% 0%;
+        }
+      }
+    }
+    .section:nth-child(even) {
+      align-self: self-end;
+      border-radius: 8px;
+    }
+  }
+}
+
+@keyframes fadeout {
+  0% {
+    opacity: 1;
+  }
+  95%,
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+.paragraph {
+  color: #000;
+  width: 400px;
+  font-size: 1.3rem;
+}

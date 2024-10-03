@@ -20,11 +20,10 @@ export default async function Cards({ officeName }: any) {
     <>
       {imoveis.map((imovel) => (
         <>
-          <div>oi</div>
           {imovel.images && imovel.images.length > 0 && (
             <div className={styles.houseInfo} key={imovel.id}>
               <div className={styles.houseImage}>
-                <Link href={`/imovel/${imovel.id}`}>
+                <Link href={`/${officeName}/${imovel.id}`}>
                   <FaInfoCircle className={styles.houseIcon} />
                 </Link>
                 <Imagem id={imovel.id} />
