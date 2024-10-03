@@ -13,6 +13,13 @@ import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
 const AppHome = () => {
+  const [isHighResLoaded, setIsHighResLoaded] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsHighResLoaded(true);
+    }, 5000);
+  });
   return (
     <>
       <div style={{ height: '100vh', width: '100vw' }}>
@@ -22,7 +29,10 @@ const AppHome = () => {
             position: [2.3, 1.5, 2.7],
           }}
         >
-          <Environment files='/lebombo_4k.exr' background={true} />
+          {!isHighResLoaded && (
+            <Environment files='/lebombo_1k.exr' background={true} />
+          )}
+          <Environment files='/lebombo_4k.exr' background={isHighResLoaded} />
           <Experience />
         </Canvas>
       </div>
@@ -43,92 +53,90 @@ export const Content = ({
     <Scroll html>
       <main className={style.main}>
         <div className={style.container}>
-          <Section>
+          <AnimatedSection styles={{ alignSelf: 'center' }}>
             <h1>Encontre o lar que você sempre sonhou</h1>
-          </Section>
-          <Section>
-            <AnimatedHeading>Nossos escritórios</AnimatedHeading>
-            <div style={{ background: 'red' }}>
+          </AnimatedSection>
+          <AnimatedSection>
+            <h2>Todos os escritórios</h2>
+            <div>
               {offices.map((office: any) => (
                 <Link key={office.id} href={`/${office.url}`}>
-                  <div>
+                  <AnimatedLink>
                     {office.name} - {office.address}
-                  </div>
+                  </AnimatedLink>
                 </Link>
               ))}
             </div>
-          </Section>
-          <Section>
-            <AnimatedHeading>
+          </AnimatedSection>
+          <AnimatedSection>
+            <h2 style={{ marginBottom: '20px' }}>
               Localize o escritório mais próximo de você
-            </AnimatedHeading>
+            </h2>
             <MapWithCircle locations={officeLocations} />
-          </Section>
-          <Section styles={{ alignSelf: 'center', fontSize: '1.5rem' }}>
-            <AnimatedHeading>
-              Por que ter um site para expor seus imóveis?
-            </AnimatedHeading>
-          </Section>
+          </AnimatedSection>
+          <AnimatedSection styles={{ alignSelf: 'center', fontSize: '1.5rem' }}>
+            <h2>Por que ter um site para expor seus imóveis?</h2>
+          </AnimatedSection>
 
-          <Section>
-            <AnimatedParagraph>
+          <AnimatedSection>
+            <Paragraph>
               Ter um site dedicado para a venda de imóveis não é apenas uma
               tendência moderna, mas uma necessidade fundamental para qualquer
               negócio imobiliário. Aqui estão alguns números que demonstram os
               benefícios:
-            </AnimatedParagraph>
-          </Section>
-          <Section>
-            <AnimatedParagraph>
+            </Paragraph>
+          </AnimatedSection>
+          <AnimatedSection>
+            <Paragraph>
               Aumento nas taxas de conversão: Imóveis expostos em um site
               dedicado têm uma taxa de conversão média de 2,5%, em comparação
               com apenas 0,5% para anúncios em redes sociais e marketplaces.
-            </AnimatedParagraph>
-          </Section>
-          <Section>
-            <AnimatedParagraph>
+            </Paragraph>
+          </AnimatedSection>
+          <AnimatedSection>
+            <Paragraph>
               Visibilidade 24/7: Com um site, seus imóveis estão disponíveis
               para visualização a qualquer hora, todos os dias, permitindo que
               os potenciais compradores pesquisem e explorem as opções no
               momento que for mais conveniente para eles.
-            </AnimatedParagraph>
-          </Section>
-          <Section>
-            <AnimatedParagraph>
+            </Paragraph>
+          </AnimatedSection>
+          <AnimatedSection>
+            <Paragraph>
               Melhor segmentação de público: Com um site, você pode usar SEO
               (Otimização para Mecanismos de Busca) para alcançar diretamente o
               seu público-alvo, aumentando a probabilidade de que visitantes
               qualificados entrem em contato.
-            </AnimatedParagraph>
-          </Section>
-          <Section>
-            <AnimatedParagraph>
+            </Paragraph>
+          </AnimatedSection>
+          <AnimatedSection>
+            <Paragraph>
               Credibilidade e profissionalismo: Um site bem projetado passa uma
               imagem de credibilidade e profissionalismo, aumentando a confiança
               do cliente em sua marca.
-            </AnimatedParagraph>
-          </Section>
-          <Section>
-            <AnimatedParagraph>
+            </Paragraph>
+          </AnimatedSection>
+          <AnimatedSection>
+            <Paragraph>
               Aumento no engajamento do cliente: Sites interativos podem
               aumentar o engajamento dos visitantes em até 50%, proporcionando
               uma melhor experiência do usuário e incentivando a exploração de
               mais imóveis.
-            </AnimatedParagraph>
-          </Section>
-          <Section>
-            <AnimatedParagraph>
+            </Paragraph>
+          </AnimatedSection>
+          <AnimatedSection>
+            <Paragraph>
               Capacidade de coleta de dados: Ter um site permite que você colete
               dados valiosos sobre seus visitantes, ajudando a personalizar suas
               ofertas e melhorar suas estratégias de marketing.
-            </AnimatedParagraph>
-          </Section>
-          <Section>
+            </Paragraph>
+          </AnimatedSection>
+          <AnimatedSection styles={{ alignSelf: 'center', fontSize: '1.5rem' }}>
             <AnimatedHeading>
               Baixe o aplicativo para android no link abaixo
             </AnimatedHeading>
             <a href='/apps/helorealtor.apk'>Baixe aqui</a>
-          </Section>
+          </AnimatedSection>
         </div>
       </main>
     </Scroll>
@@ -148,7 +156,11 @@ const AnimatedHeading = ({
 
   useEffect(() => {
     if (inView) {
+      // Quando o elemento estiver visível, anima para aparecer
       controls.start({ opacity: 1, y: 0 });
+    } else {
+      // Quando o elemento sair da visão, volta ao estado inicial
+      controls.start({ opacity: 0, y: 50 });
     }
   }, [controls, inView]);
 
@@ -165,13 +177,23 @@ const AnimatedHeading = ({
   );
 };
 
-const AnimatedParagraph = ({ children }: { children: React.ReactNode }) => {
+const AnimatedLink = ({
+  children,
+  styles,
+}: {
+  children: React.ReactNode;
+  styles?: any;
+}) => {
   const controls = useAnimation();
   const [ref, inView] = useInView({ threshold: 0.1 });
 
   useEffect(() => {
     if (inView) {
+      // Quando o elemento estiver visível, anima para aparecer
       controls.start({ opacity: 1, y: 0 });
+    } else {
+      // Quando o elemento sair da visão, volta ao estado inicial
+      controls.start({ opacity: 0, y: 50 });
     }
   }, [controls, inView]);
 
@@ -181,10 +203,44 @@ const AnimatedParagraph = ({ children }: { children: React.ReactNode }) => {
       initial={{ opacity: 0, y: 50 }}
       animate={controls}
       transition={{ duration: 0.6 }}
-      className={style.paragraph}
+      className={`${style.heading} ${styles || ''}`}
     >
       {children}
     </motion.p>
+  );
+};
+
+const AnimatedSection = ({
+  children,
+  styles,
+}: {
+  children: React.ReactNode;
+  styles?: any;
+}) => {
+  const controls = useAnimation();
+  const [ref, inView] = useInView({ threshold: 0.1 });
+
+  useEffect(() => {
+    if (inView) {
+      // Quando o elemento estiver visível, anima para aparecer
+      controls.start({ opacity: 1, y: 0 });
+    } else {
+      // Quando o elemento sair da visão, volta ao estado inicial
+      controls.start({ opacity: 0, y: 50 });
+    }
+  }, [controls, inView]);
+
+  return (
+    <motion.section
+      ref={ref}
+      initial={{ opacity: 0, y: 50 }}
+      animate={controls}
+      transition={{ duration: 0.6 }}
+      className={`${style.section} ${styles || ''}`}
+      style={styles}
+    >
+      {children}
+    </motion.section>
   );
 };
 
