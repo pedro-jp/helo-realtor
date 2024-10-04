@@ -8,6 +8,7 @@ import BtnCompartilhar from '@/app/components/BtnCompartlhar';
 import { Favorite } from '@/app/assets/svg';
 import Favoritar from '@/app/components/Favoritar';
 import { Footer } from '@/app/components/footer';
+import React from 'react';
 
 // Importa o componente dinamicamente para evitar SSR
 const MapWithCircle = dynamic(() => import('@/app/components/map'), {
@@ -88,6 +89,10 @@ export default async function ImovelPage({
   const transaction =
     imovel.transaction[0].toUpperCase() + imovel.transaction.slice(1);
   const office = await getOffice(imovel.ownerId);
+
+  if (!office) {
+    return <div>Imóvel não encontrado</div>;
+  }
 
   return (
     <>

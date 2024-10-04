@@ -9,6 +9,9 @@ export class GetOfficeService {
     const office = await prismaClient.office.findFirst({
       where: {
         ownerId,
+        owner: {
+          planIsActive: true,
+        },
       },
       include: {
         banner_image: true,
@@ -16,6 +19,13 @@ export class GetOfficeService {
         imoveis: true,
       },
     });
-    return office;
+
+    if (!office) {
+      return null;
+    }
+
+    if (office) {
+      return office;
+    }
   }
 }
