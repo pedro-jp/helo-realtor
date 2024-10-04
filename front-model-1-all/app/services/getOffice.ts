@@ -6,6 +6,7 @@ const url = process.env.NEXT_PUBLIC_URL;
 
 export async function getOfficeByName(name: string) {
   try {
+    console.log(url);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_URL}/offices/${name}`
     );

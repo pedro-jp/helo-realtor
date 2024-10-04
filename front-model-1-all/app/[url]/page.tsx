@@ -1,5 +1,5 @@
 // app/[officeName]/page.tsx
-
+import React from 'react';
 import { Metadata } from 'next';
 import Cards from '../components/cards';
 import Hero from '../components/hero';
@@ -36,7 +36,6 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const office = await getOfficeByName(params.url); // Busca o escritório pelo nome
   console.log('params: ' + params.url);
-  console.log('nome: ' + office.name);
 
   if (!office) {
     return {

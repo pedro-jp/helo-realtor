@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { OfficeType } from '../types';
 import MapWithCircle from '../components/mapOffices';
 import style from './styles.module.scss';
-import { Loading } from '../components/Loading';
 import { Canvas } from '@react-three/fiber';
 import { Experience } from '../components/Experience';
 import { Environment, Float, Scroll } from '@react-three/drei';

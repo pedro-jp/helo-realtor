@@ -1,3 +1,5 @@
+import React, { useContext, useEffect, useRef } from 'react';
+import { View, Animated, Dimensions } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Feather } from '@expo/vector-icons';
@@ -7,10 +9,10 @@ import Images from '../pages/Images';
 import ListImoveis from '../pages/ListImoveis';
 import Imovel from '../pages/Imovel';
 import Category from '../pages/Category';
-import { View } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { AuthContext } from '../contexts/AuthContext';
-import { useContext } from 'react';
+
+const screenWidth = Dimensions.get('window').width;
 
 const HomeStack = createNativeStackNavigator();
 
@@ -33,22 +35,21 @@ function ListImoveisStackScreen() {
       <ListImoveisStack.Screen name='Imoveis' component={ListImoveis} />
       <ListImoveisStack.Screen name='Imovel' component={Imovel} />
       <ListImoveisStack.Screen name='AddImovel' component={AddImovel} />
-      <ListImoveisStack.Screen name='HomeList' component={Home} />
-      <addImovelStack.Screen name='Images' component={Images} />
+      <ListImoveisStack.Screen name='Images' component={Images} />
     </ListImoveisStack.Navigator>
   );
 }
 
-const addImovelStack = createNativeStackNavigator();
+const AddImovelStack = createNativeStackNavigator();
 
 function AddImovelStackScreen() {
   return (
-    <addImovelStack.Navigator screenOptions={{ headerShown: false }}>
-      <addImovelStack.Screen name='Add Imovel' component={AddImovel} />
-      <addImovelStack.Screen name='HomeAdd' component={Home} />
-      <addImovelStack.Screen name='Imovel' component={Imovel} />
-      <addImovelStack.Screen name='Images' component={Images} />
-    </addImovelStack.Navigator>
+    <AddImovelStack.Navigator screenOptions={{ headerShown: false }}>
+      <AddImovelStack.Screen name='Add Imovel' component={AddImovel} />
+      <AddImovelStack.Screen name='HomeAdd' component={Home} />
+      <AddImovelStack.Screen name='Imovel' component={Imovel} />
+      <AddImovelStack.Screen name='Images' component={Images} />
+    </AddImovelStack.Navigator>
   );
 }
 
@@ -56,96 +57,79 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   const { user } = useContext(AuthContext);
+  const tabPosition = useRef(new Animated.Value(0)).current;
+
+  const moveIndicator = (index) => {
+    Animated.spring(tabPosition, {
+      toValue: index,
+      useNativeDriver: false,
+    }).start();
+  };
+
   return (
     <Tab.Navigator
-      screenOptions={{
+      screenOptions={({ route }) => ({
         headerShown: false,
-
-        tabBarBackground: () => <MenuBlur />,
+        tabBarShowLabel: false,
+        tabBarBackground: () => <MenuBlur tabPosition={tabPosition} />,
         tabBarStyle: {
+          display: 'flex',
           width: '100%',
-          height: 100,
+          height: 80,
           borderTopWidth: 0,
           position: 'absolute',
-          alignItems: 'center',
           elevation: 0,
-          overflow: 'visible',
-          marginTop: 100,
-          marginHorizontal: 'auto',
-          marginBottom: -10,
+          marginBottom: 0,
+          borderRadius: 20,
         },
-
-        tabBarIconStyle: {
-          marginTop: 10,
-          zIndex: 10,
+        tabBarIconStyle: {},
+        tabBarIcon: ({ focused }) => {
+          let iconName;
+          if (route.name === 'Home') {
+            iconName = 'home';
+          } else if (route.name === 'Add') {
+            iconName = 'plus';
+          } else if (route.name === 'Imóveis') {
+            iconName = 'list';
+          }
+          return (
+            <Feather
+              name={iconName}
+              size={28}
+              color={focused ? '#fff' : 'gray'}
+            />
+          );
         },
-      }}
+      })}
+      screenListeners={({ navigation, route }) => ({
+        state: (e) => {
+          const index = e.data.state.index;
+          moveIndicator(index);
+        },
+      })}
     >
       {!user.planIsActive ? (
-        <Tab.Screen
-          name='Home'
-          options={{
-            tabBarLabel: 'Home',
-            tabBarLabelStyle: { color: '#fff' },
-            tabBarIcon: () => <Feather name='edit' color={'#fff'} size={28} />,
-          }}
-          component={HomeStackScreen}
-        />
+        <Tab.Screen name='Home' component={HomeStackScreen} />
       ) : (
         <>
-          <Tab.Screen
-            name='Home'
-            options={{
-              tabBarLabel: 'Home',
-              tabBarLabelStyle: { color: '#fff' },
-              tabBarIcon: () => (
-                <Feather name='edit' color={'#fff'} size={28} />
-              ),
-            }}
-            component={HomeStackScreen}
-          />
-          <Tab.Screen
-            name='Add'
-            options={{
-              title: 'Adicionar imóveis',
-              tabBarLabel: 'Add imóvel',
-              tabBarLabelStyle: { color: '#fff' },
-              tabBarIcon: () => (
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Feather name='plus' color={'#fff'} size={22} />
-                  <Feather name='home' color={'#fff'} size={28} />
-                </View>
-              ),
-            }}
-            component={AddImovelStackScreen}
-          />
-          <Tab.Screen
-            name='Imóveis'
-            options={{
-              title: 'Listar imóveis',
-              tabBarLabel: 'Lista',
-              tabBarLabelStyle: { color: '#fff' },
-              tabBarIcon: () => (
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Feather name='home' color={'#fff'} size={28} />
-                  <Feather
-                    name='edit-2'
-                    color={'#fff'}
-                    size={10}
-                    style={{ marginTop: -20 }}
-                  />
-                </View>
-              ),
-            }}
-            component={ListImoveisStackScreen}
-          />
+          <Tab.Screen name='Home' component={HomeStackScreen} />
+          <Tab.Screen name='Add' component={AddImovelStackScreen} />
+          <Tab.Screen name='Imóveis' component={ListImoveisStackScreen} />
         </>
       )}
     </Tab.Navigator>
   );
 }
 
-const MenuBlur = () => {
+const MenuBlur = ({ tabPosition }) => {
+  const circleSize = 80;
+  const indicatorPosition = tabPosition.interpolate({
+    inputRange: [0, 1, 2],
+    outputRange: [0, screenWidth / 3, (screenWidth / 3) * 2],
+  });
+
+  const position = Animated.add(indicatorPosition, 30);
+
   return (
     <View style={{ flex: 1 }}>
       <View
@@ -162,7 +146,17 @@ const MenuBlur = () => {
           intensity={50}
           style={{
             flex: 1,
-            backgroundColor: ' rgba(66, 100, 255, 0.3)',
+            backgroundColor: 'rgba(66, 100, 255, 0.3)',
+          }}
+        />
+        <Animated.View
+          style={{
+            position: 'absolute',
+            left: position,
+            width: circleSize,
+            height: circleSize,
+            borderBottomWidth: 2,
+            borderColor: '#fff',
           }}
         />
       </View>
