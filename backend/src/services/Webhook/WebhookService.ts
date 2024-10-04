@@ -121,7 +121,7 @@ class WebhookService {
               data: {
                 paymentStatus: 'canceled', // Altera o status do pagamento para cancelado
                 subscriptionId: '', // Remove o subscriptionId pois foi cancelada
-                priceId: priceID, // Atualiza o priceID, se necessário
+                priceId: '', // Atualiza o priceID, se necessário
                 planIsActive: false, // Define o plano como inativo
               },
             });
