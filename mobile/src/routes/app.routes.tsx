@@ -122,6 +122,8 @@ export default function App() {
 }
 
 const MenuBlur = ({ tabPosition }) => {
+  const { user } = useContext(AuthContext);
+
   const circleSize = 80;
   const indicatorPosition = tabPosition.interpolate({
     inputRange: [0, 1, 2],
@@ -152,7 +154,9 @@ const MenuBlur = ({ tabPosition }) => {
         <Animated.View
           style={{
             position: 'absolute',
-            left: position,
+            left: user.planIsActive
+              ? position
+              : screenWidth / 2 - screenWidth * 0.1,
             width: circleSize,
             height: circleSize,
             borderBottomWidth: 2,
