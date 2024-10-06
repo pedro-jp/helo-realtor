@@ -1,11 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
 :root {
   --background-color: #4246ff;
+  --primary-color: #424242;
   --primary-blue: #4246ff;
   --secondary-blue: #1d1e6f;
+  --primary-white: #F0EEE3
 
   --max-width: 1100px;
   --border-radius: 12px;
-  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
+  --font-mono: 'Manrope', ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
     'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
     'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 
@@ -82,13 +86,20 @@
   padding: 0;
   margin: 0;
   transition: 0.2s;
+  font-family: var(--font-mono);
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 html,
 body {
+  --orvalho: #F0EEE3;
   width: 100vw;
   height: 100vh;
   overflow-x: hidden;
+  background-color: var(--orvalho);
 }
 button {
   cursor: pointer;

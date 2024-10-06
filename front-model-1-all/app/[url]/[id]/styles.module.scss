@@ -1,10 +1,10 @@
 .main {
   max-width: 1440px;
   margin-inline: auto;
-  margin-top: 5rem;
+  margin-top: 2rem;
 
   .transaction {
-    color: var(--primary-color);
+    color: green;
     font-weight: 700;
   }
 
@@ -49,6 +49,10 @@
   grid-template-columns: 40% 60%;
   gap: 3rem;
 
+  .description {
+    margin: 20px 0;
+  }
+
   @media screen and (width < 768px) {
     grid-template-columns: 1fr;
     .map {
@@ -58,4 +62,11 @@
 }
 .map {
   width: calc(100% - 3rem);
+}
+
+.infos {
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }

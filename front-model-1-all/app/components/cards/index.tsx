@@ -1,3 +1,4 @@
+import React from 'react';
 import { getImoveis } from '@/app/services/getImoveis';
 import Image from 'next/image';
 import Link from 'next/link';

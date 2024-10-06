@@ -6,7 +6,6 @@
   grid-template-rows: 1fr auto;
   width: 20rem;
   position: relative;
-
   &:hover {
     .houseIcon {
       animation: pulse 1s infinite;
@@ -34,7 +33,7 @@
     top: 1rem;
     right: 1rem;
     font-size: 1.5rem;
-    color: white;
+    color: var(--orvalho);
     mix-blend-mode: difference;
 
     &:hover {
@@ -67,7 +66,7 @@
   background-image: radial-gradient(
     circle at 100% 100%,
     transparent var(--_size),
-    var(--_corner-color, white) calc(var(--_size) + 1px)
+    var(--_corner-color, var(--orvalho)) calc(var(--_size) + 1px)
   );
   rotate: -90deg;
 }
@@ -84,7 +83,7 @@
   bottom: 0;
   grid-column: 1;
   grid-row: 1 / 2;
-  box-shadow: -1rem 0 0 white;
+  box-shadow: -1rem 0 0 var(--orvalho);
 }
 
 .houseImage img {
@@ -101,7 +100,7 @@
   grid-row: 2 / 3;
   grid-column: 1 / 2;
   border-radius: var(--_br) var(--_br) 0 0;
-  box-shadow: 0 1rem 0 black, 0 0 0 1rem white;
+  box-shadow: 0 1rem 0 black, 0 0 0 1rem var(--orvalho);
 }
 
 .housePrice::after {

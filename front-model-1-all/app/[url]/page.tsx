@@ -82,34 +82,43 @@ export default async function OfficePage({
 
   return (
     <>
-      <div>{office.name}</div>
-      <Hero />
-      <section
-        style={{
-          backgroundImage: `url('/assets/img/door.jpg')`,
-        }}
-        className={style.sell}
-      >
-        <h1>Venda seu imóvel</h1>
-        <button>
-          <a href='/imoveis'>Quer vender o seu imóvel?</a>
-        </button>
-      </section>
-      <section className={style.card_section}>
-        {office.imoveis && <Cards officeName={office.url} />}
-      </section>
-      <div
-        style={{
-          width: '100%',
-          maxWidth: '1440px',
-          margin: '0 auto',
-        }}
-      >
-        <MapWithCircle
-          latitude={office?.latitude}
-          longitude={office?.longitude}
-          marker
-        />
+      <div>
+        <Hero />
+        <section
+          style={{
+            backgroundImage: `url('/assets/img/door.jpg')`,
+            height: '100vw',
+          }}
+          className={style.sell}
+        >
+          <h1>Venda seu imóvel</h1>
+          <button>
+            <a href='/imoveis'>Quer vender o seu imóvel?</a>
+          </button>
+        </section>
+        <h2
+          style={{
+            textAlign: 'center',
+            margin: '20px',
+          }}
+        >
+          Imóveis disponíveis
+        </h2>
+        <section className={style.card_section}>
+          {office.imoveis && <Cards officeName={office.url} />}
+        </section>
+        <div
+          style={{
+            width: 'calc(100% - 2rem)',
+            margin: '0 auto',
+          }}
+        >
+          <MapWithCircle
+            latitude={office?.latitude}
+            longitude={office?.longitude}
+            marker
+          />
+        </div>
       </div>
       <Footer name={office.name} />
     </>
