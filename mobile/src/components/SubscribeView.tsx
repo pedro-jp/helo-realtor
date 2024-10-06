@@ -14,7 +14,6 @@ import { PanGestureHandler } from 'react-native-gesture-handler';
 import { useStripe, PaymentSheetError } from '@stripe/stripe-react-native';
 import { api } from '../services/api';
 import { AuthContext } from '../contexts/AuthContext';
-import { UserProps } from '../interfaces';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Feather } from '@expo/vector-icons';
 
