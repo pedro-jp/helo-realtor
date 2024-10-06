@@ -2,9 +2,11 @@ import axios, { AxiosError } from 'axios';
 
 import { parseCookies } from 'nookies';
 import { AuthTokenError } from './errors/AuthTokenError';
-import { signOut } from '@/contexts/AuthContext';
+import { AuthContext } from '@/contexts/AuthContext';
+import { useContext } from 'react';
 
 export function setupAPIClient(ctx = undefined) {
+  const { signOut } = useContext(AuthContext); //eslint-disable-line
   let cookies = parseCookies(ctx);
 
   const api = axios.create({
