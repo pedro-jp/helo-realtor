@@ -1,22 +1,23 @@
 import { Header } from '@/components/Header';
 import Head from 'next/head';
-
 import styles from './styles.module.scss';
 import { Input } from '@/components/ui/Input';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 import { setupAPIClient } from '@/services/api';
 import { toast } from 'react-toastify';
 import { canSSRAuth } from '@/utils/canSSRAuth';
+import { AuthContext } from '@/contexts/AuthContext';
 
 export default function Category() {
   const [name, setName] = useState('');
+  const { signOut } = useContext(AuthContext);
 
   const handleRegister = async (event: FormEvent) => {
     event.preventDefault();
 
     if (name === '') return;
 
-    const apiClient = setupAPIClient();
+    const apiClient = setupAPIClient(signOut);
     await apiClient.post('/category', {
       name,
     });

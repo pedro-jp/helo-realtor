@@ -1,15 +1,13 @@
 import { canSSRAuth } from '@/utils/canSSRAuth';
-
 import styles from './styles.module.scss';
-
 import { Header } from '@/components/Header';
 import Head from 'next/head';
 import { FiRefreshCcw } from 'react-icons/fi';
 import { setupAPIClient } from '@/services/api';
-import { useState } from 'react';
-
+import { useContext, useState } from 'react';
 import Modal from 'react-modal';
 import { ModalOrder } from '@/components/ModalOrder';
+import { AuthContext } from '@/contexts/AuthContext';
 
 type OrderProps = {
   id: string;
@@ -44,6 +42,7 @@ export type OrderItemProps = {
 
 export default function Dashboard({ orders }: HomeProps) {
   const [orderList, setOrderList] = useState(orders || []);
+  const { signOut } = useContext(AuthContext);
 
   const [modalItem, setModalItem] = useState<OrderItemProps[]>();
   const [modalVisible, setModalVisible] = useState(false);
@@ -53,7 +52,7 @@ export default function Dashboard({ orders }: HomeProps) {
   }
 
   async function handleFinishItem(id: string) {
-    const apiClient = setupAPIClient();
+    const apiClient = setupAPIClient(signOut);
     await apiClient.put('/order/finish', {
       order_id: id,
     });
@@ -64,13 +63,13 @@ export default function Dashboard({ orders }: HomeProps) {
   }
 
   async function handleRefreshOrder() {
-    const apiClient = setupAPIClient();
+    const apiClient = setupAPIClient(signOut);
     const response = await apiClient.get('/orders');
     setOrderList(response.data);
   }
 
   async function handleOpenModalView(id: string) {
-    const apiClient = setupAPIClient();
+    const apiClient = setupAPIClient(signOut);
 
     const response = await apiClient.get('/order/detail', {
       params: {
