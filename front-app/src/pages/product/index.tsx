@@ -5,9 +5,10 @@ import { canSSRAuth } from '@/utils/canSSRAuth';
 import { Input } from '@/components/ui/Input';
 import { FiUpload } from 'react-icons/fi';
 import Image from 'next/image';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { setupAPIClient } from '@/services/api';
 import { toast } from 'react-toastify';
+import { AuthContext } from '@/contexts/AuthContext';
 
 type ItemProps = {
   id: string;
@@ -26,6 +27,7 @@ export default function Product({ categoryList }: CategoryProps) {
 
   const [categories, setCategories] = useState(categoryList || []);
   const [categorySelected, setCategorySelected] = useState(0);
+  const { signOut } = useContext(AuthContext);
 
   function handleFile(e: ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) {
@@ -74,7 +76,7 @@ export default function Product({ categoryList }: CategoryProps) {
       data.append('category_id', categories[categorySelected].id);
       data.append('file', imageAvatar);
 
-      const apiClient = setupAPIClient();
+      const apiClient = setupAPIClient(signOut);
 
       await apiClient.post('/product', data);
 

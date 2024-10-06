@@ -1,9 +1,8 @@
+import { setupAPIClient } from '@/services/api';
 import { useRouter } from 'next/router';
 import { destroyCookie, setCookie, parseCookies } from 'nookies';
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-
-import { api } from '../services/apiClient';
 
 type AuthContextData = {
   user: UserProps;
@@ -37,6 +36,8 @@ interface AuthProviderProps {
 export const AuthContext = createContext({} as AuthContextData);
 
 export function AuthProvider({ children }: AuthProviderProps) {
+  const api = setupAPIClient(signOut);
+
   const router = useRouter();
 
   const [user, setUser] = useState<UserProps>({
