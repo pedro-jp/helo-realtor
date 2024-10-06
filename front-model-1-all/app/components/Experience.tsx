@@ -1,4 +1,6 @@
 /*eslint-disable*/
+
+import React from 'react';
 import { OrbitControls, ScrollControls } from '@react-three/drei';
 import { Office } from './Office';
 import { Content } from '../AppHome/page';

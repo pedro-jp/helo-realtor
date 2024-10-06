@@ -69,13 +69,14 @@ export const Footer = ({ name }: Props) => {
 
           <ul className={style.navigation}>
             <li>
-              <Link href='/'>Home</Link>
+              <Link href='/'>Todos os escritórios</Link>
             </li>
             <li>
-              <Link href='/imoveis'>Lista de Imóveis</Link>
+              <Link href={`/${officeData.url}`}>Lista de Imóveis</Link>
             </li>
-            <li>Sobre</li>
-            <li>Contato</li>
+            <li>
+              <a href={`whatsapp://send?phone=${officeData.phone}`}>Contato</a>
+            </li>
           </ul>
         </div>
       </div>

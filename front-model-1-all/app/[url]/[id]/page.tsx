@@ -109,7 +109,7 @@ export default async function ImovelPage({
           </div>
 
           <div>
-            <ul>
+            <ul className={style.infos}>
               <li>
                 <strong>Preço: </strong>
                 {imovel.price}
@@ -138,7 +138,7 @@ export default async function ImovelPage({
               {imovel?.garagem && parseInt(imovel?.garagem) > 1 && (
                 <li>
                   <strong>Garagem: </strong>
-                  <span>{imovel?.garagem}</span>
+                  <span>{imovel?.garagem} vagas</span>
                 </li>
               )}
             </ul>
@@ -146,8 +146,8 @@ export default async function ImovelPage({
         </section>
         <section className={style.description_container}>
           <div className={style.description}>
-            <h2>{imovel?.local}</h2>
-            <h3>Descricão</h3>
+            <h2 style={{ marginBottom: '12px' }}>{imovel?.local}</h2>
+            <h3 style={{ marginBottom: '12px' }}>Descricão</h3>
             <p
               dangerouslySetInnerHTML={{
                 __html: convertNewlinesToBreaks(imovel.description),
