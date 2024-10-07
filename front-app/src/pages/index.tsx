@@ -3,7 +3,7 @@ import Head from 'next/head';
 
 import styles from '../styles/home.module.scss';
 
-import logo from '../assets/images/logo.svg';
+import background from '@/assets/images/interior.jpg';
 import Image from 'next/image';
 
 import Link from 'next/link';
@@ -38,6 +38,7 @@ export default function Home() {
       email,
       password,
     };
+    console.log(data);
 
     await signIn(data);
 
@@ -46,37 +47,43 @@ export default function Home() {
 
   return (
     <>
+      <Image
+        className={styles.background}
+        src={background}
+        alt='background'
+      ></Image>
       <Head>
-        <title>Pizzaria - Faça seu login</title>
+        <title>Helo Realtor | Login</title>
       </Head>
-      <div className={styles.containerCenter}>
-        <Image src={logo} alt='Logo Pizzaria' />
-        <div className={styles.login}>
-          <form onSubmit={handleLogin}>
-            <Input
-              placeholder='Digite seu email'
-              autoComplete='email'
-              type='email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Input
-              placeholder='Sua senha'
-              autoComplete='password'
-              type='password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <Button type='submit' loading={isLoading}>
-              Acessar
-            </Button>
-          </form>
-          <Link href='./signup' className={styles.text}>
-            Não possui cadastro? Cadastre-se
-          </Link>
+      <main>
+        <div className={styles.containerCenter}>
+          <h1>Faça seu login</h1>
+          <div className={styles.login}>
+            <form onSubmit={handleLogin}>
+              <Input
+                placeholder='Digite seu email'
+                autoComplete='email'
+                type='email'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Input
+                placeholder='Sua senha'
+                autoComplete='password'
+                type='password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Button type='submit' loading={isLoading}>
+                Acessar
+              </Button>
+            </form>
+            <Link href='./signup' className={styles.text}>
+              Não possui cadastro? Cadastre-se
+            </Link>
+          </div>
         </div>
-      </div>
+      </main>
     </>
   );
 }

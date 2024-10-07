@@ -56,8 +56,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   async function updateUser() {
     try {
-      const response = await api.get('/me');
+      const response = await api.get(`/me${user.id}`);
       const userData = response.data;
+      console.log(userData);
 
       setUser((prevUser) => ({
         ...prevUser,

@@ -1,13 +1,15 @@
 import axios, { AxiosError } from 'axios';
 import { parseCookies } from 'nookies';
 import { AuthTokenError } from './errors/AuthTokenError';
+import { signOut } from '@/contexts/AuthContext';
+import { NextRouter } from 'next/router';
 
 // Modifique a função para aceitar signOut como argumento
-export function setupAPIClient(signOut: any, ctx = undefined) {
-  const cookies = parseCookies(ctx);
+export function setupAPIClient(router: NextRouter) {
+  const cookies = parseCookies(undefined);
 
   const api = axios.create({
-    baseURL: 'http://localhost:3333',
+    baseURL: 'http://192.168.1.21:3332',
     headers: {
       Authorization: `Bearer ${cookies['@nextauth.token']}`,
     },
@@ -22,7 +24,7 @@ export function setupAPIClient(signOut: any, ctx = undefined) {
       if (error.response?.status === 401) {
         if (typeof window !== undefined) {
           // Chame a função signOut quando houver um erro 401
-          signOut();
+          signOut(router);
         } else {
           // Em ambientes de servidor, rejeite a promessa com um erro de token
           return Promise.reject(new AuthTokenError());
