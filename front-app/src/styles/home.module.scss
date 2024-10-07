@@ -1,12 +1,37 @@
+main:has(.containerCenter) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 .containerCenter {
-  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: var(--dark-700);
+  color: white;
+  backdrop-filter: blur(10px);
+  width: max-content;
+  padding: 24px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+  input {
+    outline: 1px solid #00000020;
+  }
 }
 
+.background {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-color: var(--dark-700);
+}
 .login {
   margin-top: 2rem;
   width: 600px;

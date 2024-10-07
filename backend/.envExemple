@@ -1,3 +1,6 @@
-DATABASE_URL="postgresql://user(postgress):senha@server:post/dbname?schema=public"
+DATABASE_URL="postgresql://realtor_backend_user:kXeCDD9Sad5CNyhhxiDeUwxEj9dmF9fn@dpg-crgebs5svqrc73f1ikq0-a.ohio-postgres.render.com/realtor_backend"
 JWT_SECRET=d9c5b7137f05d7f6ecf07c3fcf636b8f
-GOOGLE_MAPS_API_KEY
+GOOGLE_MAPS_API_KEY=AIzaSyCXUysejG26jQvuyCl6arN8ueQYVR4MLqo
+PORT=3332
+STRIPE_WEBHOOK_SECRET=whsec_wGTgYSsoHmL4KGkfMeSHggCXr4rO3oOV
+SENDGRID_API_KEY=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

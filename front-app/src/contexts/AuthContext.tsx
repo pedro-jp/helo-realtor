@@ -1,5 +1,5 @@
 import { setupAPIClient } from '@/services/api';
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 import { destroyCookie, setCookie, parseCookies } from 'nookies';
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -8,7 +8,7 @@ type AuthContextData = {
   user: UserProps;
   isAuthenticated: boolean;
   signIn: (credentials: SignInProps) => Promise<void>;
-  signOut: () => void;
+  signOut: (router: NextRouter) => void;
   signUp: (credentials: SignUpProps) => Promise<void>;
 };
 
@@ -33,12 +33,18 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
+export async function signOut(router: NextRouter) {
+  try {
+    destroyCookie(undefined, '@nextauth.token');
+    router.push('/');
+  } catch (error) {}
+}
+
 export const AuthContext = createContext({} as AuthContextData);
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const api = setupAPIClient(signOut);
-
   const router = useRouter();
+  const api = setupAPIClient(router);
 
   const [user, setUser] = useState<UserProps>({
     id: 'example',
@@ -52,8 +58,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     if (token) {
       api
-        .get('/me')
+        .get(`/me`)
         .then((response) => {
+          console.log(response.data);
           const { id, name, email } = response.data;
 
           setUser({
@@ -63,7 +70,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
           });
         })
         .catch((e) => {
-          signOut();
+          console.log(e);
+          signOut(router);
         });
     }
   });
@@ -74,7 +82,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         email,
         password,
       });
-
+      console.log('toooi' + response.data);
       const { id, name, token } = response.data;
 
       setCookie(undefined, '@nextauth.token', token, {
@@ -90,7 +98,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       api.defaults.headers['authorization'] = `Bearer ${token}`;
       toast.success('Logado com sucesso');
-      console.log(id, name, token);
+      console.log(api.defaults.headers);
+      console.log(response.data);
       router.push('/dashboard');
     } catch (error) {
       console.log(error);
@@ -112,13 +121,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     } catch (err) {
       toast.error('Erro ao cadastrar');
     }
-  }
-
-  async function signOut() {
-    try {
-      destroyCookie(undefined, '@nextauth.token');
-      router.push('/');
-    } catch (error) {}
   }
 
   return (
