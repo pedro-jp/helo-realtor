@@ -113,7 +113,7 @@ router.post('/users', new CreateUserController().handle);
 
 router.post('/session', new AuthUserController().handle);
 
-router.get('/me:id', isAuthenticated, new GetUserController().handle);
+router.get('/me/:email', isAuthenticated, new GetUserController().handle);
 
 //--ROTAS CATEGORY
 router.post(

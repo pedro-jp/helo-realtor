@@ -37,7 +37,9 @@ export async function signOut(router: NextRouter) {
   try {
     destroyCookie(undefined, '@nextauth.token');
     router.push('/');
-  } catch (error) {}
+  } catch (error) {
+    console.error('Erro ao fazer logout:', error);
+  }
 }
 
 export const AuthContext = createContext({} as AuthContextData);
@@ -47,34 +49,38 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const api = setupAPIClient(router);
 
   const [user, setUser] = useState<UserProps>({
-    id: 'example',
-    name: 'example',
-    email: 'example',
+    id: '',
+    name: '',
+    email: '',
   });
+
   const isAuthenticated = !!user;
 
   useEffect(() => {
     const { '@nextauth.token': token } = parseCookies();
 
     if (token) {
-      api
-        .get(`/me`)
-        .then((response) => {
-          console.log(response.data);
-          const { id, name, email } = response.data;
+      // Recupera o usuário usando o token
+      const payloadBase64 = token.split('.')[1];
 
-          setUser({
-            id,
-            name,
-            email,
-          });
+      // Decodificar o payload de base64
+      const decodedPayload = atob(payloadBase64);
+
+      // Converter o JSON decodificado em um objeto
+      const payload = JSON.parse(decodedPayload);
+      api
+        .get(`/me/${payload.email}`)
+        .then((response) => {
+          const { id, name, email } = response.data;
+          setUser({ id, name, email });
+          api.defaults.headers['authorization'] = `Bearer ${token}`;
         })
-        .catch((e) => {
-          console.log(e);
+        .catch(() => {
+          // Se o token for inválido, desloga o usuário
           signOut(router);
         });
     }
-  });
+  }, [router]);
 
   async function signIn({ email, password }: SignInProps) {
     try {
@@ -82,11 +88,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
         email,
         password,
       });
-      console.log('toooi' + response.data);
       const { id, name, token } = response.data;
 
+      // Define o token no cookie
       setCookie(undefined, '@nextauth.token', token, {
-        maxAge: 60 * 60 * 24 * 30,
+        maxAge: 60 * 60 * 24 * 30, // 30 dias
         path: '/',
       });
 
@@ -98,25 +104,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       api.defaults.headers['authorization'] = `Bearer ${token}`;
       toast.success('Logado com sucesso');
-      console.log(api.defaults.headers);
-      console.log(response.data);
       router.push('/dashboard');
     } catch (error) {
-      console.log(error);
+      console.error('Erro ao acessar:', error);
       toast.error('Erro ao acessar');
     }
   }
 
   async function signUp({ name, email, password }: SignUpProps) {
     try {
-      const response = await api.post('/users', {
-        name,
-        email,
-        password,
-      });
-
+      await api.post('/users', { name, email, password });
       toast.success('Cadastrado com sucesso');
-
       router.push('/');
     } catch (err) {
       toast.error('Erro ao cadastrar');

@@ -13,9 +13,7 @@ export function Header() {
   return (
     <header className={styles.headerContainer}>
       <div className={styles.headerContent}>
-        <Link href={'/dashboard'}>
-          <Image src='/logo.svg' width={190} height={60} alt='logo' />
-        </Link>
+        <Link href={'/dashboard'}></Link>
         <nav>
           <Link href='/category'>Categoria</Link>
           <Link href='/product'>Cardapio</Link>

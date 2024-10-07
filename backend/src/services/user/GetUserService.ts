@@ -1,10 +1,10 @@
 import prismaClient from '../../prisma';
 
 class GetUSerService {
-  async execute({ id }) {
+  async execute({ email }) {
     const user = await prismaClient.user.findUnique({
       where: {
-        id,
+        email,
       },
     });
     console.log(user);

@@ -42,14 +42,15 @@ export type OrderItemProps = {
 };
 
 export default function Dashboard() {
+  const { user } = useContext(AuthContext);
   return (
     <>
       <Head>
-        <title>Pizzaria</title>
+        <title>Helo Realtor</title>
       </Head>
       <Header />
       <main className={styles.container}>
-        <h1>Dashboard</h1>
+        <h1>{user.name}</h1>
       </main>
     </>
   );
