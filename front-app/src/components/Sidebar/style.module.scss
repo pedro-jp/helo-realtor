@@ -17,6 +17,7 @@ nav:has(.sidebar) {
     z-index: 100;
     top: 1.25rem;
     left: 1rem;
+    display: none;
 
     input {
       position: absolute;
@@ -34,6 +35,10 @@ nav:has(.sidebar) {
       height: 3px;
       background-color: #fff;
       margin-bottom: 5px;
+    }
+
+    @media (width <= 768px) {
+      display: block;
     }
   }
 }
