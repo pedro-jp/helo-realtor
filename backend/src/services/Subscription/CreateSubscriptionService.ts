@@ -16,7 +16,6 @@ class CreateSubscriptionService {
       const customers = await stripe.customers.list({
         email: email,
         limit: 1,
-        preferred_locales: ['pt-BR'],
       });
 
       console.log(customers.data[0].email); // Check if any customer was found

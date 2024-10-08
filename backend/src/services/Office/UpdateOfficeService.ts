@@ -43,6 +43,7 @@ export class UpdateOfficeService {
         longitude: coordinates ? coordinates.lng.toString() : null, // Atualiza longitude como string
       },
     });
+    console.log('Office updated:', office);
     return office;
   }
 
