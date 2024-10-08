@@ -118,7 +118,7 @@ const Home = () => {
 
   const getOffice = async () => {
     try {
-      const response = await api.get(`/office/${ownerId}`);
+      const response = await api.get(`/office/inactive/${ownerId}`);
       setOffice(response.data);
       setName(response.data.name);
       setPhone(response.data.phone);

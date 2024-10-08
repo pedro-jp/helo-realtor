@@ -38,7 +38,6 @@ export default function Home() {
       email,
       password,
     };
-    console.log(data);
 
     await signIn(data);
 

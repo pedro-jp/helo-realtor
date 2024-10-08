@@ -10,12 +10,17 @@ type AuthContextData = {
   signIn: (credentials: SignInProps) => Promise<void>;
   signOut: (router: NextRouter) => void;
   signUp: (credentials: SignUpProps) => Promise<void>;
+  router: NextRouter;
 };
 
-type UserProps = {
+export type UserProps = {
   id: string;
   name: string;
   email: string;
+  token: string;
+  subscriptionId: string;
+  priceId: string;
+  planIsActive: boolean;
 };
 
 type SignInProps = {
@@ -52,6 +57,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     id: '',
     name: '',
     email: '',
+    token: '',
+    subscriptionId: '',
+    priceId: '',
+    planIsActive: false,
   });
 
   const isAuthenticated = !!user;
@@ -71,8 +80,25 @@ export function AuthProvider({ children }: AuthProviderProps) {
       api
         .get(`/me/${payload.email}`)
         .then((response) => {
-          const { id, name, email } = response.data;
-          setUser({ id, name, email });
+          const {
+            id,
+            name,
+            email,
+            subscriptionId,
+            token,
+            priceId,
+            planIsActive,
+          } = response.data;
+
+          setUser({
+            id,
+            name,
+            email,
+            token,
+            subscriptionId,
+            priceId,
+            planIsActive,
+          });
           api.defaults.headers['authorization'] = `Bearer ${token}`;
         })
         .catch(() => {
@@ -100,11 +126,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
         id,
         name,
         email,
+        token,
+        subscriptionId: '',
+        priceId: '',
+        planIsActive: false,
       });
 
       api.defaults.headers['authorization'] = `Bearer ${token}`;
       toast.success('Logado com sucesso');
-      router.push('/dashboard');
+      router.push('/propertys');
     } catch (error) {
       console.error('Erro ao acessar:', error);
       toast.error('Erro ao acessar');
@@ -123,7 +153,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, signIn, signOut, signUp }}
+      value={{ router, user, isAuthenticated, signIn, signOut, signUp }}
     >
       {children}
     </AuthContext.Provider>

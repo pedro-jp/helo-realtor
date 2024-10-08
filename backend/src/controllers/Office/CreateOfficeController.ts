@@ -4,7 +4,6 @@ import { CreateOfficeService } from '../../services/Office/CreateOfficeService';
 export class CreateOfficeController {
   async handle(req: Request, res: Response) {
     const { name, phone, address, address_city, description, email } = req.body;
-
     const createOfficeService = new CreateOfficeService();
 
     try {

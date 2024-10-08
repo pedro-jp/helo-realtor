@@ -1,14 +1,8 @@
-import { canSSRAuth } from '@/utils/canSSRAuth';
 import styles from './styles.module.scss';
-import { Header } from '@/components/Header';
+import { Sidebar } from '@/components/Sidebar';
 import Head from 'next/head';
-import { FiRefreshCcw } from 'react-icons/fi';
-import { setupAPIClient } from '@/services/api';
 import { useContext, useState } from 'react';
-import Modal from 'react-modal';
-import { ModalOrder } from '@/components/ModalOrder';
 import { AuthContext } from '@/contexts/AuthContext';
-import { useRouter } from 'next/router';
 
 type OrderProps = {
   id: string;
@@ -46,11 +40,11 @@ export default function Dashboard() {
   return (
     <>
       <Head>
-        <title>Helo Realtor</title>
+        <title>Helo Realtor | Propriedades</title>
       </Head>
-      <Header />
+      <Sidebar />
       <main className={styles.container}>
-        <h1>{user.name}</h1>
+        <h1>Propriedades</h1>
       </main>
     </>
   );
