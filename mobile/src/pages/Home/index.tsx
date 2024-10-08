@@ -126,6 +126,7 @@ const Home = () => {
       setAddressCity(response.data.address_city);
       setDescription(response.data.description);
       setEmail(response.data.email);
+      console.log(office);
     } catch (error) {
       console.log(error.response?.data ?? error.message);
       setOffice(null);
@@ -155,6 +156,7 @@ const Home = () => {
       const response = await api.put(`/office/${office.id}`, {
         name,
         phone,
+        ownerId,
         address,
         address_city,
         address_state,
@@ -162,6 +164,7 @@ const Home = () => {
         email,
       });
       setOffice(response.data);
+      console.log('atualizou');
     } catch (error) {
       console.log(error.response?.data ?? error.message);
     }
