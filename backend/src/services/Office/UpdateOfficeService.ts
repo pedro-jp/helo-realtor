@@ -11,6 +11,19 @@ interface OfficeRequest {
   officeId: string;
 }
 
+// Tipagem da resposta da API do Google Geocoding
+interface GoogleGeocodeResponse {
+  status: string;
+  results: Array<{
+    geometry: {
+      location: {
+        lat: number;
+        lng: number;
+      };
+    };
+  }>;
+}
+
 export class UpdateOfficeService {
   async execute({
     name,
@@ -53,13 +66,17 @@ export class UpdateOfficeService {
   ): Promise<{ lat: number; lng: number } | null> {
     try {
       const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+      // Importa o node-fetch dinamicamente
+      const fetch = (await import('node-fetch')).default;
+
       const response = await fetch(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
           address
         )}&key=${apiKey}`
       );
-      const data = await response.json();
+      const data = (await response.json()) as GoogleGeocodeResponse;
 
+      // Verifica se a resposta contém resultados válidos
       if (data.status === 'OK' && data.results.length > 0) {
         const { lat, lng } = data.results[0].geometry.location;
         return { lat, lng };
