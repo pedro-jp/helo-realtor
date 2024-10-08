@@ -35,7 +35,7 @@ export type OrderItemProps = {
   };
 };
 
-export default function Dashboard() {
+export default function Propriedades() {
   const { user } = useContext(AuthContext);
   return (
     <>

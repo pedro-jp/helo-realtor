@@ -111,63 +111,89 @@ export default function Office() {
       <Head>
         <title>Helo Realtor | Escritório</title>
       </Head>
-      <Sidebar />
-      <Header>Escritório</Header>
-      <Main>
-        <form
-          className={styles.form}
-          action='submit'
-          onSubmit={created ? handleUpdateOffice : handleCreateOffice}
-        >
-          <button
-            className={created ? styles.save : styles.create}
-            type='submit'
-          >
-            {created ? 'Salvar' : 'Criar escritório'}
-            <FiSave size={24} />
-          </button>
-          <Input
-            type='text'
-            value={name}
-            placeholder='Nome'
-            onChange={(e) => setName(e.target.value)}
-          />
-
-          <Input
-            type='txt'
-            value={phone}
-            placeholder='Celular'
-            onChange={(e) => setPhone(e.target.value)}
-          />
-
-          <Input
-            type='txt'
-            value={address}
-            placeholder='Rua Exemplo, 29 Jardim Fictício'
-            onChange={(e) => setAddress(e.target.value)}
-          />
-
-          <Input
-            type='txt'
-            value={address_city}
-            placeholder='São Paulo -SP'
-            onChange={(e) => setAdressCity(e.target.value)}
-          />
-
-          <Input
-            type='email'
-            value={email}
-            placeholder='email'
-            onChange={(e) => setEmail(e.target.value)}
-          />
-
-          <TextArea
-            value={description}
-            placeholder='Descrição'
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </form>
-      </Main>
+      <Container>
+        <Sidebar />
+        <Content>
+          <Header>Escritório</Header>
+          <Main>
+            <form
+              className={styles.form}
+              action='submit'
+              onSubmit={created ? handleUpdateOffice : handleCreateOffice}
+            >
+              <button
+                className={created ? styles.save : styles.create}
+                type='submit'
+              >
+                {created ? 'Salvar' : 'Criar escritório'}
+                <FiSave size={24} />
+              </button>
+              <Input
+                type='text'
+                value={name}
+                placeholder='Nome'
+                onChange={(e) => setName(e.target.value)}
+              />
+              <Input
+                type='txt'
+                value={phone}
+                placeholder='Celular'
+                onChange={(e) => setPhone(e.target.value)}
+              />
+              <Input
+                type='txt'
+                value={address}
+                placeholder='Rua Exemplo, 29 Jardim Fictício'
+                onChange={(e) => setAddress(e.target.value)}
+              />
+              <Input
+                type='txt'
+                value={address_city}
+                placeholder='São Paulo -SP'
+                onChange={(e) => setAdressCity(e.target.value)}
+              />
+              <Input
+                type='email'
+                value={email}
+                placeholder='email'
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <TextArea
+                value={description}
+                placeholder='Descrição'
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </form>
+          </Main>
+        </Content>
+      </Container>
     </>
   );
 }
+
+const Container = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div
+      style={{ display: 'flex', width: '100vw', height: '100vh' }}
+      className={styles.container}
+    >
+      {children}
+    </div>
+  );
+};
+
+const Content = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100vw',
+        height: '100vh',
+      }}
+      className={styles.content}
+    >
+      {children}
+    </div>
+  );
+};
