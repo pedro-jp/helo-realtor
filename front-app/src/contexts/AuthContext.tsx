@@ -11,6 +11,8 @@ type AuthContextData = {
   signOut: (router: NextRouter) => void;
   signUp: (credentials: SignUpProps) => Promise<void>;
   router: NextRouter;
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
 };
 
 export type UserProps = {
@@ -53,6 +55,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const router = useRouter();
   const api = setupAPIClient(router);
 
+  const [loading, setLoading] = useState(true);
+
   const [user, setUser] = useState<UserProps>({
     id: '',
     name: '',
@@ -66,6 +70,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const isAuthenticated = !!user;
 
   useEffect(() => {
+    setLoading(true);
     const { '@nextauth.token': token } = parseCookies();
 
     if (token) {
@@ -99,14 +104,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
             priceId,
             planIsActive,
           });
+
           api.defaults.headers['authorization'] = `Bearer ${token}`;
+          setLoading(false);
         })
         .catch(() => {
           // Se o token for inválido, desloga o usuário
           signOut(router);
+          setLoading(false);
         });
+    } else {
+      // Se o token for inválido, desloga o usuário
+      signOut(router);
+      setLoading(false);
     }
-  }, [router]);
+  }, []);
 
   async function signIn({ email, password }: SignInProps) {
     try {
@@ -151,9 +163,22 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  if (loading) {
+    return <p>carregando</p>;
+  }
+
   return (
     <AuthContext.Provider
-      value={{ router, user, isAuthenticated, signIn, signOut, signUp }}
+      value={{
+        loading,
+        setLoading,
+        router,
+        user,
+        isAuthenticated,
+        signIn,
+        signOut,
+        signUp,
+      }}
     >
       {children}
     </AuthContext.Provider>
