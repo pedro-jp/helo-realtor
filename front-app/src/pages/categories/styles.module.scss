@@ -1,34 +1,127 @@
-.container {
-  max-width: 720px;
-  margin: 4rem auto;
-  padding: 0 2rem;
+.form {
   display: flex;
-  justify-content: space-between;
-  flex-direction: column;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  position: relative;
 
-  h1 {
-    color: var(--white);
+  textarea {
+    width: 100% !important;
+    min-height: 100px;
+    max-height: 400px;
+    resize: vertical;
+    overflow: auto;
+    box-sizing: border-box;
+  }
+}
+
+button.create,
+button.update,
+.edit {
+  background: none;
+  border: 0;
+  border-radius: 0.5rem;
+  color: #000;
+  background: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 0.5rem;
+  position: absolute;
+  top: -6.7rem;
+  right: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    position: absolute;
+    z-index: -2;
   }
 
-  form {
-    display: flex;
-    flex-direction: column;
-    margin: 1rem 0;
+  &:hover {
+    width: calc(max-content + 30px);
+    padding-right: 40px;
+    background-color: var(--third-blue);
+    color: #fff;
+    svg {
+      transition: color 0.2s ease-in-out, transform 0.5s ease-in-out,
+        z-index 0.5s ease-in-out;
+      transform: translateX(49px);
+      z-index: 0;
+    }
+
+    &:active {
+      scale: 0.95;
+    }
+  }
+  @media (width <=768px) {
+    font-size: 1rem;
+    color: #fff;
+    top: -5rem;
+    background-color: var(--third-blue);
+  }
+}
+
+.create {
+  &:hover {
+    svg {
+      transform: translateX(90px) !important;
+    }
+  }
+}
+
+.realtors {
+  display: flex;
+  gap: 1rem;
+  margin-top: 8px;
+
+  flex-wrap: wrap;
+}
+
+.create {
+  &:hover {
+    svg {
+      transform: translateX(87px) !important;
+    }
+  }
+}
+
+.update {
+  &:hover {
+    svg {
+      transform: translateX(100px) !important;
+    }
+  }
+}
+.edit {
+  margin-top: 8px;
+  position: inherit;
+}
+
+.realtor {
+  border: 1px solid #00000020;
+  display: inline-block;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.37);
+
+  &:hover {
+    border: 1px solid var(--primary-blue);
   }
 
-  input {
-    background-color: var(--dark-900);
-    border: 0;
-    width: 100%;
-    height: 40px;
+  p {
+    margin-bottom: 0.5rem;
   }
+}
 
-  button {
-    height: 40px;
-    border: 0;
-    background-color: var(--green-900);
-    font-weight: bolder;
-    font-size: 1.2rem;
-    border-radius: 0.3rem;
+@media (width <=768px) {
+  .form > input {
+    width: calc(100vw - 2rem) !important;
+  }
+  .create,
+  .update {
+    top: -7.5rem !important;
   }
 }
