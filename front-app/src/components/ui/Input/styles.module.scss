@@ -5,10 +5,15 @@
   border-radius: 0.5rem;
   background-color: var(--dark-700);
   padding: 1rem;
-  border: 1px solid var(--gray-100);
-  color: #fff;
-}
+  outline: 1px solid var(--third-blue);
+  color: #000;
 
-.input::placeholder {
-  color: rgba(255, 255, 255, 0.8);
+  &::placeholder {
+    color: #00000050;
+  }
+
+  &:focus {
+    outline: 1px solid var(--primary-blue);
+    box-shadow: 0 0 2px 1px var(--primary-blue);
+  }
 }

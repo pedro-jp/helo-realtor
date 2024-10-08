@@ -4,14 +4,11 @@ type OwnerType = {
   ownerId: string;
 };
 
-export class GetOfficeService {
+export class GetOfficeInactiveService {
   async execute({ ownerId }: OwnerType) {
     const office = await prismaClient.office.findFirst({
       where: {
         ownerId,
-        owner: {
-          planIsActive: true,
-        },
       },
       include: {
         banner_image: true,
@@ -21,7 +18,7 @@ export class GetOfficeService {
     });
 
     if (!office) {
-      console.log('Office not found');
+      console.log('Office inactive not found');
       return null;
     }
 

@@ -1,0 +1,65 @@
+.form {
+  display: flex;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  position: relative;
+
+  textarea {
+    width: 100% !important;
+    min-height: 100px;
+    max-height: 400px;
+    resize: vertical;
+    overflow: auto;
+    box-sizing: border-box;
+  }
+
+  button {
+    background: none;
+    border: 0;
+    border-radius: 0.5rem;
+    color: #000;
+    background: #fff;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 0.5rem;
+    position: absolute;
+    top: -4rem;
+    right: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      position: absolute;
+      z-index: -2;
+    }
+
+    &:hover {
+      width: calc(max-content + 30px);
+      padding-right: 40px;
+      background-color: var(--third-blue);
+      color: #fff;
+      svg {
+        transition: color 0.2s ease-in-out, transform 0.5s ease-in-out,
+          z-index 0.5s ease-in-out;
+        transform: translateX(49px);
+        z-index: 0;
+      }
+
+      &:active {
+        scale: 0.95;
+      }
+    }
+  }
+}
+
+.create {
+  &:hover {
+    svg {
+      transform: translateX(90px) !important;
+    }
+  }
+}

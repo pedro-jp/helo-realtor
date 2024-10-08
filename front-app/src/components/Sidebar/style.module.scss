@@ -1,0 +1,20 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  gap: 3rem;
+  padding-block: 2rem;
+  padding-inline: 1rem;
+  width: 20rem;
+  max-width: 20rem;
+  background-color: var(--third-blue);
+  color: #fff;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    list-style: none;
+  }
+}

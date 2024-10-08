@@ -31,26 +31,43 @@ export class CreateOfficeService {
       .replace(/\s+/g, '')
       .replace(/[^\w-]+/g, '');
 
-    const office = await prismaClient.office.create({
-      data: {
+    const officeExists = await prismaClient.office.findFirst({
+      where: {
         name,
         ownerId,
-        phone,
-        description,
-        address,
-        address_city,
         email,
-        url,
-        latitude: coordinates ? coordinates.lat.toString() : null, // Converte latitude para string
-        longitude: coordinates ? coordinates.lng.toString() : null, // Converte longitude para string
-      },
-      select: {
-        id: true,
-        ownerId: true,
-        banner_image: true,
       },
     });
-    return office;
+
+    if (officeExists) {
+      throw new Error('Office already exists');
+    }
+
+    try {
+      const office = await prismaClient.office.create({
+        data: {
+          name,
+          ownerId,
+          phone,
+          description,
+          address,
+          address_city,
+          email,
+          url,
+          latitude: coordinates ? coordinates.lat.toString() : null, // Converte latitude para string
+          longitude: coordinates ? coordinates.lng.toString() : null, // Converte longitude para string
+        },
+        select: {
+          id: true,
+          ownerId: true,
+          banner_image: true,
+        },
+      });
+      return office;
+    } catch (error) {
+      console.log(error);
+      throw new Error('Error creating office');
+    }
   }
 
   // Função para obter coordenadas a partir do endereço usando a API de Geocodificação do Google
@@ -65,7 +82,6 @@ export class CreateOfficeService {
         )}&key=${apiKey}`
       );
       const data = await response.json();
-
       if (data.status === 'OK' && data.results.length > 0) {
         const { lat, lng } = data.results[0].geometry.location;
         return { lat, lng };

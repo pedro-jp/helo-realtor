@@ -1,4 +1,4 @@
-import { Header } from '@/components/Header';
+import { Sidebar } from '@/components/Sidebar';
 import Head from 'next/head';
 import styles from './styles.module.scss';
 import { Input } from '@/components/ui/Input';
@@ -7,17 +7,18 @@ import { setupAPIClient } from '@/services/api';
 import { toast } from 'react-toastify';
 import { canSSRAuth } from '@/utils/canSSRAuth';
 import { AuthContext } from '@/contexts/AuthContext';
+import { useRouter } from 'next/router';
 
 export default function Category() {
   const [name, setName] = useState('');
-  const { signOut } = useContext(AuthContext);
+  const router = useRouter();
 
   const handleRegister = async (event: FormEvent) => {
     event.preventDefault();
 
     if (name === '') return;
 
-    const apiClient = setupAPIClient(signOut);
+    const apiClient = setupAPIClient(router);
     await apiClient.post('/category', {
       name,
     });
@@ -30,7 +31,7 @@ export default function Category() {
       <Head>
         <title>Nova categoria - Pizzaria</title>
       </Head>
-      <Header />
+      <Sidebar />
       <main className={styles.container}>
         <h1>Cadastrar categoria</h1>
         <form>

@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import styles from './style.module.scss';
-import { Header } from '@/components/Header';
+import { Sidebar } from '@/components/Sidebar';
 import { canSSRAuth } from '@/utils/canSSRAuth';
 import { Input } from '@/components/ui/Input';
 import { FiUpload } from 'react-icons/fi';
@@ -9,6 +9,7 @@ import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { setupAPIClient } from '@/services/api';
 import { toast } from 'react-toastify';
 import { AuthContext } from '@/contexts/AuthContext';
+import { useRouter } from 'next/router';
 
 type ItemProps = {
   id: string;
@@ -18,6 +19,7 @@ interface CategoryProps {
   categoryList: ItemProps[];
 }
 export default function Product({ categoryList }: CategoryProps) {
+  const router = useRouter();
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
@@ -76,7 +78,7 @@ export default function Product({ categoryList }: CategoryProps) {
       data.append('category_id', categories[categorySelected].id);
       data.append('file', imageAvatar);
 
-      const apiClient = setupAPIClient(signOut);
+      const apiClient = setupAPIClient(router);
 
       await apiClient.post('/product', data);
 
@@ -98,7 +100,7 @@ export default function Product({ categoryList }: CategoryProps) {
       <Head>
         <title>Novo produto - Pizzaria</title>
       </Head>
-      <Header />
+      <Sidebar />
       <main className={styles.container}>
         <h1>Novo produto</h1>
 

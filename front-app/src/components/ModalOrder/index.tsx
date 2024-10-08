@@ -1,4 +1,4 @@
-import { OrderItemProps } from '@/pages/dashboard';
+import { OrderItemProps } from '@/pages/propertys';
 import Modal from 'react-modal';
 import styles from './styles.module.scss';
 import { FiX } from 'react-icons/fi';

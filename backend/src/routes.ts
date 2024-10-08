@@ -37,6 +37,7 @@ import { GetUserController } from './controllers/user/GetUserController';
 import { GetOfficesController } from './controllers/Office/GetOfficesController';
 import { GetOfficeByNameController } from './controllers/Office/GetOfficeByNameController';
 import { ListImoveisByNameController } from './controllers/Imovel/ListImovelByNameController';
+import { GetOfficeInactiveController } from './controllers/Office/GetOfficeInactiveController';
 
 const router = Router();
 
@@ -113,7 +114,7 @@ router.post('/users', new CreateUserController().handle);
 
 router.post('/session', new AuthUserController().handle);
 
-router.get('/me:id', isAuthenticated, new GetUserController().handle);
+router.get('/me/:email', isAuthenticated, new GetUserController().handle);
 
 //--ROTAS CATEGORY
 router.post(
@@ -154,6 +155,11 @@ router.put('/imovel/:id', isAuthenticated, new UpdateImovelController().handle);
 router.post('/office', isAuthenticated, new CreateOfficeController().handle);
 
 router.get('/office/:ownerId', new GetOfficeController().handle);
+router.get(
+  '/office/inactive/:ownerId',
+  new GetOfficeInactiveController().handle
+);
+
 router.get('/offices/:url', new GetOfficeByNameController().handle);
 
 router.get('/offices', new GetOfficesController().handle);
