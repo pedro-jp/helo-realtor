@@ -102,7 +102,6 @@ export class CreateOfficeService {
         )}&key=${apiKey}`
       );
       const data = (await response.json()) as GoogleGeocodeResponse;
-      console.log(data);
 
       // Verifica se a resposta contém resultados válidos
       if (data.status === 'OK' && data.results.length > 0) {

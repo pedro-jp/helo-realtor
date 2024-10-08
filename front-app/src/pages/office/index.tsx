@@ -12,6 +12,8 @@ import { setupAPIClient } from '@/services/api';
 import { useRouter } from 'next/router';
 import { FiSave } from 'react-icons/fi';
 import { toast } from 'react-toastify';
+import Container from '@/components/Container';
+import Content from '@/components/Content';
 
 type OrderProps = {
   id: string;
@@ -170,30 +172,3 @@ export default function Office() {
     </>
   );
 }
-
-const Container = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div
-      style={{ display: 'flex', width: '100vw', height: '100vh' }}
-      className={styles.container}
-    >
-      {children}
-    </div>
-  );
-};
-
-const Content = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100vw',
-        height: '100vh',
-      }}
-      className={styles.content}
-    >
-      {children}
-    </div>
-  );
-};

@@ -3,6 +3,9 @@
   width: 100%;
   max-width: 1440px;
   margin-inline: auto;
+  @media (width <=1920px) {
+    padding-inline: 1rem;
+  }
 
   @media (width <=768px) {
     text-align: center;

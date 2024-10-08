@@ -7,6 +7,7 @@
   padding: 1rem;
   outline: 1px solid var(--third-blue);
   color: #000;
+  box-shadow: 0 0px 5px 0px rgba(0, 0, 0, 0.281);
 
   &::placeholder {
     color: #00000050;
@@ -14,6 +15,5 @@
 
   &:focus {
     outline: 1px solid var(--primary-blue);
-    box-shadow: 0 0 2px 1px var(--primary-blue);
   }
 }
