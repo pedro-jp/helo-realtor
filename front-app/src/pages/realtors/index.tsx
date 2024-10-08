@@ -11,6 +11,7 @@ import { Main } from '@/components/Main';
 import { Input, TextArea } from '@/components/ui/Input';
 import styles from './styles.module.scss';
 import { FiSave } from 'react-icons/fi';
+import { toast } from 'react-toastify';
 
 type OfficeType = {
   id: string;
@@ -78,9 +79,10 @@ const RealtorForm = () => {
         ...office,
         realtors: [...office.realtors, response.data],
       });
-
+      toast.success('Realtor criado com sucesso');
       clearForm();
     } catch (error) {
+      toast.error('Crie novamente');
       console.error(error);
     }
   };
@@ -106,8 +108,10 @@ const RealtorForm = () => {
         ),
       });
 
+      toast.success('Corrretor atualizado com sucesso');
       clearForm();
     } catch (error) {
+      toast.error('Crie novamente');
       console.error(error);
     }
   };
