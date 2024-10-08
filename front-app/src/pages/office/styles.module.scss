@@ -25,7 +25,7 @@
     font-weight: bold;
     padding: 0.5rem;
     position: absolute;
-    top: -4rem;
+    top: -4.3rem;
     right: 0;
 
     display: flex;
@@ -52,6 +52,12 @@
       &:active {
         scale: 0.95;
       }
+    }
+    @media (width <=768px) {
+      font-size: 1rem;
+      color: #fff;
+      top: -5rem;
+      background-color: var(--third-blue);
     }
   }
 }

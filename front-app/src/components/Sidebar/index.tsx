@@ -11,37 +11,45 @@ export function Sidebar() {
   const router = useRouter();
 
   return (
-    <nav className={styles.sidebar}>
-      <h1>Helo Realtor</h1>
-      <ul>
-        <li>
-          <Link href='/office'>Escritório</Link>
-        </li>
-        <li>
-          <Link href='/realtors'>Corretores</Link>
-        </li>
-        <li>
-          <Link href='/categories'>Categorias</Link>
-        </li>
-        <li>
-          <Link href='/plans'>Planos</Link>
-        </li>
-      </ul>
-      <ul>
-        <li>
-          <Link href='/criation'>Criação</Link>
-        </li>
-        <li>
-          <Link href='/propertys'>Imóveis</Link>
-        </li>
-      </ul>
-      <ul>
-        <li>
-          <button onClick={() => signOut(router)}>
-            <FiLogOut size={24} />
-          </button>
-        </li>
-      </ul>
+    <nav>
+      <div className={styles.burger}>
+        <input type='checkbox' />
+        <span className={styles.line1}></span>
+        <span className={styles.line2}></span>
+        <span className={styles.line3}></span>
+      </div>
+      <div className={styles.sidebar}>
+        <h1>Helo Realtor</h1>
+        <ul>
+          <li>
+            <Link href='/office'>Escritório</Link>
+          </li>
+          <li>
+            <Link href='/realtors'>Corretores</Link>
+          </li>
+          <li>
+            <Link href='/categories'>Categorias</Link>
+          </li>
+          <li>
+            <Link href='/plans'>Planos</Link>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <Link href='/criation'>Criação</Link>
+          </li>
+          <li>
+            <Link href='/propertys'>Imóveis</Link>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <button onClick={() => signOut(router)}>
+              <FiLogOut size={24} />
+            </button>
+          </li>
+        </ul>
+      </div>
     </nav>
   );
 }
