@@ -33,7 +33,7 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 app.use(
-  '/docs',
+  '/docs/pedro-jp',
 
   swaggerUi.serve,
   swaggerUi.setup(swaggerSpec)

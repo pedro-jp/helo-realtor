@@ -19,6 +19,10 @@
     {
       "url": "http://localhost:3332",
       "description": "Servidor local"
+    },
+    {
+      "url": "https://api.helotechbr.com",
+      "description": "Servidor de produção"
     }
   ],
   "tags": [
