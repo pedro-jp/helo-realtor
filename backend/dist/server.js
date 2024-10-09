@@ -8,6 +8,8 @@ require("express-async-errors");
 const cors_1 = __importDefault(require("cors"));
 const path_1 = __importDefault(require("path"));
 const routes_1 = require("./routes");
+const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
+const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
 const stripe = require('stripe')('sk_test_51OIWpBFkkC3ZoBrE0CdfikwVVdeBAdLEsQNKuv4cwGogWVvqZAtw2f0kp9kIngjf7PAS7VSOkosp9k16Wf5RG0fu00OKveoqD8');
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
@@ -19,11 +21,13 @@ app.use(express_1.default.json({
         }
     },
 }));
-const swaggerDefinition = require('./swagger.json'); // Ajuste o caminho conforme necessário
+const swaggerDefinition = require('../swagger.json'); // Ajuste o caminho conforme necessário
 const swaggerOptions = {
     swaggerDefinition,
     apis: ['./routes/*.js'],
 };
+const swaggerSpec = (0, swagger_jsdoc_1.default)(swaggerOptions);
+app.use('/docs/pedro-jp', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerSpec));
 app.use(routes_1.router);
 app.use('/files', express_1.default.static(path_1.default.resolve(__dirname, '..', 'tmp')));
 app.use((err, req, res, next) => {

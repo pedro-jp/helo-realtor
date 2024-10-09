@@ -24,7 +24,7 @@ app.use(
     },
   })
 );
-const swaggerDefinition = require('./swagger.json'); // Ajuste o caminho conforme necessário
+const swaggerDefinition = require('../swagger.json'); // Ajuste o caminho conforme necessário
 const swaggerOptions = {
   swaggerDefinition,
   apis: ['./routes/*.js'],
