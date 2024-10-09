@@ -3,6 +3,10 @@ import 'express-async-errors';
 import cors from 'cors';
 import path from 'path';
 import { router } from './routes';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
+import { isAuthenticated } from './middlewares/isAuthenticated';
+
 const stripe = require('stripe')(
   'sk_test_51OIWpBFkkC3ZoBrE0CdfikwVVdeBAdLEsQNKuv4cwGogWVvqZAtw2f0kp9kIngjf7PAS7VSOkosp9k16Wf5RG0fu00OKveoqD8'
 );
@@ -19,6 +23,20 @@ app.use(
       }
     },
   })
+);
+const swaggerDefinition = require('./swagger.json'); // Ajuste o caminho conforme necessário
+const swaggerOptions = {
+  swaggerDefinition,
+  apis: ['./routes/*.js'],
+};
+
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+
+app.use(
+  '/docs',
+
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec)
 );
 
 app.use(router);

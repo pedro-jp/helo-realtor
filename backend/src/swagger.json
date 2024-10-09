@@ -1,0 +1,532 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Real Estate API",
+    "version": "1.0.0"
+  },
+  "info": {
+    "title": "API de Imóveis",
+    "version": "1.0.0",
+    "description": "API para gerenciamento de imóveis, usuários, categorias e favoritos.",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "name": "Suporte",
+      "url": "http://www.seusite.com/support",
+      "email": "suporte@seusite.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3332",
+      "description": "Servidor local"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Operações relacionadas aos usuários"
+    },
+    {
+      "name": "Properties",
+      "description": "Operações relacionadas aos imóveis"
+    },
+    {
+      "name": "Favorites",
+      "description": "Gerenciamento de imóveis favoritos"
+    },
+    {
+      "name": "Subscriptions",
+      "description": "Operações relacionadas a assinaturas"
+    },
+    {
+      "name": "Webhook",
+      "description": "Gerenciamento de webhooks"
+    },
+    {
+      "name": "Payments",
+      "description": "Gerenciamento de pagamentos"
+    },
+    {
+      "name": "Images",
+      "description": "Operações relacionadas a imagens"
+    },
+    {
+      "name": "Categories",
+      "description": "Operações relacionadas a categorias"
+    },
+    {
+      "name": "Offices",
+      "description": "Operações relacionadas a escritórios"
+    },
+    {
+      "name": "Realtors",
+      "description": "Operações relacionadas a corretores"
+    }
+  ],
+  "paths": {
+    "/create-subscription": {
+      "post": {
+        "summary": "Create a subscription",
+        "tags": ["Subscriptions"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subscription created successfully"
+          }
+        }
+      }
+    },
+    "/webhook": {
+      "post": {
+        "summary": "Receive webhook notifications",
+        "tags": ["Webhook"],
+        "responses": {
+          "200": {
+            "description": "Webhook processed successfully"
+          }
+        }
+      }
+    },
+    "/payment-sheet": {
+      "post": {
+        "summary": "Create a payment sheet",
+        "tags": ["Payments"],
+        "responses": {
+          "200": {
+            "description": "Payment sheet created successfully"
+          }
+        }
+      }
+    },
+    "/imoveis/favorites/{imovelId}/{ip}": {
+      "post": {
+        "summary": "Add a property to favorites",
+        "tags": ["Favorites"],
+        "responses": {
+          "200": {
+            "description": "Property added to favorites"
+          }
+        }
+      }
+    },
+    "/imoveis/favorites/{id}/{ip}": {
+      "delete": {
+        "summary": "Remove a property from favorites",
+        "tags": ["Favorites"],
+        "responses": {
+          "200": {
+            "description": "Property removed from favorites"
+          }
+        }
+      }
+    },
+    "/images": {
+      "post": {
+        "summary": "Upload an image",
+        "tags": ["Images"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Image uploaded successfully"
+          }
+        }
+      }
+    },
+    "/images/{id}": {
+      "get": {
+        "summary": "Get an image by ID",
+        "tags": ["Images"],
+        "responses": {
+          "200": {
+            "description": "Image retrieved successfully"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove an image",
+        "tags": ["Images"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Image removed successfully"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update an image",
+        "tags": ["Images"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Image updated successfully"
+          }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "summary": "Create a new user",
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "description": "User created successfully"
+          }
+        }
+      }
+    },
+    "/session": {
+      "post": {
+        "summary": "Authenticate a user",
+        "tags": ["Users"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "User authenticated successfully"
+          }
+        }
+      }
+    },
+    "/me/{email}": {
+      "get": {
+        "summary": "Get current user details",
+        "tags": ["Users"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User details retrieved successfully"
+          }
+        }
+      }
+    },
+    "/category": {
+      "post": {
+        "summary": "Create a new category",
+        "tags": ["Categories"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category created successfully"
+          }
+        }
+      },
+      "get": {
+        "summary": "List all categories",
+        "tags": ["Categories"],
+        "responses": {
+          "200": {
+            "description": "Categories retrieved successfully"
+          }
+        }
+      }
+    },
+    "/category/{ownerId}": {
+      "get": {
+        "summary": "Get categories by owner ID",
+        "tags": ["Categories"],
+        "responses": {
+          "200": {
+            "description": "Categories retrieved successfully"
+          }
+        }
+      }
+    },
+    "/imovel": {
+      "post": {
+        "summary": "Create a new property",
+        "tags": ["Properties"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Property created successfully"
+          }
+        }
+      }
+    },
+    "/imoveis/{ownerId}": {
+      "get": {
+        "summary": "List properties by owner ID",
+        "tags": ["Properties"],
+        "responses": {
+          "200": {
+            "description": "Properties retrieved successfully"
+          }
+        }
+      }
+    },
+    "/office/imoveis/{url}": {
+      "get": {
+        "summary": "List properties by office name",
+        "tags": ["Properties"],
+        "responses": {
+          "200": {
+            "description": "Properties retrieved successfully"
+          }
+        }
+      }
+    },
+    "/imovel/{imovelId}": {
+      "get": {
+        "summary": "Load property details",
+        "tags": ["Properties"],
+        "responses": {
+          "200": {
+            "description": "Property details retrieved successfully"
+          }
+        }
+      }
+    },
+    "/imovel/{id}": {
+      "delete": {
+        "summary": "Remove a property",
+        "tags": ["Properties"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Property removed successfully"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a property",
+        "tags": ["Properties"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Property updated successfully"
+          }
+        }
+      }
+    },
+    "/office": {
+      "post": {
+        "summary": "Create a new office",
+        "tags": ["Offices"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Office created successfully"
+          }
+        }
+      }
+    },
+    "/office/{ownerId}": {
+      "get": {
+        "summary": "Get office details by owner ID",
+        "tags": ["Offices"],
+        "responses": {
+          "200": {
+            "description": "Office details retrieved successfully"
+          }
+        }
+      }
+    },
+    "/office/inactive/{ownerId}": {
+      "get": {
+        "summary": "Get inactive offices by owner ID",
+        "tags": ["Offices"],
+        "responses": {
+          "200": {
+            "description": "Inactive offices retrieved successfully"
+          }
+        }
+      }
+    },
+    "/offices/{url}": {
+      "get": {
+        "summary": "Get office details by name",
+        "tags": ["Offices"],
+        "responses": {
+          "200": {
+            "description": "Office details retrieved successfully"
+          }
+        }
+      }
+    },
+    "/offices": {
+      "get": {
+        "summary": "List all offices",
+        "tags": ["Offices"],
+        "responses": {
+          "200": {
+            "description": "Offices retrieved successfully"
+          }
+        }
+      }
+    },
+    "/office/{officeId}": {
+      "put": {
+        "summary": "Update an office",
+        "tags": ["Offices"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Office updated successfully"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove an office",
+        "tags": ["Offices"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Office removed successfully"
+          }
+        }
+      }
+    },
+    "/office/{officeId}/realtors": {
+      "post": {
+        "summary": "Create a new realtor",
+        "tags": ["Realtors"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Realtor created successfully"
+          }
+        }
+      }
+    },
+    "/office/{officeId}/realtors/{realtorId}": {
+      "put": {
+        "summary": "Update a realtor",
+        "tags": ["Realtors"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Realtor updated successfully"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get realtor details",
+        "tags": ["Realtors"],
+        "responses": {
+          "200": {
+            "description": "Realtor details retrieved successfully"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove a realtor",
+        "tags": ["Realtors"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Realtor removed successfully"
+          }
+        }
+      }
+    },
+    "/office/{officeId}/realtors": {
+      "get": {
+        "summary": "List realtors by office ID",
+        "tags": ["Realtors"],
+        "responses": {
+          "200": {
+            "description": "Realtors retrieved successfully"
+          }
+        }
+      }
+    },
+    "/office/realtor/{realtorId}": {
+      "get": {
+        "summary": "Get realtor details by ID",
+        "tags": ["Realtors"],
+        "responses": {
+          "200": {
+            "description": "Realtor details retrieved successfully"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
