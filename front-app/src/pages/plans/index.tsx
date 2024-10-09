@@ -28,6 +28,7 @@ const Plans = () => {
   }, []);
   const api = setupAPIClient(router);
   async function updateUser() {
+    console.log('111111111111111111');
     try {
       api.get(`/me/${user.email}`).then((response) => {
         const {
@@ -38,6 +39,7 @@ const Plans = () => {
           token,
           priceId,
           planIsActive,
+          offices,
         } = response.data;
 
         setUser({
@@ -48,6 +50,7 @@ const Plans = () => {
           subscriptionId,
           priceId,
           planIsActive,
+          offices,
         });
         console.log('user atualizado');
         console.log(user);
