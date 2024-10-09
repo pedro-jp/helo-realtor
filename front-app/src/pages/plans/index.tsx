@@ -52,8 +52,6 @@ const Plans = () => {
           planIsActive,
           offices,
         });
-        console.log('user atualizado');
-        console.log(user);
       });
     } catch (error) {
       console.log(error);
@@ -72,7 +70,6 @@ const Plans = () => {
       price: 29.99,
     },
   ];
-  console.log(plans);
   return (
     <Container>
       <Sidebar />
