@@ -6,6 +6,9 @@ class GetUSerService {
       where: {
         email,
       },
+      include: {
+        office: true,
+      },
     });
     console.log(user);
     return user;

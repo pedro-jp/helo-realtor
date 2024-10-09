@@ -8,121 +8,218 @@ import Container from '@/components/Container';
 import Content from '@/components/Content';
 import { Header } from '@/components/Header';
 import { Main } from '@/components/Main';
-import { Input } from '@/components/ui/Input';
+import { Input, TextArea } from '@/components/ui/Input';
 import styles from './styles.module.scss';
 import { FiSave } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 
-type CategoryType = {
+type OfficeType = {
   id: string;
   name: string;
+  phone: string;
+  address: string;
+  address_city: string;
+  address_state: string;
+  description: string;
+  email: string;
+  realtors: RealtorType[];
 };
 
-const Categories = () => {
+type RealtorType = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  creci: string;
+  whatsapp_message: string;
+};
+
+const RealtorForm = () => {
   const { user } = useContext(AuthContext); // Pega o usuário logado do contexto
-  const [categoryName, setCategoryName] = useState('');
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
+  const [office, setOffice] = useState<OfficeType | null>(null);
+
+  const [realtorName, setRealtorName] = useState('');
+  const [realtorEmail, setRealtorEmail] = useState('');
+  const [realtorPhone, setRealtorPhone] = useState('');
+  const [realtorMessage, setRealtorMessage] = useState('');
+  const [realtorCreci, setRealtorCreci] = useState('');
+  const [selectedRealtorId, setSelectedRealtorId] = useState<string | null>(
     null
   );
-  const [categories, setCategories] = useState<CategoryType[]>([]);
 
   const router = useRouter();
+
   const api = setupAPIClient(router);
 
   useEffect(() => {
-    listCategories();
+    getOffice();
   }, []);
 
-  const listCategories = async () => {
+  const getOffice = async () => {
     try {
-      const response = await api.get(`/category/${user.id}`);
-      setCategories(response.data);
+      const response = await api.get(`/office/inactive/${user.id}`);
+      setOffice(response.data);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleCreateCategory = async () => {
+  const handleCreateRealtor = async () => {
+    if (!office) return;
     try {
-      const response = await api.post('/category', {
-        ownerId: user.id,
-        name: categoryName,
+      const response = await api.post(`/office/${office.id}/realtors`, {
+        name: realtorName,
+        email: realtorEmail,
+        phone: realtorPhone,
+        creci: realtorCreci,
+        whatsapp_message: realtorMessage,
       });
 
-      setCategories([...categories, response.data]);
-      toast.success('Categoria criada com sucesso');
+      setOffice({
+        ...office,
+        realtors: [...office.realtors, response.data],
+      });
+      toast.success('Realtor criado com sucesso');
       clearForm();
     } catch (error) {
-      toast.error('Erro ao criar categoria');
+      toast.error('Crie novamente');
       console.error(error);
     }
   };
 
-  const handleUpdateCategory = async () => {
-    if (!selectedCategoryId) return;
+  const handleUpdateRealtor = async () => {
+    if (!office || !selectedRealtorId) return;
     try {
-      const response = await api.put(`/category/${selectedCategoryId}`, {
-        name: categoryName,
-      });
-
-      setCategories(
-        categories.map((category) =>
-          category.id === selectedCategoryId ? response.data : category
-        )
+      const response = await api.put(
+        `/office/${office.id}/realtors/${selectedRealtorId}`,
+        {
+          name: realtorName,
+          email: realtorEmail,
+          phone: realtorPhone,
+          creci: realtorCreci,
+          whatsapp_message: realtorMessage,
+        }
       );
-      toast.success('Categoria atualizada com sucesso');
+
+      setOffice({
+        ...office,
+        realtors: office.realtors.map((r) =>
+          r.id === selectedRealtorId ? response.data : r
+        ),
+      });
+
+      toast.success('Corrretor atualizado com sucesso');
       clearForm();
     } catch (error) {
-      toast.error('Erro ao atualizar categoria');
+      toast.error('Crie novamente');
       console.error(error);
     }
   };
 
   const clearForm = () => {
-    setCategoryName('');
-    setSelectedCategoryId(null);
+    setRealtorName('');
+    setRealtorEmail('');
+    setRealtorPhone('');
+    setRealtorMessage('');
+    setRealtorCreci('');
+    setSelectedRealtorId(null);
   };
 
-  const loadCategoryData = (category: CategoryType) => {
-    setCategoryName(category.name);
-    setSelectedCategoryId(category.id);
+  // Preencher o formulário com os dados do corretor para edição
+  const loadRealtorData = (realtor: RealtorType) => {
+    setRealtorName(realtor.name);
+    setRealtorEmail(realtor.email);
+    setRealtorPhone(realtor.phone);
+    setRealtorMessage(realtor.whatsapp_message);
+    setRealtorCreci(realtor.creci);
+    setSelectedRealtorId(realtor.id);
   };
 
   return (
     <>
       <Head>
-        <title>Helo Realtor | Categorias</title>
+        <title>Helo Realtor | Corretores</title>
       </Head>
       <Container>
         <Sidebar />
         <Content>
-          <Header>Categorias</Header>
+          <Header>Corretores</Header>
           <Main>
-            <h2>Criar Categoria</h2>
+            <h2>
+              {selectedRealtorId ? 'Atualizar Corretor' : 'Criar Corretor'}
+            </h2>
 
-            <form style={{ marginTop: '8px' }} className={styles.form}>
+            <form className={styles.form}>
               <Input
                 type='text'
-                value={categoryName}
-                onChange={(e) => setCategoryName(e.target.value)}
-                placeholder='Nome da categoria'
+                value={realtorName}
+                onChange={(e) => setRealtorName(e.target.value)}
+                placeholder='Nome do corretor'
+              />
+              <Input
+                type='email'
+                value={realtorEmail}
+                onChange={(e) => setRealtorEmail(e.target.value)}
+                placeholder='Email do corretor'
+              />
+              <Input
+                type='text'
+                value={realtorPhone}
+                onChange={(e) => setRealtorPhone(e.target.value)}
+                placeholder='Telefone do corretor'
+              />
+              <Input
+                type='text'
+                value={realtorCreci}
+                onChange={(e) => setRealtorCreci(e.target.value)}
+                placeholder='CRECI do corretor'
+              />
+              <TextArea
+                value={realtorMessage}
+                onChange={(e) => setRealtorMessage(e.target.value)}
+                placeholder='Mensagem para WhatsApp'
               />
 
-              <button
-                className={styles.create}
-                type='button'
-                onClick={handleCreateCategory}
-              >
-                Criar Categoria
-                <FiSave size={24} />
-              </button>
+              {selectedRealtorId ? (
+                <button
+                  className={styles.update}
+                  type='button'
+                  onClick={handleUpdateRealtor}
+                >
+                  Atualizar Corretor
+                  <FiSave size={24} />
+                </button>
+              ) : (
+                <button
+                  className={styles.create}
+                  type='button'
+                  onClick={handleCreateRealtor}
+                >
+                  Criar Corretor
+                  <FiSave size={24} />
+                </button>
+              )}
             </form>
+            <h2>Corretores Cadastrados</h2>
+            <section className={styles.realtors}>
+              {/* Exibição de corretores existentes */}
+              {office?.realtors.map((realtor) => (
+                <div key={realtor.id}>
+                  <div className={styles.realtor}>
+                    <p>Nome: {realtor.name}</p>
+                    <p>Email: {realtor.email}</p>
+                    <p>Celular: {realtor.phone}</p>
+                    <p>Creci: {realtor.creci}</p>
+                    <p>Mensagem: {realtor.whatsapp_message}</p>
+                  </div>
 
-            <h2>Categorias Criadas</h2>
-            <section className={styles.categories}>
-              {categories.map((category) => (
-                <div key={category.id} className={styles.category}>
-                  <h3>{category.name}</h3>
+                  <button
+                    className={styles.edit}
+                    onClick={() => loadRealtorData(realtor)}
+                  >
+                    Editar
+                    <FiSave size={24} />
+                  </button>
                 </div>
               ))}
             </section>
@@ -133,4 +230,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default RealtorForm;

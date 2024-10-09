@@ -1,4 +1,5 @@
 import { setupAPIClient } from '@/services/api';
+import { OfficeType } from '@/Types';
 import { NextRouter, useRouter } from 'next/router';
 import { destroyCookie, setCookie, parseCookies } from 'nookies';
 import { createContext, ReactNode, useEffect, useState } from 'react';
@@ -13,6 +14,7 @@ type AuthContextData = {
   router: NextRouter;
   loading: boolean;
   setLoading: (loading: boolean) => void;
+  setUser: (user: UserProps) => void;
 };
 
 export type UserProps = {
@@ -23,6 +25,7 @@ export type UserProps = {
   subscriptionId: string;
   priceId: string;
   planIsActive: boolean;
+  offices: OfficeType[] | null;
 };
 
 type SignInProps = {
@@ -65,6 +68,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     subscriptionId: '',
     priceId: '',
     planIsActive: false,
+    offices: null,
   });
 
   const isAuthenticated = !!user;
@@ -93,6 +97,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             token,
             priceId,
             planIsActive,
+            offices,
           } = response.data;
 
           setUser({
@@ -103,6 +108,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             subscriptionId,
             priceId,
             planIsActive,
+            offices,
           });
 
           api.defaults.headers['authorization'] = `Bearer ${token}`;
@@ -142,6 +148,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         subscriptionId: '',
         priceId: '',
         planIsActive: false,
+        offices: null,
       });
 
       api.defaults.headers['authorization'] = `Bearer ${token}`;
@@ -170,6 +177,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   return (
     <AuthContext.Provider
       value={{
+        setUser,
         loading,
         setLoading,
         router,
