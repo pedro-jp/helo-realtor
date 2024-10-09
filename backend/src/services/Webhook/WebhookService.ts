@@ -26,8 +26,6 @@ class WebhookService {
       case 'payment_intent.succeeded':
         const paymentIntent = event.data.object;
 
-        console.log(`PaymentIntent for ${paymentIntent.amount} succeeded.`);
-
         if (paymentIntent.invoice) {
           try {
             const invoice = await stripe.invoices.retrieve(
@@ -43,7 +41,6 @@ class WebhookService {
             });
 
             const invoicePdfUrl = invoice.invoice_pdf;
-            console.log(invoicePdfUrl);
 
             // Função para cancelar assinaturas antigas, exceto a nova
             async function cancelOldSubscriptions(usuario, newSubscriptionId) {
@@ -111,6 +108,8 @@ class WebhookService {
                 priceID
               );
 
+              console.log(updatedUser);
+
               return res.json({ received: true, updatedUser, priceID });
             } catch (error) {
               console.error('Erro ao processar o pagamento:', error.message);
@@ -129,7 +128,7 @@ class WebhookService {
           return res.status(400).json({ error: 'Nenhuma fatura associada' });
         }
 
-      case 'customer.subscription.deleted':
+      case 'customer.subscription.delete':
         const subscriptionDeleted = event.data.object;
 
         try {
@@ -158,7 +157,7 @@ class WebhookService {
                 planIsActive: false, // Define o plano como inativo
               },
             });
-
+            console.log('222222222222222222');
             return res.json({ received: true, updatedUser, priceID });
           } else {
             console.log('Nenhum invoice associado foi encontrado.');
