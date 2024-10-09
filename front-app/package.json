@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@stripe/react-stripe-js": "^2.8.1",
+    "@stripe/stripe-js": "^4.7.0",
     "@types/nookies": "^2.0.3",
     "@types/react-icons": "^3.0.0",
     "@types/react-modal": "^3.16.3",

@@ -87,17 +87,26 @@ class WebhookService {
             await cancelSubscription();
 
             // Update the user's payment status and subscription in the database
-            const updatedUser = await prismaClient.user.update({
-              where: {
-                email: invoice.customer_email,
-              },
-              data: {
-                paymentStatus: 'succeeded', // Mark payment as succeeded
-                subscriptionId: invoice.subscription, // Update with the new subscription ID
-                priceId: priceID, // Store the priceID
-                planIsActive: true, // Mark the plan as active
-              },
-            });
+
+            async function updateSubscription() {
+              try {
+                await prismaClient.user.update({
+                  where: {
+                    email: invoice.customer_email,
+                  },
+                  data: {
+                    paymentStatus: 'succeeded', // Mark payment as succeeded
+                    subscriptionId: invoice.subscription, // Update with the new subscription ID
+                    priceId: priceID, // Store the priceID
+                    planIsActive: true, // Mark the plan as active
+                  },
+                });
+              } catch (error) {
+                console.log(error);
+              }
+            }
+
+            const updatedUser = await updateSubscription();
 
             // Return a successful response with updated user info
             return res.json({ received: true, updatedUser, priceID });

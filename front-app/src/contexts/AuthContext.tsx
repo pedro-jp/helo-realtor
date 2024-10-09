@@ -13,6 +13,7 @@ type AuthContextData = {
   router: NextRouter;
   loading: boolean;
   setLoading: (loading: boolean) => void;
+  setUser: (user: UserProps) => void;
 };
 
 export type UserProps = {
@@ -170,6 +171,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   return (
     <AuthContext.Provider
       value={{
+        setUser,
         loading,
         setLoading,
         router,
