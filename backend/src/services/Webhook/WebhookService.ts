@@ -129,7 +129,7 @@ class WebhookService {
           return res.status(400).json({ error: 'Nenhuma fatura associada' });
         }
 
-      case 'customer.subscription.deleted':
+      case 'customer.subscription.delete':
         const subscriptionDeleted = event.data.object;
 
         try {
