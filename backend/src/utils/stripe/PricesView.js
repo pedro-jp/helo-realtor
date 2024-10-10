@@ -1,5 +1,5 @@
 const createSubscription = async (priceId, customerId) => {
-  const apiEndpoint = 'http://192.168.1.21:3332';
+  const apiEndpoint = process.env.ENDPOINT;
 
   const response = await fetch(`${apiEndpoint}/create-subscription`, {
     method: 'POST',
