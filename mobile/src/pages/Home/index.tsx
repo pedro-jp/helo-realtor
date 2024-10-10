@@ -244,7 +244,7 @@ const Home = () => {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StripeProvider
         publishableKey={
-          'pk_live_51OIWpBFkkC3ZoBrEnu0IIjdbrAafhAEN6hYDPBPvRPr9lnUR5UOjLxvuCNMfbmfBHe6C2ltREfP3Iozle0WYRbqF00OVquwWGe'
+          'pk_test_51OIWpBFkkC3ZoBrEMdWdJncsxGrKKa9ywredrgU85KWrsz59OfByanFTbqeZLtEZBLnwJwjP7sADdNKzFyGa9rBy00RiCi52tW'
         }
         merchantIdentifier='merchant.identifier' // required for Apple Pay
         urlScheme='helo-realtor' // required for 3D Secure and bank redirects
