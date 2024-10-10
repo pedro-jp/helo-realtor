@@ -1,16 +1,14 @@
 import prismaClient from '../../prisma';
-const stripe = require('stripe')(
-  'sk_test_51OIWpBFkkC3ZoBrE0CdfikwVVdeBAdLEsQNKuv4cwGogWVvqZAtw2f0kp9kIngjf7PAS7VSOkosp9k16Wf5RG0fu00OKveoqD8'
-);
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 export type Subscription = {
   email: string;
   priceId: string;
 };
-
 class CreateSubscriptionService {
   async execute({ email, priceId }: Subscription) {
     let resposta = '';
+    console.log('Email: ', priceId);
     try {
       // List customers with the provided email
       const customers = await stripe.customers.list({
@@ -48,7 +46,7 @@ class CreateSubscriptionService {
         payment_settings: { save_default_payment_method: 'on_subscription' },
         expand: ['latest_invoice.payment_intent'],
       });
-      console.log(subscription.latest_invoice.payment_intent.client_secret);
+
       console.log(resposta);
       return {
         resposta,
