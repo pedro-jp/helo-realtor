@@ -1,8 +1,6 @@
 import prismaClient from '../../prisma';
 import { sendEmail } from '../../utils/SendGrid';
-const stripe = require('stripe')(
-  'sk_test_51OIWpBFkkC3ZoBrE0CdfikwVVdeBAdLEsQNKuv4cwGogWVvqZAtw2f0kp9kIngjf7PAS7VSOkosp9k16Wf5RG0fu00OKveoqD8'
-);
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 class WebhookService {
   async execute({ req, res }) {

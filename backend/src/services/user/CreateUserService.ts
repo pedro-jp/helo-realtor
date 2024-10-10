@@ -3,9 +3,7 @@ import prismaClient from '../../prisma';
 
 import { hash } from 'bcryptjs';
 
-const stripe = new Stripe(
-  'sk_test_51OIWpBFkkC3ZoBrE0CdfikwVVdeBAdLEsQNKuv4cwGogWVvqZAtw2f0kp9kIngjf7PAS7VSOkosp9k16Wf5RG0fu00OKveoqD8'
-);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 interface UserRequest {
   name: string;

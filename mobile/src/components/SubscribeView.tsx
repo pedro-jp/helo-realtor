@@ -75,6 +75,7 @@ const SubscribeView = () => {
     }, 1200);
 
     try {
+      console.log(user.email, priceId);
       const response = await api.post('/create-subscription', {
         email: user.email,
         priceId: priceId,
@@ -98,7 +99,7 @@ const SubscribeView = () => {
       merchantDisplayName: 'Helo Realtor',
     });
     if (error) {
-      console.log('Error initializing payment sheet:', error);
+      console.log('Error initializing payment :', error);
     } else {
       console.log('Payment sheet initialized successfully');
       presentPayment();
@@ -195,17 +196,17 @@ const SubscribeView = () => {
               <View style={styles.handle} />
               <Text style={styles.modalText}>Escolha seu plano</Text>
 
-              <Button
+              {/* <Button
                 title='Corretor iniciante'
                 onPress={() => {
                   createSubscription('price_1PyPKbFkkC3ZoBrEhihlBkHZ'); // Substitua pelo seu priceId do plano básico
                 }}
-              />
+              /> */}
 
               <Button
-                title='Corretor premium'
+                title='1 cent'
                 onPress={() => {
-                  createSubscription('price_1Pyn0JFkkC3ZoBrEjoJzUDfu'); // Substitua pelo seu priceId do plano premium
+                  createSubscription('price_1Q8SQQFkkC3ZoBrEKNDMq7rr'); // Substitua pelo seu priceId do plano premium
                 }}
               />
             </Animated.View>
