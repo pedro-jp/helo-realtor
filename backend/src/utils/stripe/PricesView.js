@@ -1,5 +1,6 @@
 const createSubscription = async (priceId, customerId) => {
   const apiEndpoint = process.env.ENDPOINT;
+  console.log(apiEndpoint);
 
   const response = await fetch(`${apiEndpoint}/create-subscription`, {
     method: 'POST',
