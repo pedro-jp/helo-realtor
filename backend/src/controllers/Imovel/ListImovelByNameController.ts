@@ -7,21 +7,8 @@ export class ListImoveisByNameController {
     const listImoveisByNameService = new ListImoveisByNameService();
     const { url } = req.params;
 
-    const owner = await prismaClient.office.findUnique({
-      where: {
-        url,
-      },
-      select: {
-        id: true,
-        name: true,
-      },
-    });
-
-    const office = owner.id;
-
-    const imoveis = await listImoveisByNameService.execute({ office });
-    console.log('url', url);
-    console.log('owner', owner.name);
+    const imoveis = await listImoveisByNameService.execute(url);
+    console.log(imoveis);
     return res.json(imoveis);
   }
 }

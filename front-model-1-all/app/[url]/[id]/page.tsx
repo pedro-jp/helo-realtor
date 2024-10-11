@@ -71,7 +71,6 @@ async function getOffice(ownerId: string): Promise<OfficeType> {
     `${process.env.NEXT_PUBLIC_URL}/office/${ownerId}`
   );
   const office: OfficeType = await response.json();
-  console.log(office);
   return office;
 }
 
@@ -163,7 +162,7 @@ export default async function ImovelPage({
           </div>
         </section>
       </main>
-      <Footer name={office?.name} />
+      <Footer url={office?.url} />
     </>
   );
 }

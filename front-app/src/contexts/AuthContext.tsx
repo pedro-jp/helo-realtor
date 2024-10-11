@@ -78,49 +78,60 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const { '@nextauth.token': token } = parseCookies();
 
     if (token) {
-      // Recupera o usuário usando o token
-      const payloadBase64 = token.split('.')[1];
+      try {
+        const payloadBase64 = token.split('.')[1];
 
-      // Decodificar o payload de base64
-      const decodedPayload = atob(payloadBase64);
+        // Replace URL-safe characters and add padding if necessary
+        const base64 = payloadBase64.replace(/-/g, '+').replace(/_/g, '/');
+        const paddedBase64 = base64.padEnd(
+          base64.length + ((4 - (base64.length % 4)) % 4),
+          '='
+        );
 
-      // Converter o JSON decodificado em um objeto
-      const payload = JSON.parse(decodedPayload);
-      api
-        .get(`/me/${payload.email}`)
-        .then((response) => {
-          const {
-            id,
-            name,
-            email,
-            subscriptionId,
-            token,
-            priceId,
-            planIsActive,
-            offices,
-          } = response.data;
+        // Decode the payload
+        const decodedPayload = atob(paddedBase64);
 
-          setUser({
-            id,
-            name,
-            email,
-            token,
-            subscriptionId,
-            priceId,
-            planIsActive,
-            offices,
+        // Parse the decoded payload into a JSON object
+        const payload = JSON.parse(decodedPayload);
+
+        api
+          .get(`/me/${payload.email}`)
+          .then((response) => {
+            const {
+              id,
+              name,
+              email,
+              subscriptionId,
+              token,
+              priceId,
+              planIsActive,
+              offices,
+            } = response.data;
+
+            setUser({
+              id,
+              name,
+              email,
+              token,
+              subscriptionId,
+              priceId,
+              planIsActive,
+              offices,
+            });
+
+            api.defaults.headers['authorization'] = `Bearer ${token}`;
+            setLoading(false);
+          })
+          .catch(() => {
+            signOut(router);
+            setLoading(false);
           });
-
-          api.defaults.headers['authorization'] = `Bearer ${token}`;
-          setLoading(false);
-        })
-        .catch(() => {
-          // Se o token for inválido, desloga o usuário
-          signOut(router);
-          setLoading(false);
-        });
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        signOut(router);
+        setLoading(false);
+      }
     } else {
-      // Se o token for inválido, desloga o usuário
       signOut(router);
       setLoading(false);
     }

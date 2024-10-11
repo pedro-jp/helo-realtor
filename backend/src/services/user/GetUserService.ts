@@ -10,7 +10,6 @@ class GetUSerService {
         office: true,
       },
     });
-    console.log(user);
     return user;
   }
 }

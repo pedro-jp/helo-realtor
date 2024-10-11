@@ -36,7 +36,7 @@ export function Sidebar() {
         </ul>
         <ul>
           <li>
-            <Link href='/criation'>Criação</Link>
+            <Link href='/creation'>Criação</Link>
           </li>
           <li>
             <Link href='/propertys'>Imóveis</Link>

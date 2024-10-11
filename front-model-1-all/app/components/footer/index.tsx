@@ -8,15 +8,15 @@ import formatWhatsapp from '../../services/formatWhatsapp';
 import { formatarNumero } from '@/app/services/formatNumber';
 
 type Props = {
-  name: string;
+  url: string;
 };
-export const Footer = ({ name }: Props) => {
+export const Footer = ({ url }: Props) => {
   const [officeData, setOfficeData] = useState<OfficeType>({} as OfficeType);
 
   useEffect(() => {
     const fetchOfficeData = async () => {
       try {
-        const data = await getOfficeByName(name);
+        const data = await getOfficeByName(url);
         setOfficeData(data);
       } catch (error) {
         console.error('Erro ao buscar dados do escritório:', error);
@@ -27,11 +27,12 @@ export const Footer = ({ name }: Props) => {
   }, []);
 
   const realtors = officeData?.realtors as RealtorType[];
-  console.log(officeData);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  if (!officeData) return <div>Carregando...</div>;
 
   return (
     <footer className={style.footer}>

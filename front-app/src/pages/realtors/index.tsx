@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, FormEvent } from 'react';
 import { setupAPIClient } from '../../services/api'; // Importação da sua API configurada
 import { AuthContext } from '../../contexts/AuthContext'; // Contexto de autenticação para pegar o ID do usuário
 import { useRouter } from 'next/router';
@@ -64,7 +64,8 @@ const RealtorForm = () => {
     }
   };
 
-  const handleCreateRealtor = async () => {
+  const handleCreateRealtor = async (e: FormEvent) => {
+    e.preventDefault();
     if (!office) return;
     try {
       const response = await api.post(`/office/${office.id}/realtors`, {
@@ -87,7 +88,8 @@ const RealtorForm = () => {
     }
   };
 
-  const handleUpdateRealtor = async () => {
+  const handleUpdateRealtor = async (e: FormEvent) => {
+    e.preventDefault();
     if (!office || !selectedRealtorId) return;
     try {
       const response = await api.put(
@@ -149,7 +151,12 @@ const RealtorForm = () => {
               {selectedRealtorId ? 'Atualizar Corretor' : 'Criar Corretor'}
             </h2>
 
-            <form className={styles.form}>
+            <form
+              onSubmit={
+                selectedRealtorId ? handleUpdateRealtor : handleCreateRealtor
+              }
+              className={styles.form}
+            >
               <Input
                 type='text'
                 value={realtorName}
@@ -181,11 +188,7 @@ const RealtorForm = () => {
               />
 
               {selectedRealtorId ? (
-                <button
-                  className={styles.update}
-                  type='button'
-                  onClick={handleUpdateRealtor}
-                >
+                <button className={styles.update} type='submit'>
                   Atualizar Corretor
                   <FiSave size={24} />
                 </button>
