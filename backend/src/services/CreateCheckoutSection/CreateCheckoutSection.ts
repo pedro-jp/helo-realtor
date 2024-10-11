@@ -47,8 +47,8 @@ export const checkoutService = {
         mode: 'subscription',
         customer: customerId, // Usa o cliente existente
         allow_promotion_codes: true, // Adiciona o campo para inserir cupom
-        success_url: `${process.env.FRONT_ALL_URL}/plans`,
-        cancel_url: `${process.env.FRONT_ALL_URL}/plans`,
+        success_url: `${process.env.FRONT_APP_URL}/plans`,
+        cancel_url: `${process.env.FRONT_APP_URL}/plans`,
       });
 
       return session.url; // Retorna a URL da sessão
