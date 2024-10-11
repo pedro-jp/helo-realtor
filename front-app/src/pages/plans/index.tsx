@@ -20,7 +20,7 @@ const Plans = () => {
   const plans = [
     {
       name: 'Realtor Ouro',
-      priceId: 'price_1Pyn0JFkkC3ZoBrEjoJzUDfu',
+      priceId: process.env.NEXT_PUBLIC_STRIPE_OURO_PRICE_ID as string,
       descri:
         'Plano mais completo com todas as funcionalidades exceto site e domínio dedicado.',
       price: 59.99,
@@ -36,7 +36,7 @@ const Plans = () => {
     },
     {
       name: 'Realtor Prata',
-      priceId: 'price_1PyPKbFkkC3ZoBrEhihlBkHZ',
+      priceId: process.env.NEXT_PUBLIC_STRIPE_PRATA_PRICE_ID as string,
       descri: 'Plano mais simples com todas as funcionalidades.',
       price: 29.99,
     },

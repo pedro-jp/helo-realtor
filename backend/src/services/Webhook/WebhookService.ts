@@ -155,7 +155,6 @@ class WebhookService {
                 planIsActive: false, // Define o plano como inativo
               },
             });
-            console.log('222222222222222222');
             return res.json({ received: true, updatedUser, priceID });
           } else {
             console.log('Nenhum invoice associado foi encontrado.');

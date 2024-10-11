@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { CreateImovelService } from '../../services/Imovel/CreateImovelService';
+import fetch from 'node-fetch';
 
 export class CreateImovelController {
   async handle(req: Request, res: Response) {
