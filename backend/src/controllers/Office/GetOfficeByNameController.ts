@@ -5,7 +5,6 @@ export class GetOfficeByNameController {
   async handle(req: Request, res: Response) {
     const { url } = req.params;
 
-    console.log('Url: ' + url);
     const getOfficeByNameController = new GetOfficeByNameService();
     const office = await getOfficeByNameController.execute({ url });
 

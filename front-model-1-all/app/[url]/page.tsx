@@ -73,8 +73,6 @@ export default async function OfficePage({
   params: { url: string };
 }) {
   const office: OfficeType = await getOfficeByName(params.url);
-  console.log(params);
-  console.log(params.url);
 
   if (!office) {
     return <div>Escritório não encontrado</div>;
@@ -105,11 +103,12 @@ export default async function OfficePage({
           Imóveis disponíveis
         </h2>
         <section className={style.card_section}>
-          {office.imoveis && <Cards officeName={office.url} />}
+          <Cards url={office.url} />
         </section>
         <div
           style={{
             width: 'calc(100% - 2rem)',
+            maxWidth: '1440px',
             margin: '0 auto',
           }}
         >
@@ -120,7 +119,7 @@ export default async function OfficePage({
           />
         </div>
       </div>
-      <Footer name={office.name} />
+      <Footer url={office.url} />
     </>
   );
 }

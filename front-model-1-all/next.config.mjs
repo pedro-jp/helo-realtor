@@ -24,13 +24,14 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'firebasestorage.googleapis.com',
-        pathname: '/v0/b/upload-imoveis.appspot.com/o/**', // Ajuste no caminho
+        pathname: '/v0/b/helo-realtor.appspot.com/o/**', // Ajuste no caminho
       },
       {
         protocol: 'https',
-        hostname: 'https://placehold.co',
+        hostname: 'placehold.co',
       },
     ],
+    dangerouslyAllowSVG: true, // Enable SVG rendering
   },
   env: {
     NEXT_PUBLIC_URL: process.env.URL,

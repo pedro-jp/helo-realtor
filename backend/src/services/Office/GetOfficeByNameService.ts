@@ -6,8 +6,6 @@ type OfficeRequest = {
 
 export class GetOfficeByNameService {
   async execute({ url }: OfficeRequest) {
-    console.log('Url: ' + url);
-
     // Faz a consulta ao Office e ao Owner associado
     const office = await prismaClient.office.findFirst({
       where: {
@@ -29,10 +27,8 @@ export class GetOfficeByNameService {
         },
       },
     });
-
     // Verifica se o office foi encontrado
     if (office) {
-      console.log(office);
       return office;
     }
 

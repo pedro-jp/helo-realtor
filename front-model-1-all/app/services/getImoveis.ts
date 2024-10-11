@@ -5,20 +5,17 @@ const ownerId = process.env.NEXT_PUBLIC_OWNER_ID;
 const url = process.env.NEXT_PUBLIC_URL;
 
 // Função para buscar os dados dos imóveis
-export async function getImoveis(name: string): Promise<ImovelType[]> {
-  console.log(name);
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/office/imoveis/${name}`,
-    {
-      // next: { revalidate: 1 }, // Revalida a cada 1 segundo
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch data');
+export async function getImoveis(url: string): Promise<ImovelType[]> {
+  try {
+    const response = await api.get(
+      `${process.env.NEXT_PUBLIC_URL}/office/imoveis/${url}`
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return []; // or return null, or throw an error
   }
-
-  return await response.json();
 }
 
 export async function getImovelData(id: string): Promise<ImovelType> {
