@@ -199,14 +199,14 @@ const SubscribeView = () => {
               <Button
                 title='Corretor iniciante'
                 onPress={() => {
-                  createSubscription('price_1PyPKbFkkC3ZoBrEhihlBkHZ'); // Substitua pelo seu priceId do plano básico
+                  createSubscription('price_1Q8qBcFkkC3ZoBrEYcfoEMEB'); // Substitua pelo seu priceId do plano básico
                 }}
               />
 
               <Button
                 title='Realtor Premium'
                 onPress={() => {
-                  createSubscription('price_1Pyn0JFkkC3ZoBrEjoJzUDfu'); // Substitua pelo seu priceId do plano premium
+                  createSubscription('price_1Q8q96FkkC3ZoBrEXublXctT'); // Substitua pelo seu priceId do plano premium
                 }}
               />
             </Animated.View>

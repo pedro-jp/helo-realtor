@@ -40,6 +40,7 @@ import { GetOfficesController } from './controllers/Office/GetOfficesController'
 import { GetOfficeByNameController } from './controllers/Office/GetOfficeByNameController';
 import { ListImoveisByNameController } from './controllers/Imovel/ListImovelByNameController';
 import { GetOfficeInactiveController } from './controllers/Office/GetOfficeInactiveController';
+import { CouponController } from './controllers/Coupon/CouponController';
 
 const router = Router();
 
@@ -62,6 +63,8 @@ router.use('/webhook', express.raw({ type: 'application/json' }));
 router.post('/webhook', new WebhookController().handle);
 
 router.post('/checkout', isAuthenticated, new CheckoutController().handle);
+
+router.post('/coupon/:code', new CouponController().handle);
 
 router.post(
   '/imoveis/favorites/:imovelId/:ip',

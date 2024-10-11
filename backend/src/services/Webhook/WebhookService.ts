@@ -21,6 +21,52 @@ class WebhookService {
 
     // Handle the event
     switch (event.type) {
+      case 'checkout.session.completed':
+        const session = event.data.object;
+        if (session.amount_total === 0 && session.customer_email) {
+          const usuario = await prismaClient.user.findFirst({
+            where: {
+              email: session.customer_email,
+            },
+          });
+
+          const customer = await stripe.invoices.retrieve(
+            session.customer_email
+          );
+
+          const invoice = await stripe.invoices.retrieve(session.invoice);
+          const lineItems = invoice.lines.data;
+          const priceID = lineItems.length > 0 ? lineItems[0].price.id : null;
+
+          const newSubscriptionId = session.subscription;
+          if (usuario) {
+            try {
+              const subscriptions = await stripe.subscriptions.list({
+                customer: customer.id, // Presumindo que você armazena o ID do cliente do Stripe no banco
+                status: 'active', // Somente assinaturas ativas
+              });
+
+              // Cancelar apenas as assinaturas que não são a nova
+              for (const subscription of subscriptions.data) {
+                if (subscription.id !== newSubscriptionId) {
+                  await stripe.subscriptions.cancel(subscription.id);
+                  console.log(`Assinatura ${subscription.id} cancelada`);
+                }
+              }
+
+              await prismaClient.user.update({
+                where: {
+                  email: session.customer_email,
+                },
+                data: {
+                  subscriptionId: newSubscriptionId,
+                  planIsActive: true,
+                  priceId: priceID,
+                },
+              });
+            } catch (error) {}
+          }
+        }
       case 'payment_intent.succeeded':
         const paymentIntent = event.data.object;
 
@@ -155,6 +201,7 @@ class WebhookService {
                 planIsActive: false, // Define o plano como inativo
               },
             });
+            console.log('222222222222222222');
             return res.json({ received: true, updatedUser, priceID });
           } else {
             console.log('Nenhum invoice associado foi encontrado.');
