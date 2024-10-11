@@ -6,6 +6,7 @@ const Content = ({ children }: { children: React.ReactNode }) => {
         flexDirection: 'column',
         width: '100vw',
         height: '100vh',
+        overflowY: 'auto',
       }}
     >
       {children}

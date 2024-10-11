@@ -98,9 +98,9 @@
 
 html,
 body {
-  width: 100vw;
-  height: 100vh;
-  overflow-x: hidden;
+  max-width: max-content;
+  max-height: max-content;
+  overflow: hidden;
 }
 button {
   cursor: pointer;
