@@ -9,6 +9,7 @@ import { Main } from '@/components/Main';
 import { Header } from '@/components/Header';
 import { Sidebar } from '@/components/Sidebar';
 import styles from './styles.module.scss';
+import Head from 'next/head';
 
 const Plans = () => {
   const { user } = useContext(AuthContext);
@@ -60,56 +61,63 @@ const Plans = () => {
   }
 
   return (
-    <Container>
-      <Sidebar />
-      <Content>
-        <Header>Planos</Header>
-        <Main>
-          <div className={styles.container}>
-            {plans.map((plan) => (
-              <label key={plan.priceId}>
-                <div
-                  className={
-                    user.priceId === plan.priceId
-                      ? styles.planActive
-                      : styles.card
-                  }
-                  style={{
-                    cursor:
-                      user.priceId === plan.priceId ? 'not-allowed' : 'pointer',
-                  }}
-                >
-                  <div>
-                    <h2>{plan.name}</h2>
-                    <p>{plan.descri}</p>
-                    {plan.info && <p>{plan.info}</p>}
-                    <p>R$ {plan.price.toFixed(2)}</p>
-                  </div>
-                  <div>
+    <>
+      <Head>
+        <title>Helo Realtor | Planos</title>
+      </Head>
+      <Container>
+        <Sidebar />
+        <Content>
+          <Header>Planos</Header>
+          <Main>
+            <div className={styles.container}>
+              {plans.map((plan) => (
+                <label key={plan.priceId}>
+                  <div
+                    className={
+                      user.priceId === plan.priceId
+                        ? styles.planActive
+                        : styles.card
+                    }
+                    style={{
+                      cursor:
+                        user.priceId === plan.priceId
+                          ? 'not-allowed'
+                          : 'pointer',
+                    }}
+                  >
                     <div>
-                      <input
-                        type='checkbox'
-                        checked={selectedPriceId === plan.priceId}
-                        onChange={() => setSelectedPriceId(plan.priceId)}
-                        disabled={user.priceId === plan.priceId}
-                      />
+                      <h2>{plan.name}</h2>
+                      <p>{plan.descri}</p>
+                      {plan.info && <p>{plan.info}</p>}
+                      <p>R$ {plan.price.toFixed(2)}</p>
+                    </div>
+                    <div>
+                      <div>
+                        <input
+                          type='checkbox'
+                          checked={selectedPriceId === plan.priceId}
+                          onChange={() => setSelectedPriceId(plan.priceId)}
+                          disabled={user.priceId === plan.priceId}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </label>
-            ))}
-            <div>
-              <button
-                onClick={handleSubscribe}
-                className={styles.subscribeButton}
-              >
-                Assinar Plano Selecionado
-              </button>
+                </label>
+              ))}
+              <div>
+                <button
+                  onClick={handleSubscribe}
+                  className={styles.subscribeButton}
+                >
+                  Assinar Plano Selecionado
+                </button>
+              </div>
             </div>
-          </div>
-        </Main>
-      </Content>
-    </Container>
+          </Main>
+        </Content>
+      </Container>
+    </>
   );
 };
 

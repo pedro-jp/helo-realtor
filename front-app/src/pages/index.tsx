@@ -54,7 +54,14 @@ export default function Home() {
       <Head>
         <title>Helo Realtor | Login</title>
       </Head>
-      <main>
+      <main
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
         <div className={styles.containerCenter}>
           <h1>Faça seu login</h1>
           <div className={styles.login}>

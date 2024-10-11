@@ -15,6 +15,7 @@
     "@types/react-icons": "^3.0.0",
     "@types/react-modal": "^3.16.3",
     "axios": "^1.6.8",
+    "firebase": "^10.14.1",
     "jose": "^5.9.3",
     "jwt-decode": "^4.0.0",
     "next": "14.2.3",

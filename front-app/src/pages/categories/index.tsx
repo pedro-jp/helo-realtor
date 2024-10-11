@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, FormEvent } from 'react';
 import { setupAPIClient } from '../../services/api'; // Importação da sua API configurada
 import { AuthContext } from '../../contexts/AuthContext'; // Contexto de autenticação para pegar o ID do usuário
 import { useRouter } from 'next/router';
@@ -42,7 +42,8 @@ const Categories = () => {
     }
   };
 
-  const handleCreateCategory = async () => {
+  const handleCreateCategory = async (e: FormEvent) => {
+    e.preventDefault();
     try {
       const response = await api.post('/category', {
         ownerId: user.id,
@@ -102,7 +103,7 @@ const Categories = () => {
               {selectedCategoryId ? 'Atualizar Categoria' : 'Criar Categoria'}
             </h2>
 
-            <form className={styles.form}>
+            <form onSubmit={handleCreateCategory} className={styles.form}>
               <Input
                 type='text'
                 value={categoryName}
@@ -110,11 +111,7 @@ const Categories = () => {
                 placeholder='Nome da categoria'
               />
 
-              <button
-                className={styles.create}
-                type='button'
-                onClick={handleCreateCategory}
-              >
+              <button className={styles.create} type='submit'>
                 Criar Categoria
                 <FiSave size={24} />
               </button>
