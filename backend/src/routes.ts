@@ -33,6 +33,8 @@ import { CreateFavoriteController } from './controllers/Favorite/CreateFavoriteC
 import { RemoveFavoriteController } from './controllers/Favorite/RemoveFavoriteController';
 import { CreateSubscriptionController } from './controllers/Subscription/CreateSubscriptionController';
 import { WebhookController } from './controllers/Webhook/WebhookController';
+
+import { CheckoutController } from './controllers/CreateCheckout/CreateCheckout';
 import { GetUserController } from './controllers/user/GetUserController';
 import { GetOfficesController } from './controllers/Office/GetOfficesController';
 import { GetOfficeByNameController } from './controllers/Office/GetOfficeByNameController';
@@ -59,32 +61,7 @@ router.use('/webhook', express.raw({ type: 'application/json' }));
 
 router.post('/webhook', new WebhookController().handle);
 
-router.post('/payment-sheet', async (req, res) => {
-  // Use an existing Customer ID if this is a returning customer.
-  const customer = await stripe.customers.create();
-  const ephemeralKey = await stripe.ephemeralKeys.create(
-    { customer: customer.id },
-    { apiVersion: '2024-06-20' }
-  );
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: 500,
-    currency: 'brl',
-    customer: customer.id,
-    // In the latest version of the API, specifying the `automatic_payment_methods` parameter
-    // is optional because Stripe enables its functionality by default.
-    automatic_payment_methods: {
-      enabled: true,
-    },
-  });
-
-  res.json({
-    paymentIntent: paymentIntent.client_secret,
-    ephemeralKey: ephemeralKey.secret,
-    customer: customer.id,
-    publishableKey:
-      'pk_test_51OIWpBFkkC3ZoBrEMdWdJncsxGrKKa9ywredrgU85KWrsz59OfByanFTbqeZLtEZBLnwJwjP7sADdNKzFyGa9rBy00RiCi52tW',
-  });
-});
+router.post('/checkout', isAuthenticated, new CheckoutController().handle);
 
 router.post(
   '/imoveis/favorites/:imovelId/:ip',
