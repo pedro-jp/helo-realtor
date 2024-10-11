@@ -54,12 +54,21 @@ class WebhookService {
                 }
               }
 
+              const newSubscriptionAfter = await stripe.subscriptions.create({
+                customer: customer.id, // Presumindo que você armazena o ID do cliente do Stripe no banco
+                items: [
+                  {
+                    price: priceID, // ID do precinho que você quer cobrar
+                  },
+                ],
+              });
+
               await prismaClient.user.update({
                 where: {
-                  email: session.customer_email,
+                  email: invoice.customer_email,
                 },
                 data: {
-                  subscriptionId: newSubscriptionId,
+                  subscriptionId: newSubscriptionAfter.id,
                   planIsActive: true,
                   priceId: priceID,
                 },
@@ -103,6 +112,25 @@ class WebhookService {
                       console.log(`Assinatura ${subscription.id} cancelada`);
                     }
                   }
+                  const newSubscription = await stripe.subscriptions.create({
+                    customer: usuario.stripeCustomerId, // Presumindo que você armazena o ID do cliente do Stripe no banco
+                    items: [
+                      {
+                        price: priceID, // ID do precinho que você quer cobrar
+                      },
+                    ],
+                  });
+
+                  await prismaClient.user.update({
+                    where: {
+                      email: invoice.customer_email,
+                    },
+                    data: {
+                      subscriptionId: newSubscription.id,
+                      planIsActive: true,
+                      priceId: priceID,
+                    },
+                  });
 
                   console.log(
                     'Assinaturas antigas foram canceladas, nova mantida'
