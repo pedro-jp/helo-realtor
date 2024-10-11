@@ -1,5 +1,6 @@
 import prismaClient from '../../prisma';
 import { ImovelExtended } from '../../interfaces';
+import fetch from 'node-fetch';
 
 export class UpdateImovelService {
   async execute({

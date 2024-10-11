@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { UpdateImovelService } from '../../services/Imovel/UpdateImovelService';
 import { Imovel } from '../../interfaces';
+import fetch from 'node-fetch';
 
 export class UpdateImovelController {
   async handle(req: Request, res: Response) {

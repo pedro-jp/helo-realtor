@@ -1,4 +1,5 @@
 import prismaClient from '../../prisma';
+import fetch from 'node-fetch';
 
 // Define a tipagem do request
 interface OfficeRequest {
