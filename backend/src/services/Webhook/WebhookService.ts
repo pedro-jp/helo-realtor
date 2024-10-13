@@ -22,60 +22,86 @@ class WebhookService {
     // Handle the event
     switch (event.type) {
       case 'checkout.session.completed':
+        console.log('Checkout session completed', event.data.object);
         const session = event.data.object;
-        if (session.amount_total === 0 && session.customer_email) {
+        const email = session.customer_details.email;
+        if (session.amount_total === 0 && email) {
           const usuario = await prismaClient.user.findFirst({
             where: {
-              email: session.customer_email,
+              email: email,
             },
           });
 
-          const customer = await stripe.invoices.retrieve(
-            session.customer_email
-          );
+          if (!session.customer) {
+            console.error('Stripe customer ID is missing in the session');
+            return res.status(400).json({ error: 'Missing customer ID' });
+          }
 
-          const invoice = await stripe.invoices.retrieve(session.invoice);
-          const lineItems = invoice.lines.data;
-          const priceID = lineItems.length > 0 ? lineItems[0].price.id : null;
+          try {
+            // Fetch the customer directly from Stripe
+            const customer = await stripe.customers.retrieve(session.customer);
 
-          const newSubscriptionId = session.subscription;
-          if (usuario) {
-            try {
+            // Retrieve invoice and line items
+            const invoice = await stripe.invoices.retrieve(session.invoice);
+            const lineItems = invoice.lines.data;
+            const priceID = lineItems.length > 0 ? lineItems[0].price.id : null;
+
+            const newSubscriptionId = session.subscription;
+
+            if (usuario) {
+              // List active subscriptions
               const subscriptions = await stripe.subscriptions.list({
-                customer: customer.id, // Presumindo que você armazena o ID do cliente do Stripe no banco
-                status: 'active', // Somente assinaturas ativas
+                customer: customer.id,
+                status: 'active',
               });
 
-              // Cancelar apenas as assinaturas que não são a nova
+              console.log(usuario);
+
+              // Cancel old subscriptions except the new one
               for (const subscription of subscriptions.data) {
                 if (subscription.id !== newSubscriptionId) {
-                  await stripe.subscriptions.cancel(subscription.id);
-                  console.log(`Assinatura ${subscription.id} cancelada`);
+                  await stripe.subscriptions.update(subscription.id, {
+                    pause_collection: {
+                      behavior: 'void', // Pausa a cobrança e impede futuras
+                    },
+                  });
+                  console.log(`Assinatura ${subscription.id} pausada`);
                 }
               }
 
-              const newSubscriptionAfter = await stripe.subscriptions.create({
-                customer: customer.id, // Presumindo que você armazena o ID do cliente do Stripe no banco
-                items: [
-                  {
-                    price: priceID, // ID do precinho que você quer cobrar
-                  },
-                ],
-              });
+              // for (const subscription of subscriptions.data) {
+              //   if (subscription.id !== newSubscriptionId) {
+              //     await stripe.subscriptions.remove(subscription.id);
+              //     console.log(`Assinatura ${subscription.id} removida`);
+              //   }
+              // }
 
-              await prismaClient.user.update({
+              // Update the user in the database
+              const updatedUser = await prismaClient.user.update({
                 where: {
-                  email: invoice.customer_email,
+                  email: email,
                 },
                 data: {
-                  subscriptionId: newSubscriptionAfter.id,
+                  subscriptionId: session.subscription.id,
                   planIsActive: true,
                   priceId: priceID,
                 },
               });
-            } catch (error) {}
+
+              console.log(
+                'Nova assinatura criada e usuário atualizado:',
+                updatedUser
+              );
+            }
+          } catch (error) {
+            console.error('Erro ao processar a assinatura:', error.message);
+            return res
+              .status(500)
+              .json({ error: 'Erro ao processar a assinatura' });
           }
         }
+        break;
+
       case 'payment_intent.succeeded':
         const paymentIntent = event.data.object;
 
@@ -101,26 +127,33 @@ class WebhookService {
                 try {
                   // Buscar todas as assinaturas ativas do usuário
                   const subscriptions = await stripe.subscriptions.list({
-                    customer: usuario.stripeCustomerId, // Presumindo que você armazena o ID do cliente do Stripe no banco
-                    status: 'active', // Somente assinaturas ativas
+                    customer: usuario.stripeCustomerId,
+                    status: 'active',
                   });
 
                   // Cancelar apenas as assinaturas que não são a nova
                   for (const subscription of subscriptions.data) {
                     if (subscription.id !== newSubscriptionId) {
-                      await stripe.subscriptions.cancel(subscription.id);
-                      console.log(`Assinatura ${subscription.id} cancelada`);
+                      await stripe.subscriptions.update(subscription.id, {
+                        pause_collection: {
+                          behavior: 'void', // Pausa a cobrança e impede futuras
+                        },
+                      });
+                      console.log(`Assinatura ${subscription.id} pausada`);
                     }
                   }
+
+                  // Criar nova assinatura
                   const newSubscription = await stripe.subscriptions.create({
-                    customer: usuario.stripeCustomerId, // Presumindo que você armazena o ID do cliente do Stripe no banco
+                    customer: usuario.stripeCustomerId,
                     items: [
                       {
-                        price: priceID, // ID do precinho que você quer cobrar
+                        price: priceID,
                       },
                     ],
                   });
 
+                  // Atualizar no banco de dados
                   await prismaClient.user.update({
                     where: {
                       email: invoice.customer_email,
@@ -155,14 +188,14 @@ class WebhookService {
                     email,
                   },
                   data: {
-                    paymentStatus: 'succeeded', // Marcar o pagamento como bem-sucedido
-                    subscriptionId: invoice.subscription, // Atualizar com o novo ID de assinatura
-                    priceId: priceID, // Armazenar o priceID
-                    planIsActive: true, // Marcar o plano como ativo
+                    paymentStatus: 'succeeded',
+                    subscriptionId: invoice.subscription,
+                    priceId: priceID,
+                    planIsActive: true,
                   },
                 });
               } catch (error) {
-                console.log('Erro ao atualizar a assinatura:', error);
+                console.error('Erro ao atualizar a assinatura:', error);
                 throw new Error('Erro ao atualizar a assinatura');
               }
             }
@@ -170,7 +203,7 @@ class WebhookService {
             try {
               const newSubscriptionId = invoice.subscription;
 
-              // Cancelar todas as assinaturas antigas, exceto a nova
+              // Cancelar assinaturas antigas
               await cancelOldSubscriptions(usuario, newSubscriptionId);
 
               // Atualizar a assinatura do usuário
@@ -187,20 +220,20 @@ class WebhookService {
               console.error('Erro ao processar o pagamento:', error.message);
               return res
                 .status(500)
-                .json({ error: 'Erro interno ao processar o pagamento' });
+                .json({ error: 'Erro ao processar o pagamento' });
             }
           } catch (error) {
             console.error('Erro ao processar o pagamento:', error.message);
             return res
               .status(500)
-              .json({ error: 'Erro interno ao processar o pagamento' });
+              .json({ error: 'Erro ao processar o pagamento' });
           }
         } else {
           console.log('Nenhuma fatura associada encontrada.');
           return res.status(400).json({ error: 'Nenhuma fatura associada' });
         }
 
-      case 'customer.subscription.deleted':
+      case 'customer.subscription.delete':
         const subscriptionDeleted = event.data.object;
 
         try {
@@ -218,19 +251,21 @@ class WebhookService {
               },
             });
 
-            const updatedUser = await prismaClient.user.update({
-              where: {
-                email: invoice.customer_email,
-              },
-              data: {
-                paymentStatus: 'canceled', // Altera o status do pagamento para cancelado
-                subscriptionId: '', // Remove o subscriptionId pois foi cancelada
-                priceId: '', // Atualiza o priceID, se necessário
-                planIsActive: false, // Define o plano como inativo
-              },
-            });
-            console.log('222222222222222222');
-            return res.json({ received: true, updatedUser, priceID });
+            if (usuario.subscriptionId === subscriptionDeleted.id) {
+              await prismaClient.user.update({
+                where: {
+                  email: usuario.email,
+                },
+                data: {
+                  paymentStatus: 'canceled',
+                  subscriptionId: '',
+                  priceId: '',
+                  planIsActive: false,
+                },
+              });
+            }
+
+            return res.json({ received: true, priceID });
           } else {
             console.log('Nenhum invoice associado foi encontrado.');
           }
@@ -241,38 +276,6 @@ class WebhookService {
           return res.status(500).json({ error: 'Erro interno no servidor' });
         }
         break;
-
-      case 'payment_intent.payment_failed':
-        const failedPaymentIntent = event.data.object;
-
-        console.log(`PaymentIntent for ${failedPaymentIntent.amount} failed.`);
-
-        if (failedPaymentIntent.invoice) {
-          const invoice = await stripe.invoices.retrieve(
-            failedPaymentIntent.invoice
-          );
-        }
-
-        try {
-          const failedUser = await prismaClient.user.update({
-            where: {
-              email: failedPaymentIntent.charges.data[0].billing_details.email,
-            },
-            data: {
-              paymentStatus: 'failed',
-            },
-          });
-
-          return res.json({ received: true, failedUser, failedPaymentIntent });
-        } catch (error) {
-          console.error(
-            'Erro ao atualizar o pagamento falhado:',
-            error.message
-          );
-          return res
-            .status(500)
-            .json({ error: 'Erro ao atualizar o pagamento falhado' });
-        }
 
       default:
         console.log(`Unhandled event type ${event.type}`);

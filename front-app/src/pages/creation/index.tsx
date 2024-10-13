@@ -53,6 +53,8 @@ const Creation = () => {
   const [background, setBackground] = useState();
 
   useEffect(() => {
+    if (!user.planIsActive)
+      toast.warning('Ative um plano para cadastrar um imóvel');
     fetchCategories();
     fetchOffice();
   }, []);
@@ -64,7 +66,7 @@ const Creation = () => {
       setCategoryList(response.data);
     } catch (error) {
       console.error(error);
-      toast.error('Erro ao carregar categorias');
+      console.error('Erro ao carregar categorias');
     }
   }
 
@@ -74,9 +76,10 @@ const Creation = () => {
       const response = await api.get(`/office/${user.id}`);
       setOffice(response.data);
       setRealtorList(response.data.realtors);
+      console.log('REPONSE', response.data);
     } catch (error) {
       console.error(error);
-      toast.error('Erro ao carregar escritório');
+      console.error('Erro ao carregar escritório');
     }
   }
 
