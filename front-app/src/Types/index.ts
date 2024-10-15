@@ -22,3 +22,27 @@ export type RealtorType = {
   creci: string;
   whatsapp_message: string;
 };
+
+export type ImovelType = {
+  id: string;
+  name: string; 
+  description: string;
+  price: number;
+  category: CategoryType;
+  local: string;
+  quartos: number;
+  banheiros: number;
+  area: number;
+  garagem: number;
+  active: boolean;
+  ownerId: string;
+  officeId: string;
+  realtorId: string;
+  marker: boolean;
+  transaction: string;
+  images: Image[];
+}
+type Image = {
+  id: string;
+  url: string;
+}
