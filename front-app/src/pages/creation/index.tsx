@@ -51,6 +51,7 @@ const Creation = () => {
   const [imageFile, setImageFile] = useState(null);
 
   const [background, setBackground] = useState();
+  const [propertyId, setPropertyId] = useState('');
 
   useEffect(() => {
     if (!user.planIsActive)
@@ -76,7 +77,6 @@ const Creation = () => {
       const response = await api.get(`/office/${user.id}`);
       setOffice(response.data);
       setRealtorList(response.data.realtors);
-      console.log('REPONSE', response.data);
     } catch (error) {
       console.error(error);
       console.error('Erro ao carregar escritório');
@@ -122,6 +122,7 @@ const Creation = () => {
       });
 
       const imovelId = response.data.id;
+      setPropertyId(imovelId);
 
       // Faz upload da imagem se houver uma
       if (imageFile) {
@@ -129,12 +130,25 @@ const Creation = () => {
         await uploadImage(URL.createObjectURL(imageFile), imovelId, router);
       }
       toast.success('Imóvel criado com sucesso!');
-      router.push(
-        `${process.env.NEXT_PUBLIC_ALL_URL}/${office.url}/${imovelId}`
-      );
     } catch (error) {
       console.error('Erro ao criar imóvel:', error);
       toast.error('Erro ao criar imóvel.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleAddImage = async () => {
+    setIsLoading(true);
+    try {
+      await uploadImage(
+        URL.createObjectURL(imageFile as any),
+        propertyId,
+        router
+      );
+      toast.success('Imagem adicionada com sucesso!');
+    } catch (error) {
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
@@ -306,6 +320,27 @@ const Creation = () => {
                 </div>
               </div>
             </div>
+            {propertyId && imageFile && (
+              <button
+                type='button'
+                className={styles.button}
+                onClick={handleAddImage}
+              >
+                Adicionar imagem
+              </button>
+            )}
+            {propertyId && (
+              <button
+                className={styles.button}
+                onClick={() =>
+                  router.push(
+                    `${process.env.NEXT_PUBLIC_ALL_URL}/${office.url}/${propertyId}`
+                  )
+                }
+              >
+                Ver imóvel
+              </button>
+            )}
           </form>
         </Main>
       </Content>

@@ -37,9 +37,7 @@ export const uploadImage = async (
             imovelId,
             imageUrl: url,
           });
-          toast.success(
-            'Upload concluído com sucesso. Imagem adicionada ao imóvel'
-          );
+
           resolve(url);
         }
       );
