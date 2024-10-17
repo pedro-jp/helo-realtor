@@ -18,7 +18,7 @@ import { FiSave } from 'react-icons/fi';
 import { FaSpinner } from 'react-icons/fa';
 
 const Creation = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loading, setLoading } = useContext(AuthContext);
   const router = useRouter();
   const api = setupAPIClient(router);
 
@@ -49,6 +49,7 @@ const Creation = () => {
   const [realtorList, setRealtorList] = useState([]);
   const [realtorId, setRealtorId] = useState('');
   const [imageFile, setImageFile] = useState(null);
+  const [propertyId, setPropertyId] = useState('');
 
   const [background, setBackground] = useState();
 
@@ -74,6 +75,7 @@ const Creation = () => {
   // Função para buscar corretores da API
   async function fetchOffice() {
     try {
+      setLoading(true);
       const response = await api.get(`/office/${user.id}`);
       setOffice(response.data);
       setRealtorList(response.data.realtors);
@@ -81,13 +83,17 @@ const Creation = () => {
     } catch (error) {
       console.error(error);
       console.error('Erro ao carregar escritório');
+    } finally {
+      setLoading(false);
     }
   }
 
   const fetchImovel = async () => {
     try {
+      setLoading(true);
       const response = await api.get(`/imovel/${router.query.id}`);
       setName(response.data.name);
+      setPropertyId(response.data.id);
       setDescription(response.data.description);
       setPrice(`R$ ${response.data.price}`);
       setLocal(response.data.local);
@@ -103,6 +109,8 @@ const Creation = () => {
     } catch (error) {
       console.error(error);
       console.error('Erro ao carregar imóvel');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -120,6 +128,7 @@ const Creation = () => {
     if (!office) return;
 
     try {
+      setLoading(true);
       // Formata o preço
       const numericPrice = parseFloat(
         price.replace('R$', '').replace('.', '').replace(',', '.')
@@ -160,6 +169,24 @@ const Creation = () => {
       toast.error('Erro ao criar imóvel.');
     } finally {
       setIsLoading(false);
+      setLoading(false);
+    }
+  };
+  const handleAddImage = async () => {
+    setIsLoading(true);
+    try {
+      setLoading(true);
+      await uploadImage(
+        URL.createObjectURL(imageFile as any),
+        propertyId,
+        router
+      );
+      toast.success('Imagem adicionada com sucesso!');
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+      setLoading(false);
     }
   };
   return (
@@ -329,6 +356,27 @@ const Creation = () => {
                 </div>
               </div>
             </div>
+            {propertyId && imageFile && (
+              <button
+                type='button'
+                className={styles.button}
+                onClick={handleAddImage}
+              >
+                Adicionar imagem
+              </button>
+            )}
+            {propertyId && (
+              <button
+                className={styles.button}
+                onClick={() =>
+                  router.push(
+                    `${process.env.NEXT_PUBLIC_ALL_URL}/${office.url}/${propertyId}`
+                  )
+                }
+              >
+                Ver imóvel
+              </button>
+            )}
           </form>
         </Main>
       </Content>
