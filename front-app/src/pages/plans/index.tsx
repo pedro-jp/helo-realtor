@@ -12,7 +12,7 @@ import styles from './styles.module.scss';
 import Head from 'next/head';
 
 const Plans = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loading, setLoading } = useContext(AuthContext);
   const [selectedPriceId, setSelectedPriceId] = useState<string | null>(null);
   const router = useRouter();
   const api = setupAPIClient(router);
@@ -49,6 +49,7 @@ const Plans = () => {
     }
 
     try {
+      setLoading(true);
       const response = await api.post('/checkout', {
         email: user.email,
         priceId: selectedPriceId,
@@ -57,6 +58,8 @@ const Plans = () => {
       window.location.href = checkoutUrl; // Redireciona para a URL de checkout
     } catch (error) {
       toast.error('Erro ao criar sessão de checkout');
+    } finally {
+      setLoading(false);
     }
   }
 

@@ -1,3 +1,4 @@
+import Loading from '@/components/Loading';
 import { setupAPIClient } from '@/services/api';
 import { OfficeType } from '@/Types';
 import { NextRouter, useRouter } from 'next/router';
@@ -181,10 +182,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  if (loading) {
-    return <p>carregando</p>;
-  }
-
   return (
     <AuthContext.Provider
       value={{
@@ -199,6 +196,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         signUp,
       }}
     >
+      {loading && <Loading />}
       {children}
     </AuthContext.Provider>
   );

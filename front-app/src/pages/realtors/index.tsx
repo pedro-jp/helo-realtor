@@ -35,7 +35,7 @@ type RealtorType = {
 };
 
 const RealtorForm = () => {
-  const { user } = useContext(AuthContext); // Pega o usuário logado do contexto
+  const { user, loading, setLoading } = useContext(AuthContext); // Pega o usuário logado do contexto
   const [office, setOffice] = useState<OfficeType | null>(null);
 
   const [realtorName, setRealtorName] = useState('');
@@ -57,10 +57,13 @@ const RealtorForm = () => {
 
   const getOffice = async () => {
     try {
+      setLoading(true);
       const response = await api.get(`/office/inactive/${user.id}`);
       setOffice(response.data);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -68,6 +71,7 @@ const RealtorForm = () => {
     e.preventDefault();
     if (!office) return;
     try {
+      setLoading(true);
       const response = await api.post(`/office/${office.id}/realtors`, {
         name: realtorName,
         email: realtorEmail,
@@ -85,13 +89,17 @@ const RealtorForm = () => {
     } catch (error) {
       toast.error('Crie novamente');
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleUpdateRealtor = async (e: FormEvent) => {
     e.preventDefault();
+
     if (!office || !selectedRealtorId) return;
     try {
+      setLoading(true);
       const response = await api.put(
         `/office/${office.id}/realtors/${selectedRealtorId}`,
         {
@@ -115,6 +123,8 @@ const RealtorForm = () => {
     } catch (error) {
       toast.error('Crie novamente');
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 

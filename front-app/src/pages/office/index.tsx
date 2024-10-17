@@ -29,7 +29,7 @@ export interface HomeProps {
 export default function Office() {
   const router = useRouter();
   const api = setupAPIClient(router);
-  const { user } = useContext(AuthContext);
+  const { user, loading, setLoading } = useContext(AuthContext);
   const [id, setId] = useState('');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -52,6 +52,7 @@ export default function Office() {
   async function getOffice() {
     console.log('ta fzd');
     try {
+      setLoading(true);
       const response = await api.get(`/office/inactive/${user?.id}`);
       const { data } = response;
       console.log(data);
@@ -64,7 +65,10 @@ export default function Office() {
       setDescription(data.description);
       setCreated(true);
       console.log(data);
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   }
 
   const handleCreateOffice = async (event: FormEvent) => {

@@ -19,7 +19,7 @@ type CategoryType = {
 };
 
 const Categories = () => {
-  const { user } = useContext(AuthContext); // Pega o usuário logado do contexto
+  const { user, loading, setLoading } = useContext(AuthContext); // Pega o usuário logado do contexto
   const [categoryName, setCategoryName] = useState('');
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
     null
@@ -31,20 +31,24 @@ const Categories = () => {
 
   useEffect(() => {
     listCategories();
-  }, []);
+  }, [user]);
 
   const listCategories = async () => {
     try {
+      setLoading(true);
       const response = await api.get(`/category/${user.id}`);
       setCategories(response.data);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleCreateCategory = async (e: FormEvent) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const response = await api.post('/category', {
         ownerId: user.id,
         name: categoryName,
@@ -56,26 +60,8 @@ const Categories = () => {
     } catch (error) {
       toast.error('Erro ao criar categoria');
       console.error(error);
-    }
-  };
-
-  const handleUpdateCategory = async () => {
-    if (!selectedCategoryId) return;
-    try {
-      const response = await api.put(`/category/${selectedCategoryId}`, {
-        name: categoryName,
-      });
-
-      setCategories(
-        categories.map((category) =>
-          category.id === selectedCategoryId ? response.data : category
-        )
-      );
-      toast.success('Categoria atualizada com sucesso');
-      clearForm();
-    } catch (error) {
-      toast.error('Erro ao atualizar categoria');
-      console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
