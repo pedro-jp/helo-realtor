@@ -14,7 +14,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Propriedades() {
-  const { user } = useContext(AuthContext);
+  const { user, loading, setLoading } = useContext(AuthContext);
   const router = useRouter();
   const api = setupAPIClient(router);
   const [imoveis, setImoveis] = useState<ImovelType[]>([] as ImovelType[]);
@@ -24,8 +24,15 @@ export default function Propriedades() {
   }, []);
 
   async function getImoveis() {
-    const response = await api.get(`/imoveis/${user.id}`);
-    setImoveis(response.data);
+    try {
+      setLoading(true);
+      const response = await api.get(`/imoveis/${user.id}`);
+      setImoveis(response.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -47,7 +54,7 @@ export default function Propriedades() {
                   <div className={styles.card} key={imovel.id}>
                     <figure>
                       <Image
-                        src={imovel.images[0].url}
+                        src={imovel.images[0]?.url}
                         alt={imovel.name}
                         width={300}
                         height={300}
