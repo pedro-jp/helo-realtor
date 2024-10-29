@@ -160,7 +160,7 @@ const Creation = () => {
         // Substitui o upload local pelo upload no Firebase
         await uploadImage(URL.createObjectURL(imageFile), imovelId, router);
       }
-      toast.success('Imóvel criado com sucesso!');
+      toast.success('Imóvel atualizado com sucesso!');
       router.push(
         `${process.env.NEXT_PUBLIC_ALL_URL}/${office.url}/${imovelId}`
       );
@@ -367,6 +367,7 @@ const Creation = () => {
             )}
             {propertyId && (
               <button
+                type='button'
                 className={styles.button}
                 onClick={() =>
                   router.push(
