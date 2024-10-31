@@ -106,7 +106,7 @@ const MapWithCircle: React.FC<MapWithCircleProps> = ({ locations }) => {
               onCloseClick={() => setSelectedOffice(null)} // Fecha o popup quando clicar no "X"
             >
               <div style={{ paddingTop: '10px' }}>
-                <Link href={`/${url}`}>
+                <Link href={`/${url}`} style={{ color: '#000' }}>
                   <h3>{selectedOffice.officeName}</h3>
                 </Link>
                 {/* O componente MapOptions é exibido ao clicar no marcador */}
