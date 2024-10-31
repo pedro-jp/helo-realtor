@@ -3,7 +3,7 @@
 import React from 'react';
 import { OrbitControls, ScrollControls } from '@react-three/drei';
 import { Office } from './Office';
-import { Content } from '../AppHome/page';
+// import { Content } from '../AppHome/page';
 import { OfficeType } from '../types/index';
 import { useEffect, useState } from 'react';
 
@@ -49,7 +49,7 @@ export const Experience = () => {
       <OrbitControls enableZoom={false} />
       <ScrollControls pages={3} damping={0.25}>
         <Office officeLocations={officeLocations} />
-        <Content offices={offices} officeLocations={officeLocations} />
+        {/* <Content offices={offices} officeLocations={officeLocations} /> */}
       </ScrollControls>
     </>
   );

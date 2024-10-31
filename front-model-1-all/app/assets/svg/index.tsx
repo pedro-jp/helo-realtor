@@ -203,3 +203,32 @@ export const Placeholder = (props: any) => (
     />
   </svg>
 );
+
+export const Iphone = (props: any) => (
+  <svg
+    width='200'
+    height='400'
+    viewBox='0 0 200 400'
+    xmlns='http://www.w3.org/2000/svg'
+  >
+    <rect
+      x='10'
+      y='10'
+      width='180'
+      height='380'
+      rx='20'
+      ry='20'
+      fill='#000'
+      stroke='#333'
+      stroke-width='2'
+    />
+
+    <rect x='15' y='15' width='170' height='370' rx='15' ry='15' fill='#fff' />
+
+    <rect x='80' y='20' width='40' height='10' rx='5' ry='5' fill='#333' />
+
+    <rect x='7' y='70' width='2' height='30' rx='1.5' ry='1.5' fill='#333' />
+    <rect x='7' y='105' width='2' height='30' rx='1.5' ry='1.5' fill='#333' />
+    <rect x='190' y='85' width='2' height='40' rx='1.5' ry='1.5' fill='#333' />
+  </svg>
+);
