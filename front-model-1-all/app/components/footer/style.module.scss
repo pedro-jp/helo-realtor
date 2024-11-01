@@ -8,8 +8,9 @@
     width: 100%;
     max-width: 1440px;
     margin-inline: auto;
-    padding: 0 1rem;
-
+    @media (width < 1440px) {
+      margin-inline: 1rem;
+    }
     h2 {
       font-size: 2rem;
     }

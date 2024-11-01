@@ -5,10 +5,10 @@ import style from './styles.module.scss';
 import dynamic from 'next/dynamic';
 import { ImovelType, OfficeType } from '@/app/types';
 import BtnCompartilhar from '@/app/components/BtnCompartlhar';
-import { Favorite } from '@/app/assets/svg';
 import Favoritar from '@/app/components/Favoritar';
 import { Footer } from '@/app/components/footer';
 import React from 'react';
+import Navbar from '@/app/components/navbar';
 
 // Importa o componente dinamicamente para evitar SSR
 const MapWithCircle = dynamic(() => import('@/app/components/map'), {
@@ -93,25 +93,51 @@ export default async function ImovelPage({
     return <div>Imóvel não encontrado</div>;
   }
 
+  const preco = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(parseFloat(imovel.price));
+
+  const transactionType = () => {
+    switch (transaction) {
+      case 'Locacao':
+        return 'Locação';
+      case 'sale':
+        return 'Venda';
+
+      default:
+        '';
+        break;
+    }
+  };
+
   return (
     <>
+      <Navbar url={office?.url} phone={office?.phone} />
+
       <main className={style.main}>
         <h1>
-          <span className={style.transaction}>{transaction} </span>
+          <span className={style.transaction}>{transactionType()} </span>
           {imovel.name}
         </h1>
         <section className={style.container}>
           <Carousel images={imovel.images} />
-          <div>
-            <Favoritar imovel={imovel} />
-            <BtnCompartilhar title={imovel.name} text={imovel.description} />
-          </div>
 
           <div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexDirection: 'column',
+              }}
+            >
+              <Favoritar imovel={imovel} />
+              <BtnCompartilhar title={imovel.name} text={imovel.description} />
+            </div>
             <ul className={style.infos}>
               <li>
                 <strong>Preço: </strong>
-                {imovel.price}
+                {preco}
               </li>
               {imovel?.quartos && parseInt(imovel?.quartos) > 1 ? (
                 <li>

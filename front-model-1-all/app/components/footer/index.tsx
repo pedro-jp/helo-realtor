@@ -76,7 +76,12 @@ export const Footer = ({ url }: Props) => {
               <Link href={`/${officeData.url}`}>Lista de Imóveis</Link>
             </li>
             <li>
-              <a href={`whatsapp://send?phone=${officeData.phone}`}>Contato</a>
+              <a
+                target='_blank'
+                href={`whatsapp://send?phone=${officeData.phone}`}
+              >
+                Contato
+              </a>
             </li>
           </ul>
         </div>

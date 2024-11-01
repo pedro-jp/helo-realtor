@@ -15,13 +15,13 @@ const MapOptions: React.FC<MapOptionsProps> = ({ latitude, longitude }) => {
   return (
     <div className={style.mapOptions}>
       <a href={googleMapsUrl} target='_blank' rel='noopener noreferrer'>
-        <AppleMap />
+        <GoogleMap />
       </a>
       <a href={wazeUrl} target='_blank' rel='noopener noreferrer'>
         <WazeMap />
       </a>
       <a href={appleMapsUrl} target='_blank' rel='noopener noreferrer'>
-        <GoogleMap />
+        <AppleMap />
       </a>
     </div>
   );
