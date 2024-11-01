@@ -28,7 +28,7 @@ const libraries: ['places'] = ['places'];
 
 const MapWithCircle: React.FC<MapWithCircleProps> = ({ locations }) => {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyCXUysejG26jQvuyCl6arN8ueQYVR4MLqo',
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
     libraries,
   });
 
