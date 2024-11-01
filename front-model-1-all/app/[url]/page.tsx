@@ -64,6 +64,7 @@ type OfficeType = {
   latitude: string;
   longitude: string;
   imoveis: ImovelType[];
+  phone: string;
 };
 
 // Componente que renderiza a página
@@ -91,7 +92,9 @@ export default async function OfficePage({
         >
           <h1>Venda seu imóvel</h1>
           <button>
-            <a href='/imoveis'>Quer vender o seu imóvel?</a>
+            <a target='_blank' href={`https://wa.me/+55${office?.phone}`}>
+              Quer vender o seu imóvel?
+            </a>
           </button>
         </section>
         <h2
