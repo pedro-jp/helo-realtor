@@ -71,7 +71,7 @@ const AppHome = () => {
                   avançados para atender às necessidades de vendas de imóveis
                   online.
                 </p>
-                <a target='_blank' href='http://app.helotechbr.com'>
+                <a target='_blank' href='https://app.helotechbr.com'>
                   Cadastrar
                 </a>
               </section>
@@ -102,10 +102,10 @@ const AppHome = () => {
               </div>
             </AnimatedSection>
             <AnimatedSection>
-              <h2 style={{ marginBottom: '20px' }}>
-                Localize o escritório mais próximo de você
-              </h2>
-              <div style={{ width: '100vh' }}>
+              <div className={style.map_container} style={{ width: '100vh' }}>
+                <h2 style={{ marginBottom: '20px' }}>
+                  Localize o escritório mais próximo de você
+                </h2>
                 <MapWithCircle locations={officeLocations} />
               </div>
             </AnimatedSection>
@@ -118,6 +118,7 @@ const AppHome = () => {
                 alignSelf: 'center',
                 fontSize: '1.5rem',
                 background: '#5A8AA7',
+                marginTop: '-40px',
               }}
             >
               <h2>Por que ter um site para expor seus imóveis?</h2>
