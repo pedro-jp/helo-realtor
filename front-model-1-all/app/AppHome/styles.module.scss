@@ -196,4 +196,15 @@ body:has(.main) {
   .map_container {
     width: 100% !important;
   }
+
+  @media (width < 576px) {
+    .hero_overlay {
+      h1 {
+        font-size: 2rem;
+      }
+      p {
+        font-size: 1rem;
+      }
+    }
+  }
 }
