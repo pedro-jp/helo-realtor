@@ -1,5 +1,7 @@
 html:has(.main),
 body:has(.main) {
+  background: #fcf5eb;
+
   ::-webkit-scrollbar {
     display: none;
   }
@@ -8,7 +10,6 @@ body:has(.main) {
 .main {
   width: 100vw;
   height: max-content;
-  background: #fcf5eb;
 
   h1 {
     margin-inline: auto;
