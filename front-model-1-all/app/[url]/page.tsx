@@ -86,7 +86,7 @@ export default async function OfficePage({
         <section
           style={{
             backgroundImage: `url('/assets/img/door.jpg')`,
-            height: '100vw',
+            height: '100vh',
           }}
           className={style.sell}
         >
