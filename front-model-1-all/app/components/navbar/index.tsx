@@ -1,6 +1,11 @@
 import Link from 'next/link';
 import style from './style.module.scss';
-export default function Navbar() {
+
+type OfficeType = {
+  url?: string;
+  phone?: string;
+};
+export default function Navbar({ url, phone }: OfficeType) {
   return (
     <menu className={style.menu}>
       <div className={style.hamburger}>
@@ -9,13 +14,17 @@ export default function Navbar() {
       <nav className={style.navbar}>
         <ul>
           <li>
-            <Link href='/'>Home</Link>
+            <Link href={url ? `/${url}` : '/'}>Lista de Imóveis</Link>
           </li>
-          <li>
+          {/* <li>
             <Link href={'/imoveis'}>Lista de Imóveis</Link>
+          </li> */}
+          {/* <li>Sobre</li> */}
+          <li>
+            <Link target='_blank' href={phone ? `https://wa.me/${phone}` : '/'}>
+              Contato
+            </Link>
           </li>
-          <li>Sobre</li>
-          <li>Contato</li>
         </ul>
       </nav>
     </menu>

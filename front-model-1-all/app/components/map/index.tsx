@@ -26,7 +26,7 @@ const MapWithCircle: React.FC<MapWithCircleProps> = ({
   radius = 200,
 }) => {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyCXUysejG26jQvuyCl6arN8ueQYVR4MLqo',
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
     libraries,
   });
 
