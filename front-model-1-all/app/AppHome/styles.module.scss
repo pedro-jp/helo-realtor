@@ -53,6 +53,8 @@ body:has(.main) {
     .hero_image {
       width: 100%;
       min-height: 80vh;
+
+      object-fit: cover;
     }
 
     .hero {
