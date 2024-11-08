@@ -5,8 +5,9 @@ const Content = ({ children }: { children: React.ReactNode }) => {
         display: 'flex',
         flexDirection: 'column',
         width: '100vw',
-        height: '100vh',
+        height: '100dvh',
         overflowY: 'auto',
+        paddingBottom: '1rem',
       }}
     >
       {children}

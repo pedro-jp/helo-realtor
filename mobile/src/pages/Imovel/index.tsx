@@ -107,7 +107,7 @@ export default function Imovel() {
         price.replace('R$', '').replace('.', '').replace(',', '.').trim()
       );
 
-      const response = await api.put(`/imovel/${imovelId}`, {
+      const response = await api.put(`/imovel/${imovelId}/${user.id}`, {
         name,
         description,
         price: numericPrice,
