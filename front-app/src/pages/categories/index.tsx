@@ -19,7 +19,8 @@ type CategoryType = {
 };
 
 const Categories = () => {
-  const { user, loading, setLoading } = useContext(AuthContext); // Pega o usuário logado do contexto
+  const { user, loading, setLoading, isAuthenticated } =
+    useContext(AuthContext); // Pega o usuário logado do contexto
   const [categoryName, setCategoryName] = useState('');
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
     null
@@ -31,7 +32,7 @@ const Categories = () => {
 
   useEffect(() => {
     listCategories();
-  }, [user]);
+  }, [user, isAuthenticated]);
 
   const listCategories = async () => {
     try {

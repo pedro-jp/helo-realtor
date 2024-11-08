@@ -29,7 +29,8 @@ export interface HomeProps {
 export default function Office() {
   const router = useRouter();
   const api = setupAPIClient(router);
-  const { user, loading, setLoading } = useContext(AuthContext);
+  const { user, loading, setLoading, isAuthenticated } =
+    useContext(AuthContext);
   const [id, setId] = useState('');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -47,7 +48,7 @@ export default function Office() {
         setCreated(true);
       }
     }
-  }, [user]);
+  }, [user, isAuthenticated]);
 
   async function getOffice() {
     console.log('ta fzd');

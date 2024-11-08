@@ -15,13 +15,12 @@ export class UpdateImovelController {
       area,
       garagem,
       active,
-      ownerId,
       categoryId,
       marker,
       transaction,
     } = req.body as Partial<Imovel>; // Usar Partial para aceitar campos opcionais
 
-    const id = req.params.id;
+    const { id, ownerId } = req.params;
 
     const updateImovelService = new UpdateImovelService();
 

@@ -35,7 +35,8 @@ type RealtorType = {
 };
 
 const RealtorForm = () => {
-  const { user, loading, setLoading } = useContext(AuthContext); // Pega o usuário logado do contexto
+  const { user, loading, setLoading, isAuthenticated } =
+    useContext(AuthContext); // Pega o usuário logado do contexto
   const [office, setOffice] = useState<OfficeType | null>(null);
 
   const [realtorName, setRealtorName] = useState('');
@@ -53,7 +54,7 @@ const RealtorForm = () => {
 
   useEffect(() => {
     getOffice();
-  }, []);
+  }, [user, isAuthenticated]);
 
   const getOffice = async () => {
     try {

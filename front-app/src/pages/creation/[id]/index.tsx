@@ -18,7 +18,8 @@ import { FiSave } from 'react-icons/fi';
 import { FaSpinner } from 'react-icons/fa';
 
 const Creation = () => {
-  const { user, loading, setLoading } = useContext(AuthContext);
+  const { user, loading, setLoading, isAuthenticated } =
+    useContext(AuthContext);
   const router = useRouter();
   const api = setupAPIClient(router);
 
@@ -53,13 +54,20 @@ const Creation = () => {
 
   const [background, setBackground] = useState();
 
+  const [isMine, setIsMine] = useState(false);
+
   useEffect(() => {
+    if (!isAuthenticated || loading) return;
     if (!user.planIsActive)
-      toast.warning('Ative um plano para cadastrar um imóvel');
-    fetchImovel();
-    fetchCategories();
-    fetchOffice();
-  }, []);
+      toast.warning('Ative um plano para atualizar um imóvel');
+    ownerVerification();
+    if (isMine) {
+      fetchCategories();
+      fetchImovel();
+      fetchOffice();
+      console.log('isMine', isMine);
+    }
+  }, [isAuthenticated, user, isMine]);
 
   // Função para buscar categorias da API
   async function fetchCategories() {
@@ -85,6 +93,20 @@ const Creation = () => {
       console.error('Erro ao carregar escritório');
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function ownerVerification() {
+    try {
+      const response = await api.get(`/imovel/${router.query.id}`);
+      if (response.data.ownerId !== user.id) {
+        toast.error('Este imóvel não foi criado por você');
+        setIsMine(false);
+      } else {
+        setIsMine(true);
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -122,7 +144,7 @@ const Creation = () => {
   };
 
   // Função para criar o imóvel
-  const handleCreateImovel = async (e: FormEvent) => {
+  const handleEditImovel = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     if (!office) return;
@@ -133,9 +155,10 @@ const Creation = () => {
       const numericPrice = parseFloat(
         price.replace('R$', '').replace('.', '').replace(',', '.')
       );
+      console.log(numericPrice);
 
       // Cria o imóvel
-      const response = await api.put('/imovel', {
+      const response = await api.put(`/imovel/${router.query.id}/${user.id}`, {
         name,
         description,
         price: numericPrice,
@@ -165,8 +188,8 @@ const Creation = () => {
         `${process.env.NEXT_PUBLIC_ALL_URL}/${office.url}/${imovelId}`
       );
     } catch (error) {
-      console.error('Erro ao criar imóvel:', error);
-      toast.error('Erro ao criar imóvel.');
+      console.error('Erro ao atualizar o imóvel:', error);
+      toast.error('Erro ao atualizar o imóvel.');
     } finally {
       setIsLoading(false);
       setLoading(false);
@@ -189,6 +212,20 @@ const Creation = () => {
       setLoading(false);
     }
   };
+
+  const formatToBRL = (value: string) => {
+    const numericValue = parseFloat(value.replace(/[^0-9]/g, '')) / 100;
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    }).format(numericValue);
+  };
+
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setPrice(formatToBRL(value));
+    console.log(value);
+  };
   return (
     <Container>
       <Head>
@@ -198,10 +235,10 @@ const Creation = () => {
       <Content>
         <Header>{name}</Header>
         <Main>
-          <form className={styles.form} onSubmit={handleCreateImovel}>
+          <form className={styles.form} onSubmit={handleEditImovel}>
             <button
               className={isLoading ? styles.loading : styles.create}
-              disabled
+              disabled={isLoading}
               type='submit'
             >
               {isLoading ? '' : 'Editar imóvel'}
@@ -246,7 +283,7 @@ const Creation = () => {
                 <Input
                   type='text'
                   value={price}
-                  onChange={(e) => setPrice(e.target.value)}
+                  onChange={(e) => handlePriceChange(e)}
                   required
                 />
               </div>

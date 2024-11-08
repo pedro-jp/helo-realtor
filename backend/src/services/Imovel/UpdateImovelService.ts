@@ -43,7 +43,7 @@ export class UpdateImovelService {
 
     // Atualizar apenas os campos que foram enviados no corpo da requisição
     const imovelAtualizado = await prismaClient.imovel.update({
-      where: { id },
+      where: { id, ownerId },
       data: {
         name: name ?? existingImovel.name, // Se o valor não foi passado, mantém o original
         description: description ?? existingImovel.description,

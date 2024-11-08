@@ -30,8 +30,7 @@ const nextConfig = {
       },
     ],
     dangerouslyAllowSVG: true, // Enable SVG rendering
-  }
+  },
 };
-
 
 export default nextConfig;
