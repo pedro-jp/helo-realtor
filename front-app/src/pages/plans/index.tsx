@@ -66,7 +66,7 @@ const Plans = () => {
   return (
     <>
       <Head>
-        <title>Helo Realtor | Planos</title>
+        <title>IntG Realtor | Planos</title>
       </Head>
       <Container>
         <Sidebar />

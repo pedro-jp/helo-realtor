@@ -45,7 +45,7 @@ export default function Signup() {
   return (
     <>
       <Head>
-        <title>Helo Realtor | Cadastro</title>
+        <title>IntG Realtor | Cadastro</title>
       </Head>
       <Image
         className={styles.background}

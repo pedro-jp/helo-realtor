@@ -52,7 +52,22 @@ export default function Home() {
         alt='background'
       ></Image>
       <Head>
-        <title>Helo Realtor | Login</title>
+        <title>IntG Realtor | Login</title>
+        <meta
+          name='description'
+          content='Ferramenta para exposição de imóveis'
+        />
+        <meta property='og:title' content='IntG Realtor | Login' />
+        <meta
+          property='og:description'
+          content='Faça login na plataforma IntG Realtor para acessar nossas ferramentas exclusivas.'
+        />
+        <meta
+          property='og:image'
+          content='https://images.pexels.com/photos/87223/pexels-photo-87223.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        />
+        <meta property='og:url' content='https://realtor.intg.com.br' />
+        <meta property='og:type' content='website' />
       </Head>
       <main
         style={{

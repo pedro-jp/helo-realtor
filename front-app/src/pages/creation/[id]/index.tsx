@@ -236,7 +236,7 @@ const Creation = () => {
   return (
     <Container>
       <Head>
-        <title>Helo Realtor | Criação de Imóvel</title>
+        <title>IntG Realtor | Edição de Imóvel</title>
       </Head>
       <Sidebar />
       <Content>

@@ -116,7 +116,7 @@ export default function Office() {
   return (
     <>
       <Head>
-        <title>Helo Realtor | Escritório</title>
+        <title>IntG Realtor | Escritório</title>
       </Head>
       <Container>
         <Sidebar />
