@@ -197,6 +197,11 @@ const Creation = () => {
   };
   const handleAddImage = async () => {
     setIsLoading(true);
+    if (imageFile === null) {
+      toast.error('Selecione uma imagem');
+      setIsLoading(false);
+      return;
+    }
     try {
       setLoading(true);
       await uploadImage(
@@ -205,6 +210,8 @@ const Creation = () => {
         router
       );
       toast.success('Imagem adicionada com sucesso!');
+      setBackground('' as any);
+      setImageFile(null);
     } catch (error) {
       console.log(error);
     } finally {

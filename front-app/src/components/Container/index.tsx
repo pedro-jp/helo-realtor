@@ -4,7 +4,7 @@ const Container = ({ children }: { children: React.ReactNode }) => {
       style={{
         display: 'flex',
         width: '100vw',
-        height: '100vh',
+        minHeight: '100dvh',
         overflow: 'hidden',
       }}
     >

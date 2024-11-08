@@ -3,11 +3,10 @@ import styles from './style.module.scss';
 import Image from 'next/image';
 import { FiLogOut } from 'react-icons/fi';
 import { useContext } from 'react';
-import { AuthContext } from '@/contexts/AuthContext';
+import { AuthContext, signOut } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 
 export function Sidebar() {
-  const { signOut } = useContext(AuthContext);
   const router = useRouter();
 
   return (

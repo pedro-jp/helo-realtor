@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const ap = axios.create({
+const api = axios.create({
   baseURL: 'https://api.helotechbr.com/',
 });
 
-const api = axios.create({
+const ap = axios.create({
   baseURL: 'http://192.168.15.106:3332/',
 });
 

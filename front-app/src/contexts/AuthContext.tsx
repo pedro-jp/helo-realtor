@@ -46,6 +46,7 @@ interface AuthProviderProps {
 
 export async function signOut(router: NextRouter) {
   try {
+    console.log('signout');
     destroyCookie(undefined, '@nextauth.token');
     router.push('/');
   } catch (error) {

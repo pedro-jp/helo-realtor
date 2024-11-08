@@ -97,7 +97,7 @@
 html,
 body {
   max-width: max-content;
-  max-height: max-content;
+  min-height: 100dvh;
   overflow: hidden;
 }
 button {
