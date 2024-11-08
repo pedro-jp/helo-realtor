@@ -130,7 +130,11 @@ router.delete(
   new RemoveImovelController().handle
 );
 
-router.put('/imovel/:id', isAuthenticated, new UpdateImovelController().handle);
+router.put(
+  '/imovel/:id/:ownerId',
+  isAuthenticated,
+  new UpdateImovelController().handle
+);
 
 router.post('/office', isAuthenticated, new CreateOfficeController().handle);
 

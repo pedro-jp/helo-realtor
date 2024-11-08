@@ -7,6 +7,7 @@ export type OfficeType = {
   email: string;
   description: string;
   url?: string;
+  realtors?: RealtorType[];
 };
 
 export type CategoryType = {
@@ -25,7 +26,7 @@ export type RealtorType = {
 
 export type ImovelType = {
   id: string;
-  name: string; 
+  name: string;
   description: string;
   price: number;
   category: CategoryType;
@@ -41,8 +42,8 @@ export type ImovelType = {
   marker: boolean;
   transaction: string;
   images: Image[];
-}
+};
 type Image = {
   id: string;
   url: string;
-}
+};

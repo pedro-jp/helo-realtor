@@ -14,14 +14,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Propriedades() {
-  const { user, loading, setLoading } = useContext(AuthContext);
+  const { user, loading, setLoading, isAuthenticated } =
+    useContext(AuthContext);
   const router = useRouter();
   const api = setupAPIClient(router);
   const [imoveis, setImoveis] = useState<ImovelType[]>([] as ImovelType[]);
 
   useEffect(() => {
     getImoveis();
-  }, []);
+  }, [user, isAuthenticated]);
 
   async function getImoveis() {
     try {
