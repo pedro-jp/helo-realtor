@@ -151,7 +151,7 @@ const RealtorForm = () => {
   return (
     <>
       <Head>
-        <title>Helo Realtor | Corretores</title>
+        <title>IntG Realtor | Corretores</title>
       </Head>
       <Container>
         <Sidebar />

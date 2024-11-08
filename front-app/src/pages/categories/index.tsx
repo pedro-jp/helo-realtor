@@ -79,7 +79,7 @@ const Categories = () => {
   return (
     <>
       <Head>
-        <title>Helo Realtor | Categorias</title>
+        <title>IntG Realtor | Categorias</title>
       </Head>
       <Container>
         <Sidebar />

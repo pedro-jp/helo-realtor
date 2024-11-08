@@ -39,7 +39,7 @@ export default function Propriedades() {
   return (
     <>
       <Head>
-        <title>Helo Realtor | Propriedades</title>
+        <title>IntG Realtor | Propriedades</title>
       </Head>
       <Container>
         <Sidebar />
