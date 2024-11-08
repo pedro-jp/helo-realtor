@@ -41,6 +41,12 @@ export class UpdateOfficeService {
       `${address}, ${address_city}`
     );
 
+    const url = name
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/\s+/g, '')
+      .replace(/[^\w-]+/g, '');
+
     // Atualiza o escritório com as novas informações e coordenadas
     const office = await prismaClient.office.update({
       where: {
@@ -53,6 +59,7 @@ export class UpdateOfficeService {
         address_city,
         description,
         email,
+        url,
         latitude: coordinates ? coordinates.lat.toString() : null, // Atualiza latitude como string
         longitude: coordinates ? coordinates.lng.toString() : null, // Atualiza longitude como string
       },
