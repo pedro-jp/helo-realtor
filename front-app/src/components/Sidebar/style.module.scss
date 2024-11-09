@@ -60,6 +60,20 @@ nav:has(.sidebar) {
     flex-direction: column;
     gap: 1rem;
     list-style: none;
+
+    li {
+      button {
+        all: unset;
+
+        &:hover {
+          cursor: pointer;
+        }
+        svg {
+          background-color: var(--third-blue);
+          fill: var(--third-blue);
+        }
+      }
+    }
   }
 
   @media (width <= 768px) {

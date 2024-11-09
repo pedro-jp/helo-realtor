@@ -11,29 +11,37 @@ import { Sidebar } from '@/components/Sidebar';
 import styles from './styles.module.scss';
 import Head from 'next/head';
 
+type Plan = {
+  name: string;
+  priceId: string;
+  descri: string;
+  info?: string;
+  price: number;
+};
+
 const Plans = () => {
   const { user, loading, setLoading } = useContext(AuthContext);
   const [selectedPriceId, setSelectedPriceId] = useState<string | null>(null);
   const router = useRouter();
   const api = setupAPIClient(router);
 
-  const plans = [
-    {
-      name: 'Realtor Ouro',
-      priceId: process.env.NEXT_PUBLIC_STRIPE_OURO_PRICE_ID as string,
-      descri:
-        'Plano mais completo com todas as funcionalidades exceto site e domínio dedicado.',
-      price: 59.99,
-    },
+  const plans: Plan[] = [
+    // {
+    //   name: 'Realtor Ouro',
+    //   priceId: process.env.NEXT_PUBLIC_STRIPE_OURO_PRICE_ID as string,
+    //   descri:
+    //     'Plano mais completo com todas as funcionalidades exceto site e domínio dedicado.',
+    //   price: 59.99,
+    // },
 
-    {
-      name: 'Realtor Diamante',
-      priceId: 'price_1Pyn9JFkkC3ZoBrEjoJzUDfu',
-      descri:
-        'Plano mais completo com todas as funcionalidades com site e domínio dedicado.',
-      info: 'Tempo de ativação de até 3 dias úteis.',
-      price: 99.99,
-    },
+    // {
+    //   name: 'Realtor Diamante',
+    //   priceId: 'price_1Pyn9JFkkC3ZoBrEjoJzUDfu',
+    //   descri:
+    //     'Plano mais completo com todas as funcionalidades com site e domínio dedicado.',
+    //   info: 'Tempo de ativação de até 3 dias úteis.',
+    //   price: 99.99,
+    // },
     {
       name: 'Realtor Prata',
       priceId: process.env.NEXT_PUBLIC_STRIPE_PRATA_PRICE_ID as string,
@@ -92,8 +100,8 @@ const Plans = () => {
                     <div>
                       <h2>{plan.name}</h2>
                       <p>{plan.descri}</p>
-                      {plan.info && <p>{plan.info}</p>}
-                      <p>R$ {plan.price.toFixed(2)}</p>
+                      {plan?.info && <p>{plan?.info}</p>}
+                      <p>R$ {plan.price.toLocaleString('pt-BR')}</p>
                     </div>
                     <div>
                       <div>
