@@ -18,7 +18,7 @@ export function Sidebar() {
         <span className={styles.line3}></span>
       </div>
       <div className={styles.sidebar}>
-        <h1>Helo Realtor</h1>
+        <h1>IntG Realtor</h1>
         <ul>
           <li>
             <Link href='/office'>Escritório</Link>
@@ -44,7 +44,7 @@ export function Sidebar() {
         <ul>
           <li>
             <button onClick={() => signOut(router)}>
-              <FiLogOut size={24} />
+              <FiLogOut size={24} color='white' />
             </button>
           </li>
         </ul>
