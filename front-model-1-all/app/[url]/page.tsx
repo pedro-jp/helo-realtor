@@ -1,4 +1,4 @@
-// app/[officeName]/page.tsx
+// app/[url]/page.tsx
 import React from 'react';
 import { Metadata } from 'next';
 import Cards from '../components/cards';
@@ -14,6 +14,7 @@ async function getOfficeByName(url: string) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_URL}/offices/${url}`
     );
+    console.log('retorno: ' + url);
 
     if (!response.ok) {
       throw new Error(`Erro: ${response.status} - ${response.statusText}`);
@@ -22,18 +23,19 @@ async function getOfficeByName(url: string) {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Erro ao buscar escritório:');
+    console.error('Erro ao buscar escritório:', error);
     return null;
   }
 }
 
-// Função para gerar metadata dinâmico baseado no officeName
+// Função para gerar metadata dinâmico baseado no url
 export async function generateMetadata({
   params,
 }: {
   params: { url: string };
 }): Promise<Metadata> {
   const office = await getOfficeByName(params.url); // Busca o escritório pelo nome
+  console.log('params: ' + params.url);
 
   if (!office) {
     return {
