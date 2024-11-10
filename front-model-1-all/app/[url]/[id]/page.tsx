@@ -123,7 +123,13 @@ export default async function ImovelPage({
         <section className={style.container}>
           <Carousel images={imovel.images} />
 
-          <div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              gap: '1rem',
+            }}
+          >
             <div
               style={{
                 display: 'flex',
