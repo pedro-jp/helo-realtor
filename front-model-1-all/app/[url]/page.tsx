@@ -3,16 +3,17 @@ import React from 'react';
 import { Metadata } from 'next';
 import Cards from '../components/cards';
 import Hero from '../components/hero';
-
 import style from './style.module.scss';
 import MapWithCircle from '../components/map';
 import { ImovelType } from '@/app/types';
 import { Footer } from '@/app/components/footer';
+import { NextRequest } from 'next/server';
 
-async function getOfficeByName(url: string) {
+// Função para buscar o nome do escritório a partir do subdomínio ou parâmetro
+async function getOfficeByName(officeName: string) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/offices/${url}`
+      `${process.env.NEXT_PUBLIC_URL}/offices/${officeName}`
     );
 
     if (!response.ok) {
@@ -27,12 +28,22 @@ async function getOfficeByName(url: string) {
   }
 }
 
-// Função para gerar metadata dinâmico baseado no officeName
+// Função para capturar o nome do escritório a partir do subdomínio
+function getOfficeName(params: { officeName: string }, req: NextRequest) {
+  const host = req.headers.get('host');
+  const subdomain = host?.split('.')[0]; // Extrai o subdomínio
+  return subdomain && subdomain !== 'imoveis' ? subdomain : params.officeName;
+}
+
+// Função para gerar metadados dinâmicos baseados no nome do escritório
 export async function generateMetadata({
   params,
+  req,
 }: {
-  params: { url: string };
+  params: { officeName: string };
+  req: NextRequest;
 }): Promise<Metadata> {
+  
   const office = await getOfficeByName(params.url); // Busca o escritório pelo nome
 
   if (!office) {
@@ -43,16 +54,17 @@ export async function generateMetadata({
   }
 
   return {
-    title: office?.name || 'Imóveis Disponíveis',
-    description: office?.description,
+    title: office.name || 'Imóveis Disponíveis',
+    description: office.description,
     openGraph: {
       title: office.name,
-      description: office?.description,
+      description: office.description,
       url: `${process.env.NEXT_PUBLIC_FRONT_URL}`,
     },
   };
 }
 
+// Tipo do escritório
 type OfficeType = {
   name: string;
   description: string;
@@ -65,13 +77,16 @@ type OfficeType = {
   phone: string;
 };
 
-// Componente que renderiza a página
+// Componente da página
 export default async function OfficePage({
   params,
+  req,
 }: {
-  params: { url: string };
+  params: { officeName: string };
+  req: NextRequest;
 }) {
-  const office: OfficeType = await getOfficeByName(params.url);
+  const officeName = getOfficeName(params, req);
+  const office: OfficeType = await getOfficeByName(officeName);
 
   if (!office) {
     return <div>Escritório não encontrado</div>;
@@ -90,17 +105,12 @@ export default async function OfficePage({
         >
           <h1>Venda seu imóvel</h1>
           <button>
-            <a target='_blank' href={`https://wa.me/+55${office?.phone}`}>
+            <a target='_blank' href={`https://wa.me/+55${office.phone}`}>
               Quer vender o seu imóvel?
             </a>
           </button>
         </section>
-        <h2
-          style={{
-            textAlign: 'center',
-            margin: '20px',
-          }}
-        >
+        <h2 style={{ textAlign: 'center', margin: '20px' }}>
           Imóveis disponíveis
         </h2>
         <section className={style.card_section}>
@@ -114,8 +124,8 @@ export default async function OfficePage({
           }}
         >
           <MapWithCircle
-            latitude={office?.latitude}
-            longitude={office?.longitude}
+            latitude={office.latitude}
+            longitude={office.longitude}
             marker
           />
         </div>
