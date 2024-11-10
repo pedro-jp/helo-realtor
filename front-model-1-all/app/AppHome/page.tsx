@@ -30,7 +30,7 @@ const AppHome = () => {
       const offices = data.flatMap((user: any) => user.office);
       return offices;
     } catch (error) {
-      console.error('Failed to fetch offices:', error);
+      console.error('Failed to fetch offices:');
       return [];
     } finally {
       setLoading(false);

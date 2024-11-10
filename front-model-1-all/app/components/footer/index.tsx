@@ -19,10 +19,9 @@ export const Footer = ({ url }: Props) => {
         const data = await getOfficeByName(url);
         setOfficeData(data);
       } catch (error) {
-        console.error('Erro ao buscar dados do escritório:', error);
+        console.error('Erro ao buscar dados do escritório:');
       }
     };
-    console.table(officeData);
     fetchOfficeData();
   }, []);
 

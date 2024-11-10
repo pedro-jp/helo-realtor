@@ -12,7 +12,7 @@ import Navbar from '@/app/components/navbar';
 
 // Importa o componente dinamicamente para evitar SSR
 const MapWithCircle = dynamic(() => import('@/app/components/map'), {
-  ssr: false, // Desabilita SSR para o mapa
+  ssr: true, // Desabilita SSR para o mapa
 });
 
 // Função para gerar metadados dinamicamente

@@ -12,7 +12,7 @@ async function getClientIp() {
     const data = await response.json();
     return data.ip; // Retorna o IP do cliente
   } catch (error) {
-    console.error('Erro ao obter o IP do cliente:', error);
+    console.error('Erro ao obter o IP do cliente:');
     return null;
   }
 }
@@ -38,7 +38,6 @@ const Favoritar = ({ imovel }: FavoritarProps) => {
         setFavoriteToRemove(
           imovel.favorites.find((favorite: any) => favorite.ip === clientIp)
         );
-        console.log(favoriteToRemove?.id);
       }
     }
 
@@ -59,19 +58,14 @@ const Favoritar = ({ imovel }: FavoritarProps) => {
           `${process.env.NEXT_PUBLIC_URL}/imoveis/favorites/${imovel.id}/${clientIp}`
         );
         setFavorito(true); // Atualiza o estado para favorito
-        console.log(response.data); // Certifique-se de estar logando a resposta corretamente
       } else {
         const response = await api.delete(
           `${process.env.NEXT_PUBLIC_URL}/imoveis/favorites/${favoriteToRemove.id}/${clientIp}`
         );
         setFavorito(false); // Atualiza o estado para favorito
-        console.log(response.data); // Certifique-se de estar logando a resposta corretamente
       }
     } catch (error: any) {
-      console.log(
-        'Erro ao fazer a requisição:',
-        error.response?.data || error.message
-      );
+      console.log('Erro ao fazer a requisição:');
     }
   }
 

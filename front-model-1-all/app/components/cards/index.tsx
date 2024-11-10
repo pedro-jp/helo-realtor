@@ -7,7 +7,6 @@ import { FaInfoCircle } from 'react-icons/fa';
 import { Imagem } from '../Image';
 
 export default async function Cards({ url }: any) {
-  console.log(url);
   const imoveis = await getImoveis(url);
 
   function formatarPrecoReal(numero: number) {

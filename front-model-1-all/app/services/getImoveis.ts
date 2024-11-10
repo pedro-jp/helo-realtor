@@ -10,7 +10,6 @@ export async function getImoveis(url: string): Promise<ImovelType[]> {
     const response = await api.get(
       `${process.env.NEXT_PUBLIC_URL}/office/imoveis/${url}`
     );
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);

@@ -11,7 +11,7 @@ export const Imagem = async ({ id }: { id: string }) => {
       );
       imageUrl = response.data[0]?.url;
     } catch (error) {
-      console.error('Error fetching image:', error);
+      console.error('Error fetching image:');
     }
   }
 

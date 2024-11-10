@@ -17,9 +17,8 @@ const BtnCompartilhar: React.FC<ShareButtonProps> = ({ title, text }) => {
           text: text,
           url: window.location.href,
         });
-        console.log('Compartilhamento bem-sucedido');
       } catch (error) {
-        console.log('Erro ao compartilhar:', error);
+        console.log('Erro ao compartilhar:');
       }
     } else {
       console.log('Web Share API não é suportada neste navegador.');
