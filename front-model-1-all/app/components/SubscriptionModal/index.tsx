@@ -35,7 +35,7 @@ export const SubscriptionModal = ({
         email,
         officeId: office.id,
       });
-      console.log(response.data);
+      handleClose();
     } catch (error) {
       console.log(error);
     }
