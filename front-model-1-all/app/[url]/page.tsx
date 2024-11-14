@@ -6,8 +6,9 @@ import Hero from '../components/hero';
 
 import style from './style.module.scss';
 import MapWithCircle from '../components/map';
-import { ImovelType } from '@/app/types';
+import { ImovelType, OfficeType } from '@/app/types';
 import { Footer } from '@/app/components/footer';
+import { SubscriptionModal } from '../components/SubscriptionModal';
 
 async function getOfficeByName(url: string) {
   try {
@@ -54,18 +55,6 @@ export async function generateMetadata({
     },
   };
 }
-
-type OfficeType = {
-  name: string;
-  description: string;
-  address: string;
-  city: string;
-  url: string;
-  latitude: string;
-  longitude: string;
-  imoveis: ImovelType[];
-  phone: string;
-};
 
 // Componente que renderiza a página
 export default async function OfficePage({
@@ -122,6 +111,7 @@ export default async function OfficePage({
           />
         </div>
       </div>
+      <SubscriptionModal office={office} />
       <Footer url={office.url} />
     </>
   );
