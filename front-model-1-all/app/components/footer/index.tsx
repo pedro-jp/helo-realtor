@@ -6,12 +6,14 @@ import { getOfficeByName } from '@/app/services/getOffice';
 import { OfficeType, RealtorType } from '@/app/types';
 import formatWhatsapp from '../../services/formatWhatsapp';
 import { formatarNumero } from '@/app/services/formatNumber';
+import { SubscriptionModal } from '../SubscriptionModal';
 
 type Props = {
   url: string;
 };
 export const Footer = ({ url }: Props) => {
   const [officeData, setOfficeData] = useState<OfficeType>({} as OfficeType);
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     const fetchOfficeData = async () => {
@@ -82,9 +84,19 @@ export const Footer = ({ url }: Props) => {
                 Contato
               </a>
             </li>
+            <li>
+              <button
+                style={{ all: 'unset', cursor: 'pointer' }}
+                type='button'
+                onClick={() => setOpenModal(!openModal)}
+              >
+                Receber novidades
+              </button>
+            </li>
           </ul>
         </div>
       </div>
+      {openModal && <SubscriptionModal office={officeData} />}
     </footer>
   );
 };

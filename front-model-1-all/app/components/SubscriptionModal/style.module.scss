@@ -1,0 +1,93 @@
+.modal {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000040;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  animation-duration: 0.4s;
+  animation-fill-mode: forwards;
+
+  h1 {
+    color: #fff;
+  }
+
+  & > form {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+
+    input {
+      margin-bottom: 1rem;
+      height: 40px;
+      padding-inline: 1rem;
+      border-radius: 10px;
+      border: 1px solid #00000020;
+      background-color: #fff;
+      color: #000;
+      font-size: 1.2rem;
+      font-family: var(--font-mono);
+    }
+
+    button {
+      height: 40px;
+      padding-inline: 1rem;
+      border-radius: 10px;
+      border: 1px solid #00000020;
+      background-color: #ffffff00;
+      mix-blend-mode: difference;
+      font-size: 1.2rem;
+      color: #fff;
+      font-family: var(--font-mono);
+
+      &:hover {
+        background-color: #00000040;
+        color: #fff;
+      }
+    }
+  }
+
+  .header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1rem;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #fff;
+
+    &:hover {
+      color: var(--primary-color);
+    }
+  }
+}
+
+.open {
+  animation-name: open;
+}
+
+.close {
+  animation-name: close;
+}
+
+@keyframes close {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+@keyframes open {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

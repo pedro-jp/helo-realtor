@@ -41,6 +41,7 @@ import { GetOfficeByNameController } from './controllers/Office/GetOfficeByNameC
 import { ListImoveisByNameController } from './controllers/Imovel/ListImovelByNameController';
 import { GetOfficeInactiveController } from './controllers/Office/GetOfficeInactiveController';
 import { CouponController } from './controllers/Coupon/CouponController';
+import { CreateVisitorSubscriptionController } from './controllers/Visitor/CreateVisitorSubscriptionController';
 
 const router = Router();
 
@@ -170,6 +171,13 @@ router.get(
   '/office/:officeId/realtors/:realtorId',
   isAuthenticated,
   new GetRealtorController().handle
+);
+
+//visitor
+router.post(
+  '/visitor/subscription',
+
+  new CreateVisitorSubscriptionController().handle
 );
 
 export { router };

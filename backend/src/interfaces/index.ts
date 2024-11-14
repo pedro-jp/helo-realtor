@@ -21,3 +21,9 @@ export interface Imovel {
 export interface ImovelExtended extends Imovel {
   id: string;
 }
+
+export interface VisitorSubscription {
+  officeId: string;
+  email: string;
+  name: string;
+}
