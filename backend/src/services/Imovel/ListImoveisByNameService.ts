@@ -9,6 +9,9 @@ export class ListImoveisByNameService {
         },
         select: {
           imoveis: {
+            where: {
+              active: true,
+            },
             include: {
               images: true,
               realtor: true,

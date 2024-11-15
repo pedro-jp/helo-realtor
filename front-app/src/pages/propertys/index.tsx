@@ -12,6 +12,14 @@ import { Header } from '@/components/Header';
 import { ImovelType } from '@/Types';
 import Image from 'next/image';
 import Link from 'next/link';
+import {} from 'react-icons/fa';
+import {
+  FaEye,
+  FaEyeDropper,
+  FaEyeLowVision,
+  FaToggleOff,
+  FaToggleOn,
+} from 'react-icons/fa6';
 
 export default function Propriedades() {
   const { user, loading, setLoading, isAuthenticated } =
@@ -27,7 +35,7 @@ export default function Propriedades() {
   async function getImoveis() {
     try {
       setLoading(true);
-      const response = await api.get(`/imoveis/${user.id}`);
+      const response = await api.get(`/imoveis/all/${user.id}`);
       setImoveis(response.data);
     } catch (error) {
       console.error(error);
@@ -35,6 +43,21 @@ export default function Propriedades() {
       setLoading(false);
     }
   }
+
+  const handlePause = async (imovel: ImovelType) => {
+    try {
+      setLoading(true);
+      await api.put(`/imovel/${imovel.id}/${user.id}`, {
+        ...imovel,
+        active: !imovel.active,
+      });
+      getImoveis();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -50,23 +73,34 @@ export default function Propriedades() {
           >
             {imoveis.map((imovel) => (
               <>
-                <Link href={`/creation/${imovel.id}`}>
-                  <h3>{imovel.name}</h3>
-                  <div className={styles.card} key={imovel.id}>
-                    <figure>
-                      <Image
-                        src={imovel.images[0]?.url}
-                        alt={imovel.name}
-                        width={300}
-                        height={300}
-                      />
-                    </figure>
-                    <div>
-                      <h3>{imovel.local}</h3>
-                      <p>{imovel.description}</p>
-                    </div>
+                <div className={styles.container}>
+                  <div className={styles.actions}>
+                    <button onClick={() => handlePause(imovel)}>
+                      {imovel.active ? (
+                        <FaEye color='green' />
+                      ) : (
+                        <FaEyeLowVision color='red' />
+                      )}
+                    </button>
                   </div>
-                </Link>
+                  <Link href={`/creation/${imovel.id}`}>
+                    <h3>{imovel.name}</h3>
+                    <div className={styles.card} key={imovel.id}>
+                      <figure>
+                        <Image
+                          src={imovel.images[0]?.url}
+                          alt={imovel.name}
+                          width={300}
+                          height={300}
+                        />
+                      </figure>
+                      <div>
+                        <h3>{imovel.local}</h3>
+                        <p>{imovel.description}</p>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
               </>
             ))}
           </Main>
