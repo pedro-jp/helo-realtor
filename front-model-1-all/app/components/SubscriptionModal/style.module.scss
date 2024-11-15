@@ -11,6 +11,13 @@
   flex-direction: column;
   animation-duration: 0.4s;
   animation-fill-mode: forwards;
+  text-align: center;
+
+  @media (width < 768px) {
+    & {
+      padding: 1rem;
+    }
+  }
 
   h1 {
     color: #fff;
