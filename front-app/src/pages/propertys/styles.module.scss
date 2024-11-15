@@ -1,3 +1,26 @@
+.container {
+  position: relative;
+
+  .actions {
+    position: absolute;
+    top: 50px;
+    right: 20px;
+
+    button {
+      all: unset;
+      cursor: pointer;
+
+      svg {
+        font-size: 1.5rem;
+
+        &:hover {
+          scale: 1.05;
+        }
+      }
+    }
+  }
+}
+
 .card {
   display: flex;
   border: 1px solid #00000020;

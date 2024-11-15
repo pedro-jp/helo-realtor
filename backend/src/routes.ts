@@ -42,6 +42,7 @@ import { ListImoveisByNameController } from './controllers/Imovel/ListImovelByNa
 import { GetOfficeInactiveController } from './controllers/Office/GetOfficeInactiveController';
 import { CouponController } from './controllers/Coupon/CouponController';
 import { CreateVisitorSubscriptionController } from './controllers/Visitor/CreateVisitorSubscriptionController';
+import { ListAllImoveisController } from './controllers/Imovel/ListAllImovelController';
 
 const router = Router();
 
@@ -121,6 +122,7 @@ router.post(
 );
 
 router.get('/imoveis/:ownerId', new ListImoveisController().handle);
+router.get('/imoveis/all/:ownerId', new ListAllImoveisController().handle);
 router.get('/office/imoveis/:url', new ListImoveisByNameController().handle);
 
 router.get('/imovel/:imovelId', new LoadImovelController().handle);
