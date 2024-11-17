@@ -28,6 +28,7 @@ export class CreateImovelService {
     marker,
     transaction,
   }: Imovel) {
+    // Passo 1: Criar o imóvel
     const imovel = await this.prisma.imovel.create({
       data: {
         name,
@@ -50,44 +51,75 @@ export class CreateImovelService {
       },
     });
 
-    const visitors = await this.prisma.visitor_Subscription.findMany({
-      where: {
-        officeId: officeId,
-      },
-    });
+    // Passo 2: Buscar os visitantes e os dados adicionais do escritório e do imóvel
 
-    const office = await this.prisma.office.findUnique({
-      where: {
-        id: officeId,
-      },
-    });
+    // Passo 3: Agendar envio de e-mails após 2 minutos
+    setTimeout(async () => {
+      const [visitors, office, imovelWithImages] = await Promise.all([
+        this.prisma.visitor_Subscription.findMany({
+          where: {
+            officeId: officeId,
+          },
+        }),
+        this.prisma.office.findUnique({
+          where: {
+            id: officeId,
+          },
+        }),
+        this.prisma.imovel.findUnique({
+          where: {
+            id: imovel.id,
+          },
+          include: {
+            images: true,
+          },
+        }),
+      ]);
+      try {
+        await Promise.all(
+          visitors.map(async (visitor) => {
+            try {
+              await sendEmail({
+                to: visitor.email,
+                from: 'contato@intg.com.br',
+                subject: 'Novo Imóvel Cadastrado.',
+                text: `Um novo imóvel foi cadastrado na Imobiliária ${office?.name}. Entre em contato com a imobiliária para mais detalhes.`,
+                html: `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #ddd; border-radius: 10px; overflow: hidden;">
+                  <div style="background: linear-gradient(90deg, #f43b47, #453a94); padding: 20px; text-align: center;">
+                    <img src="https://via.placeholder.com/150x50" alt="Logo da Imobiliária" style="width: 150px; margin-bottom: 10px;">
+                    <h1 style="color: white; font-size: 24px; margin: 0;">${office?.name}</h1>
+                  </div>
+                  <div style="padding: 20px; text-align: center;">
+                    <h2 style="font-size: 20px; color: #333;">Novo imóvel cadastrado!</h2>
+                    <p style="font-size: 16px; color: #555;">Confira os detalhes abaixo:</p>
+                    <div style="border: 1px solid #ddd; border-radius: 10px; padding: 10px; text-align: left; margin: 20px auto; max-width: 300px;">
+                      <p><strong>Imóvel:</strong> ${imovel.name}</p>
+                      <p><strong>Local:</strong> ${imovel.local}</p>
+                      <p><strong>Quartos:</strong> ${imovel.quartos}</p>
+                      <p><strong>Banheiros:</strong> ${imovel.banheiros}</p>
+                      <p><strong>Área:</strong> ${imovel.area}</p>
+                    </div>
+                    <img src="${imovelWithImages?.images[0]?.url}" alt="Imagem do imóvel" style="width: 100%; max-width: 300px; border-radius: 10px; object-fit: cover; margin: 10px 0;">
+                    <a href="https://imoveis.intg.com.br/${office?.url}/${imovel.id}" style="display: inline-block; background-color: #f43b47; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px; font-weight: bold;">Ver Imóvel</a>
+                  </div>
+                </div>
+                `,
+              });
 
-    await Promise.all(
-      visitors.map(async (visitor) => {
-        try {
-          const result = await sendEmail({
-            to: visitor.email,
-            from: 'joaopedroc035@gmail.com',
-            subject: 'Novo Imóvel Cadastrado',
-            text: `Um novo imóvel foi cadastrado na Imobiliaria ${office?.name}. Entre em contato com a imobiliária para mais detalhes.`,
-            html: `
-            <h1>Um novo imóvel foi cadastrado na Imobiliaria ${office?.name}.</h1>
-              <p>Imobiliária: ${office?.name}</p>
-              <p>Imóvel: ${imovel.name}</p>
-              <p>Local: ${imovel.local}</p>
-              <p>Quartos: ${imovel.quartos}</p>
-              <p>Banheiros: ${imovel.banheiros}</p>
-              <p>Área: ${imovel.area}</p>
-              <picture style="width: 100px; height: 100px;"><img style="width: 100px; height: 100px;, object-fit: cover" src='https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg?auto=compress&cs=tinysrgb&w=600' alt="Imagem do imóvel"></picture><br>
-              <h2>Veja o imóvel aqui:</h2>
-              <a href='https://imoveis.intg.com.br/${office?.url}/${imovel.id}'>Clique aqui</a>
-            `,
-          });
-        } catch (error) {
-          console.error(`Erro ao enviar email para ${visitor.email}:`, error);
-        }
-      })
-    );
+              console.log(`E-mail enviado para ${visitor.email}`);
+            } catch (error) {
+              console.error(
+                `Erro ao enviar email para ${visitor.email}:`,
+                error
+              );
+            }
+          })
+        );
+      } catch (error) {
+        console.error('Erro ao enviar e-mails para os visitantes:', error);
+      }
+    }, 0.5 * 60 * 1000); // 2 minutos em milissegundos
 
     return imovel;
   }
