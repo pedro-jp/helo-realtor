@@ -11,6 +11,7 @@ export class GetOfficeInactiveService {
         ownerId,
       },
       include: {
+        Office_Logo: true,
         banner_image: true,
         realtors: true,
         imoveis: true,

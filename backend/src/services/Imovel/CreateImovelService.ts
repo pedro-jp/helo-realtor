@@ -65,6 +65,9 @@ export class CreateImovelService {
           where: {
             id: officeId,
           },
+          include: {
+            Office_Logo: true,
+          },
         }),
         this.prisma.imovel.findUnique({
           where: {
@@ -87,8 +90,12 @@ export class CreateImovelService {
                 html: `
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #ddd; border-radius: 10px; overflow: hidden;">
                   <div style="background: linear-gradient(90deg, #f43b47, #453a94); padding: 20px; text-align: center;">
-                    <img src="https://via.placeholder.com/150x50" alt="Logo da Imobiliária" style="width: 150px; margin-bottom: 10px;">
-                    <h1 style="color: white; font-size: 24px; margin: 0;">${office?.name}</h1>
+                    <img src="${
+                      office?.Office_Logo[office.logo_index]?.url
+                    }" alt="Logo da Imobiliária" style="width: 50px; margin-bottom: 10px;">
+                    <h1 style="color: white; font-size: 24px; margin: 0;">${
+                      office?.name
+                    }</h1>
                   </div>
                   <div style="padding: 20px; text-align: center;">
                     <h2 style="font-size: 20px; color: #333;">Novo imóvel cadastrado!</h2>
@@ -100,8 +107,12 @@ export class CreateImovelService {
                       <p><strong>Banheiros:</strong> ${imovel.banheiros}</p>
                       <p><strong>Área:</strong> ${imovel.area}</p>
                     </div>
-                    <img src="${imovelWithImages?.images[0]?.url}" alt="Imagem do imóvel" style="width: 100%; max-width: 300px; border-radius: 10px; object-fit: cover; margin: 10px 0;">
-                    <a href="https://imoveis.intg.com.br/${office?.url}/${imovel.id}" style="display: inline-block; background-color: #f43b47; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px; font-weight: bold;">Ver Imóvel</a>
+                    <img src="${
+                      imovelWithImages?.images[0]?.url
+                    }" alt="Imagem do imóvel" style="width: 100%; max-width: 300px; border-radius: 10px; object-fit: cover; margin: 10px 0;">
+                    <a href="https://imoveis.intg.com.br/${office?.url}/${
+                  imovel.id
+                }" style="display: inline-block; background-color: #f43b47; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px; font-weight: bold;">Ver Imóvel</a>
                   </div>
                 </div>
                 `,

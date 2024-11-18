@@ -157,7 +157,8 @@ const Creation = () => {
       await uploadImage(
         URL.createObjectURL(imageFile as any),
         propertyId,
-        router
+        router,
+        'imovel_image'
       );
       setBackground('' as any);
       toast.success('Imagem adicionada com sucesso!');
