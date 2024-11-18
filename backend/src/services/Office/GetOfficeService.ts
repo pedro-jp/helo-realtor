@@ -15,6 +15,7 @@ export class GetOfficeService {
       },
       include: {
         banner_image: true,
+        Office_Logo: true,
         realtors: true,
         imoveis: true,
       },

@@ -230,7 +230,7 @@ export default function Office() {
               />
               <section className={styles.logos}>
                 <div>
-                  Galeria de logos
+                  <h3>Galeria de logos</h3>
                   <div>
                     {logos.map((logo: Logo, index) => (
                       <div key={logo.id} className={styles.logo}>
@@ -241,6 +241,7 @@ export default function Office() {
                           value={index}
                           checked={logoIndex === index}
                           onChange={() => handleSelectLogo(index)}
+                          className={styles.radio}
                         />
                       </div>
                     ))}
