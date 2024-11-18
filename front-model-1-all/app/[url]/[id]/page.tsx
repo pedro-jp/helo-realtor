@@ -117,7 +117,7 @@ export default async function ImovelPage({
 
   return (
     <>
-      <Navbar logo={logo} />
+      <Navbar url={office?.url} phone={office?.phone} />
 
       <main className={style.main}>
         <h1>
