@@ -68,7 +68,7 @@ model Visitor_Subscription {
   id         String   @id @unique @default(uuid())
   name       String
   officeId   String
-  email      String   @unique
+  email      String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -79,8 +79,7 @@ model Office_Banner {
   id       String @id @unique @default(uuid())
   url      String @default("/assets/img/home.jpg")
   officeId String
-
-  office Office @relation(fields: [officeId], references: [id])
+  office   Office @relation(fields: [officeId], references: [id])
 
   @@map("office_banners")
 }

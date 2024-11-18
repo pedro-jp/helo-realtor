@@ -9,15 +9,23 @@ export class CreateVisitorSubscription {
   }
 
   async execute({ officeId, email, name }: VisitorSubscription) {
-    const imovel = await this.prisma.visitor_Subscription.create({
-      data: {
-        officeId,
-
-        name,
+    const existingVisitor = await this.prisma.visitor_Subscription.findUnique({
+      where: {
         email,
+        officeId,
       },
     });
 
-    return imovel;
+    if (!existingVisitor) {
+      const visitor = await this.prisma.visitor_Subscription.create({
+        data: {
+          officeId,
+          email,
+          name,
+        },
+      });
+
+      return visitor;
+    }
   }
 }
