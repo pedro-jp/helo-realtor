@@ -54,7 +54,7 @@ export async function generateMetadata({
       url: `${process.env.NEXT_PUBLIC_FRONT_URL}`,
       images: [
         {
-          url: `${office?.banner_image?.url}`,
+          url: `${office?.banner_image[office?.banner_index]?.url}`,
           width: 1920,
           height: 1080,
           alt: office.name,
