@@ -24,6 +24,7 @@ export const uploadImage = async (
     case 'logo':
       route = 'logo';
       payload.officeId = id; // Adiciona officeId ao payload
+      break;
     case 'banner':
       route = 'banner';
       payload.officeId = id; // Adiciona officeId ao payload
