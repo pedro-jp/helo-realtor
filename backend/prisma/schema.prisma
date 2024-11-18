@@ -53,10 +53,13 @@ model Office {
   updated_at   DateTime        @updatedAt
   description  String
   banner_image Office_Banner[]
+  logo_index   Int             @default(0)
+  banner_index Int             @default(0)
 
-  owner    User      @relation(fields: [ownerId], references: [id])
-  imoveis  Imovel[]
-  realtors Realtor[] // Um escritório pode ter vários corretores
+  owner       User          @relation(fields: [ownerId], references: [id])
+  imoveis     Imovel[]
+  realtors    Realtor[] // Um escritório pode ter vários corretores
+  Office_Logo Office_Logo[]
 
   @@map("office")
 }
@@ -80,6 +83,16 @@ model Office_Banner {
   office Office @relation(fields: [officeId], references: [id])
 
   @@map("office_banners")
+}
+
+model Office_Logo {
+  id       String @id @unique @default(uuid())
+  url      String
+  officeId String
+
+  office Office @relation(fields: [officeId], references: [id])
+
+  @@map("office_logos")
 }
 
 model Realtor {

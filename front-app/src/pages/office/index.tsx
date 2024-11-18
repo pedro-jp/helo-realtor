@@ -10,10 +10,11 @@ import { Main } from '@/components/Main';
 import { Input, TextArea } from '@/components/ui/Input';
 import { setupAPIClient } from '@/services/api';
 import { useRouter } from 'next/router';
-import { FiSave } from 'react-icons/fi';
+import { FiPlus, FiSave, FiUpload } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import Container from '@/components/Container';
 import Content from '@/components/Content';
+import { uploadImage } from '@/services/upload';
 
 type OrderProps = {
   id: string;
@@ -26,6 +27,10 @@ export interface HomeProps {
   orders: OrderProps[];
 }
 
+type Logo = {
+  id: string;
+  url: string;
+};
 export default function Office() {
   const router = useRouter();
   const api = setupAPIClient(router);
@@ -39,6 +44,10 @@ export default function Office() {
   const [email, setEmail] = useState('');
   const [description, setDescription] = useState('');
   const [created, setCreated] = useState(false);
+  const [background, setBackground] = useState();
+  const [imageFile, setImageFile] = useState(null);
+  const [logos, setLogos] = useState<Logo[]>([]);
+  const [logoIndex, setLogoIndex] = useState(0);
 
   useEffect(() => {
     console.log('user', user);
@@ -48,7 +57,7 @@ export default function Office() {
         setCreated(true);
       }
     }
-  }, [user, isAuthenticated]);
+  }, [user, isAuthenticated, imageFile]);
 
   async function getOffice() {
     console.log('ta fzd');
@@ -65,7 +74,8 @@ export default function Office() {
       setEmail(data.email);
       setDescription(data.description);
       setCreated(true);
-      console.log(data);
+      setLogos(data.Office_Logo);
+      setLogoIndex(data.logo_index);
     } catch (error) {
     } finally {
       setLoading(false);
@@ -110,6 +120,54 @@ export default function Office() {
       toast.success('Escritório atualizado com sucesso');
     } catch (error) {
       console.log('erro no update office', error);
+    }
+  };
+
+  const handleImageChange = (e: any) => {
+    const file = e.target.files[0];
+    setImageFile(file);
+    setBackground(URL.createObjectURL(file) as any);
+  };
+
+  const handleAddImage = async () => {
+    setLoading(true);
+    try {
+      if (imageFile === null) {
+        toast.error('Selecione uma imagem');
+        setLoading(false);
+        return;
+      }
+      await uploadImage(
+        URL.createObjectURL(imageFile as any),
+        id,
+        router,
+        'logo'
+      );
+      setBackground('' as any);
+      toast.success('Imagem adicionada com sucesso!');
+      setImageFile(null);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSelectLogo = async (index: number) => {
+    setLogoIndex(index);
+    try {
+      const response = await api.put(`/office/${id}`, {
+        name,
+        phone,
+        address,
+        address_city,
+        email,
+        description,
+        logo_index: index as number,
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -170,6 +228,56 @@ export default function Office() {
                 placeholder='Descrição'
                 onChange={(e) => setDescription(e.target.value)}
               />
+              <section className={styles.logos}>
+                <div>
+                  Galeria de logos
+                  <div>
+                    {logos.map((logo: Logo, index) => (
+                      <div key={logo.id} className={styles.logo}>
+                        <img src={logo.url} height={50} width={50} />
+                        <input
+                          type='radio'
+                          name='logo'
+                          value={index}
+                          checked={logoIndex === index}
+                          onChange={() => handleSelectLogo(index)}
+                        />
+                      </div>
+                    ))}
+                    <div className={styles.select_group}>
+                      <div className={styles.formRow}>
+                        <div>
+                          <Input
+                            className={styles.plus}
+                            type='file'
+                            accept='image/*'
+                            onChange={handleImageChange}
+                          />
+                          <FiPlus size={50} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h3>Logo atual</h3>
+                  <img
+                    src={logos[logoIndex]?.url}
+                    alt=''
+                    height={100}
+                    width={100}
+                  />
+                </div>
+              </section>
+              {id && imageFile && (
+                <button
+                  type='button'
+                  className={styles.button}
+                  onClick={handleAddImage}
+                >
+                  Adicionar imagem
+                </button>
+              )}{' '}
             </form>
           </Main>
         </Content>

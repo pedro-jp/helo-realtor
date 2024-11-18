@@ -181,7 +181,12 @@ const Creation = () => {
       // Faz upload da imagem se houver uma
       if (imageFile) {
         // Substitui o upload local pelo upload no Firebase
-        await uploadImage(URL.createObjectURL(imageFile), imovelId, router);
+        await uploadImage(
+          URL.createObjectURL(imageFile),
+          imovelId,
+          router,
+          'imovel_image'
+        );
       }
       toast.success('Imóvel atualizado com sucesso!');
       router.push(
@@ -207,7 +212,8 @@ const Creation = () => {
       await uploadImage(
         URL.createObjectURL(imageFile as any),
         propertyId,
-        router
+        router,
+        'imovel_image'
       );
       toast.success('Imagem adicionada com sucesso!');
       setBackground('' as any);
