@@ -11,6 +11,7 @@ export class UpdateOfficeController {
       description,
       email,
       logo_index,
+      banner_index,
     } = req.body;
 
     const updateOfficeService = new UpdateOfficeService();
@@ -26,6 +27,7 @@ export class UpdateOfficeController {
         address_city,
         email,
         logo_index,
+        banner_index,
       });
       return res.json(office);
     } catch (error) {

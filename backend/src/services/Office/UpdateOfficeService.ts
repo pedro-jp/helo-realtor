@@ -11,6 +11,7 @@ interface OfficeRequest {
   email: string;
   officeId: string;
   logo_index: number;
+  banner_index: number;
 }
 
 // Tipagem da resposta da API do Google Geocoding
@@ -37,6 +38,7 @@ export class UpdateOfficeService {
     email,
     officeId,
     logo_index,
+    banner_index,
   }: OfficeRequest) {
     // Obtenha as coordenadas do endereço atualizado
     const coordinates = await this.getCoordinatesFromAddress(
@@ -65,6 +67,7 @@ export class UpdateOfficeService {
         latitude: coordinates ? coordinates.lat.toString() : null, // Atualiza latitude como string
         longitude: coordinates ? coordinates.lng.toString() : null, // Atualiza longitude como string
         logo_index,
+        banner_index,
       },
     });
     return office;
