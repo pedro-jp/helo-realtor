@@ -11,6 +11,7 @@
 
   display: flex;
   flex-direction: column;
+  justify-content: center;
 
   ul {
     max-width: 1440px;
@@ -23,6 +24,12 @@
       all: unset;
       font-weight: 600;
       font-size: 1.25rem;
+    }
+  }
+
+  @media (width > 768px) {
+    ul {
+      margin-inline: auto;
     }
   }
 
