@@ -77,7 +77,7 @@ model Visitor_Subscription {
 
 model Office_Banner {
   id       String @id @unique @default(uuid())
-  url      String
+  url      String @default("/assets/img/home.jpg")
   officeId String
 
   office Office @relation(fields: [officeId], references: [id])
@@ -87,7 +87,7 @@ model Office_Banner {
 
 model Office_Logo {
   id       String @id @unique @default(uuid())
-  url      String
+  url      String @default("/assets/img/intg.jpeg")
   officeId String
 
   office Office @relation(fields: [officeId], references: [id])

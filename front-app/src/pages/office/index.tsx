@@ -138,20 +138,20 @@ export default function Office() {
   };
   const handleBannerChange = (e: any) => {
     const file = e.target.files[0];
-    setImageFile(file);
+    setImageFileBanner(file);
     setBackground(URL.createObjectURL(file) as any);
   };
 
-  const handleAddImage = async () => {
+  const handleAddImage = async (imgFile: File) => {
     setLoading(true);
     try {
-      if (imageFile === null) {
+      if (imgFile === null) {
         toast.error('Selecione uma imagem');
         setLoading(false);
         return;
       }
       await uploadImage(
-        URL.createObjectURL(imageFile as any),
+        URL.createObjectURL(imgFile as any),
         id,
         router,
         'logo'
@@ -166,16 +166,16 @@ export default function Office() {
     }
   };
 
-  const handleAddBannerImage = async () => {
+  const handleAddBannerImage = async (imgFile: File) => {
     setLoading(true);
     try {
-      if (imageFileBanner === null) {
+      if (imgFile === null) {
         toast.error('Selecione uma imagem');
         setLoading(false);
         return;
       }
       await uploadImage(
-        URL.createObjectURL(imageFileBanner as any),
+        URL.createObjectURL(imgFile as any),
         id,
         router,
         'banner'
@@ -331,7 +331,7 @@ export default function Office() {
                 <button
                   type='button'
                   className={styles.button}
-                  onClick={handleAddImage}
+                  onClick={() => handleAddImage(imageFile)}
                 >
                   Adicionar imagem
                 </button>
@@ -383,7 +383,7 @@ export default function Office() {
                 <button
                   type='button'
                   className={styles.button}
-                  onClick={handleAddBannerImage}
+                  onClick={() => handleAddBannerImage(imageFileBanner)}
                 >
                   Adicionar imagem
                 </button>
