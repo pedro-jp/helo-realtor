@@ -71,7 +71,7 @@ export default async function OfficePage({
   return (
     <>
       <div>
-        <Hero />
+        <Hero url={office?.url} />
         <section
           style={{
             backgroundImage: `url('/assets/img/door.jpg')`,

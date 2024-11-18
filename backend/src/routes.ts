@@ -44,6 +44,7 @@ import { CouponController } from './controllers/Coupon/CouponController';
 import { CreateVisitorSubscriptionController } from './controllers/Visitor/CreateVisitorSubscriptionController';
 import { ListAllImoveisController } from './controllers/Imovel/ListAllImovelController';
 import CreateLogoOfficeController from './controllers/image/CreateLogoOfficeController';
+import CreateBannerOfficeController from './controllers/image/CreateBannerOfficeController';
 
 const router = Router();
 
@@ -81,6 +82,11 @@ router.delete(
 
 router.post('/images', isAuthenticated, new CreateImageController().handle);
 router.post('/logo', isAuthenticated, new CreateLogoOfficeController().handle);
+router.post(
+  '/banner',
+  isAuthenticated,
+  new CreateBannerOfficeController().handle
+);
 
 router.get('/images/:id', new ListImagesController().handle);
 

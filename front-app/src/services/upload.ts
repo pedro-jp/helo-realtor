@@ -24,6 +24,9 @@ export const uploadImage = async (
     case 'logo':
       route = 'logo';
       payload.officeId = id; // Adiciona officeId ao payload
+    case 'banner':
+      route = 'banner';
+      payload.officeId = id; // Adiciona officeId ao payload
       break;
     default:
       throw new Error('Tipo inválido para upload de imagem');

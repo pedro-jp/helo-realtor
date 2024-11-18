@@ -31,6 +31,8 @@ type Logo = {
   id: string;
   url: string;
 };
+
+interface Banner extends Logo {}
 export default function Office() {
   const router = useRouter();
   const api = setupAPIClient(router);
@@ -46,8 +48,11 @@ export default function Office() {
   const [created, setCreated] = useState(false);
   const [background, setBackground] = useState();
   const [imageFile, setImageFile] = useState(null);
+  const [imageFileBanner, setImageFileBanner] = useState(null);
   const [logos, setLogos] = useState<Logo[]>([]);
   const [logoIndex, setLogoIndex] = useState(0);
+  const [bannerIndex, setBannerIndex] = useState(0);
+  const [banners, setBanners] = useState<Banner[]>([]);
 
   useEffect(() => {
     console.log('user', user);
@@ -57,7 +62,7 @@ export default function Office() {
         setCreated(true);
       }
     }
-  }, [user, isAuthenticated, imageFile]);
+  }, [user, isAuthenticated, imageFile, imageFileBanner]);
 
   async function getOffice() {
     console.log('ta fzd');
@@ -76,6 +81,9 @@ export default function Office() {
       setCreated(true);
       setLogos(data.Office_Logo);
       setLogoIndex(data.logo_index);
+      setBanners(data.banner_image);
+      setBannerIndex(data.banner_index);
+      console.log(data);
     } catch (error) {
     } finally {
       setLoading(false);
@@ -128,6 +136,11 @@ export default function Office() {
     setImageFile(file);
     setBackground(URL.createObjectURL(file) as any);
   };
+  const handleBannerChange = (e: any) => {
+    const file = e.target.files[0];
+    setImageFile(file);
+    setBackground(URL.createObjectURL(file) as any);
+  };
 
   const handleAddImage = async () => {
     setLoading(true);
@@ -153,6 +166,30 @@ export default function Office() {
     }
   };
 
+  const handleAddBannerImage = async () => {
+    setLoading(true);
+    try {
+      if (imageFileBanner === null) {
+        toast.error('Selecione uma imagem');
+        setLoading(false);
+        return;
+      }
+      await uploadImage(
+        URL.createObjectURL(imageFileBanner as any),
+        id,
+        router,
+        'banner'
+      );
+      setBackground('' as any);
+      toast.success('Imagem adicionada com sucesso!');
+      setImageFileBanner(null);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSelectLogo = async (index: number) => {
     setLogoIndex(index);
     try {
@@ -163,9 +200,29 @@ export default function Office() {
         address_city,
         email,
         description,
+        baner_index: bannerIndex,
         logo_index: index as number,
       });
       console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSelectBanner = async (index: number) => {
+    setBannerIndex(index);
+    try {
+      const response = await api.put(`/office/${id}`, {
+        name,
+        phone,
+        address,
+        address_city,
+        email,
+        description,
+        logo_index: logoIndex,
+        banner_index: index as number,
+      });
+      console.log(bannerIndex);
     } catch (error) {
       console.log(error);
     }
@@ -275,6 +332,58 @@ export default function Office() {
                   type='button'
                   className={styles.button}
                   onClick={handleAddImage}
+                >
+                  Adicionar imagem
+                </button>
+              )}{' '}
+              <section className={styles.logos}>
+                <div>
+                  <h3>Galeria de banners</h3>
+                  <div>
+                    {banners &&
+                      banners.map((banner: Banner, index) => (
+                        <div key={banner.id} className={styles.logo}>
+                          <img src={banner.url} height={50} width={50} />
+                          <input
+                            type='radio'
+                            name='logo'
+                            value={index}
+                            checked={bannerIndex === index}
+                            onChange={() => handleSelectBanner(index)}
+                            className={styles.radio}
+                          />
+                        </div>
+                      ))}
+                    <div className={styles.select_group}>
+                      <div className={styles.formRow}>
+                        <div>
+                          <Input
+                            className={styles.plus}
+                            type='file'
+                            accept='image/*'
+                            onChange={handleBannerChange}
+                          />
+                          <FiPlus size={50} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h3>Banner atual</h3>
+                  <img
+                    src={banners && banners[bannerIndex]?.url}
+                    alt='banner'
+                    height={100}
+                    width={100}
+                  />
+                </div>
+              </section>
+              {id && imageFileBanner && (
+                <button
+                  type='button'
+                  className={styles.button}
+                  onClick={handleAddBannerImage}
                 >
                   Adicionar imagem
                 </button>

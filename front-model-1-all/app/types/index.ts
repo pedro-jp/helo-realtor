@@ -26,6 +26,8 @@ export type LogoType = {
   id: string;
 };
 
+interface BannerType extends LogoType {}
+
 export type OfficeType = {
   id: string;
   name: string;
@@ -41,6 +43,8 @@ export type OfficeType = {
   imoveis: ImovelType[];
   Office_Logo: LogoType[];
   logo_index: number;
+  banner_image: BannerType[];
+  banner_index: number;
 };
 
 export type RealtorType = {
