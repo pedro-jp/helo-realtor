@@ -1,11 +1,17 @@
 import Link from 'next/link';
 import style from './style.module.scss';
 
+type LogoType = {
+  url: string;
+  id: string;
+};
+
 type OfficeType = {
   url?: string;
   phone?: string;
+  logo: string;
 };
-export default function Navbar({ url, phone }: OfficeType) {
+export default function Navbar({ url, phone, logo }: OfficeType) {
   return (
     <menu className={style.menu}>
       <div className={style.hamburger}>
@@ -13,6 +19,7 @@ export default function Navbar({ url, phone }: OfficeType) {
       </div>
       <nav className={style.navbar}>
         <ul>
+          <li>{phone}</li>
           <li>
             <Link href={url ? `/${url}` : '/'}>Lista de Imóveis</Link>
           </li>

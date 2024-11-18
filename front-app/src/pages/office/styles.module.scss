@@ -61,6 +61,22 @@
       background-color: var(--third-blue);
     }
   }
+
+  @media (max-width: 1080px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  @media screen and (max-width: 860px) and (min-width: 768px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  @media screen and (max-width: 1200px) and (min-width: 980px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .create {
@@ -72,10 +88,16 @@
 }
 
 .logos {
+  grid-column: 1/-1;
+  h3 {
+    margin-block: 1rem;
+  }
   div {
     div {
       display: flex !important;
       flex-direction: row !important;
+      flex-wrap: wrap !important;
+      max-width: 100% !important;
       gap: 1rem;
     }
   }
@@ -86,7 +108,11 @@
 
   .logo {
     position: relative;
-    input {
+    width: 50px;
+    height: 50px;
+    transition: 0.3s;
+
+    .radio {
       position: absolute;
       inset: 0;
       width: 100%;
@@ -94,15 +120,15 @@
       opacity: 0;
       cursor: pointer;
     }
-    &:has(input:hover) img {
-      border: 1px solid var(--primary-blue);
+
+    &:hover {
+      scale: 1.1;
     }
   }
 }
 
-.form div:has(input[type='file']) {
+.form div:has(> input[type='file']) {
   position: relative;
-  width: max-content;
 
   svg {
     pointer-events: none;
@@ -110,7 +136,7 @@
 
   &:hover {
     svg {
-      scale: 1.05;
+      scale: 1.1;
     }
   }
 }

@@ -21,6 +21,11 @@ export type ImovelType = {
   ownerId: string;
 };
 
+export type LogoType = {
+  url: string;
+  id: string;
+};
+
 export type OfficeType = {
   id: string;
   name: string;
@@ -34,6 +39,8 @@ export type OfficeType = {
   longitude: string;
   realtors: RealtorType[];
   imoveis: ImovelType[];
+  Office_Logo: LogoType[];
+  logo_index: number;
 };
 
 export type RealtorType = {

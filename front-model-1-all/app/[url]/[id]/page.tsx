@@ -102,7 +102,7 @@ export default async function ImovelPage({
     switch (transaction) {
       case 'Locacao':
         return 'Locação';
-      case 'sale':
+      case 'Venda':
         return 'Venda';
 
       default:
@@ -110,10 +110,14 @@ export default async function ImovelPage({
         break;
     }
   };
+  let logo = '';
+  if (office?.Office_Logo?.length >= 0) {
+    logo = office?.Office_Logo[office?.logo_index]?.url;
+  }
 
   return (
     <>
-      <Navbar url={office?.url} phone={office?.phone} />
+      <Navbar logo={logo} />
 
       <main className={style.main}>
         <h1>
