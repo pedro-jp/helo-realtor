@@ -10,12 +10,12 @@ const inter = Inter({ subsets: ['latin'] });
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'Oi', // Use o nome do escritório nos metadados
-    description: 'teste',
+    title: 'Intg-Imóveis', // Use o nome do escritório nos metadados
+    description: 'Intg-Imóveis, Visualize e venda seus imóveis',
     openGraph: {
-      title: 'teste',
-      description: 'teste',
-      url: `${process.env.NEXT_PUBLIC_URL}`,
+      title: 'Intg-Imóveis',
+      description: 'Intg-Imóveis, Visualize e venda seus imóveis',
+      url: `${process.env.NEXT_PUBLIC_FRONT_URL}`,
     },
   };
 }
