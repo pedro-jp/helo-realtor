@@ -53,6 +53,7 @@ export default function Home() {
       ></Image>
       <Head>
         <title>IntG Realtor | Login</title>
+        <link rel='icon' href='./favicon.ico' sizes='any' />
         <meta
           name='description'
           content='Ferramenta para exposição de imóveis'

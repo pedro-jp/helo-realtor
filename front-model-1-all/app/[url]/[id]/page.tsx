@@ -9,6 +9,7 @@ import Favoritar from '@/app/components/Favoritar';
 import { Footer } from '@/app/components/footer';
 import React from 'react';
 import Navbar from '@/app/components/navbar';
+import Head from 'next/head';
 
 // Importa o componente dinamicamente para evitar SSR
 const MapWithCircle = dynamic(() => import('@/app/components/map'), {
@@ -104,7 +105,6 @@ export default async function ImovelPage({
         return 'Locação';
       case 'Venda':
         return 'Venda';
-
       default:
         '';
         break;
