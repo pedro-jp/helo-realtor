@@ -4,7 +4,6 @@ import '../styles/global.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
 import type { AppProps } from 'next/app';
-import Dashboard from './propertys';
 import Head from 'next/head';
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -13,7 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <ToastContainer autoClose={2500} />
       <Head>
         <title>IntG Realtor</title>
-        <link rel='icon' href='/favicon.ico' sizes='any' />
+        <link rel='icon' href='/favicon.ico' sizes='16x16' />
       </Head>
       <Component {...pageProps} />
     </AuthProvider>
