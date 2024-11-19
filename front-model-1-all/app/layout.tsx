@@ -4,22 +4,21 @@ import './globals.css';
 import { AppProvider } from './context/appContext';
 import Navbar from './components/navbar';
 import { Footer } from './components/footer';
+import Head from 'next/head';
 
 const inter = Inter({ subsets: ['latin'] });
 
-// export async function generateMetadata(): Promise<Metadata> {
-//   const office = await getOffice();
-
-//   return {
-//     title: office.name, // Use o nome do escritório nos metadados
-//     description: office.description,
-//     openGraph: {
-//       title: office.name,
-//       description: office.description,
-//       url: `${process.env.NEXT_PUBLIC_URL}`,
-//     },
-//   };
-// }
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Oi', // Use o nome do escritório nos metadados
+    description: 'teste',
+    openGraph: {
+      title: 'teste',
+      description: 'teste',
+      url: `${process.env.NEXT_PUBLIC_URL}`,
+    },
+  };
+}
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -27,9 +26,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='pt-BR'>
-      <head>
-        <link rel='icon' href='/favicon.ico' />
-      </head>
       <body className={inter.className}>
         <AppProvider>{children}</AppProvider>
       </body>
