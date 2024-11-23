@@ -54,6 +54,7 @@
         position: relative;
 
         &:hover {
+          cursor: pointer;
           border-color: var(--primary-color);
         }
 

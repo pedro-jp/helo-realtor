@@ -43,6 +43,35 @@ export default function Cards({ imoveis, url }: PageProps) {
     };
   }, []);
 
+  const whatType = (transactionType: string) => {
+    switch (transactionType) {
+      case 'locacao':
+        return 'Locação';
+      case 'venda':
+        return 'Venda';
+      default:
+        return 'Todos';
+    }
+  };
+
+  const whatColor = (transactionType: string) => {
+    let color = '';
+    switch (transactionType) {
+      case '':
+        color = '';
+        break;
+      case 'locacao':
+        color = '#5C8A72';
+        break;
+      case 'venda':
+        color = '#7D6F8A';
+        break;
+      default:
+        break;
+    }
+    return color;
+  };
+
   return (
     <>
       {imoveis &&
@@ -88,6 +117,12 @@ export default function Cards({ imoveis, url }: PageProps) {
                   width={500}
                   height={500}
                 />
+                <div
+                  className={styles.houseType}
+                  style={{ backgroundColor: whatColor(imovel.transaction) }}
+                >
+                  {whatType(imovel.transaction)}
+                </div>
               </div>
 
               <div className={styles.housePrice}>
@@ -96,7 +131,9 @@ export default function Cards({ imoveis, url }: PageProps) {
 
               <ul className={styles.houseMeta}>
                 <li>{imovel.local}</li>
-                <li>{imovel.quartos} quartos</li>
+                {imovel.quartos && Number(imovel.quartos) > 0 && (
+                  <li>{imovel.quartos} Quartos</li>
+                )}
                 <li>
                   {imovel.area} m<sup>2</sup>
                 </li>
