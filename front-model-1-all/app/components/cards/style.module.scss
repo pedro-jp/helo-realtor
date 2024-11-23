@@ -5,6 +5,7 @@
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: 1fr auto;
   width: 20rem;
+  height: 450px;
   position: relative;
   &:hover {
     .houseIcon {

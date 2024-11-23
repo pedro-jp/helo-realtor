@@ -45,6 +45,7 @@ import { CreateVisitorSubscriptionController } from './controllers/Visitor/Creat
 import { ListAllImoveisController } from './controllers/Imovel/ListAllImovelController';
 import CreateLogoOfficeController from './controllers/image/CreateLogoOfficeController';
 import CreateBannerOfficeController from './controllers/image/CreateBannerOfficeController';
+import { ListImovelBySearchController } from './controllers/Imovel/ListImovelBySearchController';
 
 const router = Router();
 
@@ -120,6 +121,7 @@ router.post(
 // );
 
 router.get('/category/:ownerId', new ListCategoryController().handle);
+router.get('/office/categories/:officeId', new ListCategoryController().handle);
 
 //--ROTAS IMOVEIS
 router.post(
@@ -131,6 +133,10 @@ router.post(
 
 router.get('/imoveis/:ownerId', new ListImoveisController().handle);
 router.get('/imoveis/all/:ownerId', new ListAllImoveisController().handle);
+router.get(
+  '/imoveis/search/:url/:address/:minPrice/:maxPrice/:minDormitorios/:minVagas/:category/:transaction',
+  new ListImovelBySearchController().handle
+);
 router.get('/office/imoveis/:url', new ListImoveisByNameController().handle);
 
 router.get('/imovel/:imovelId', new LoadImovelController().handle);

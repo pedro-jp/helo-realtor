@@ -18,7 +18,11 @@ export class GetOfficeByNameService {
         banner_image: true,
         realtors: true,
         Office_Logo: true,
-
+        owner: {
+          select: {
+            categories: true,
+          },
+        },
         imoveis: {
           where: {
             active: true, // Filtra apenas imóveis ativos

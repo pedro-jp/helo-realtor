@@ -9,13 +9,13 @@ import MapWithCircle from '../components/map';
 import { ImovelType, OfficeType } from '@/app/types';
 import { Footer } from '@/app/components/footer';
 import { SubscriptionModal } from '../components/SubscriptionModal';
+import Filter from '../components/Filter';
 
 async function getOfficeByName(url: string) {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_URL}/offices/${url}`
     );
-    console.log('retorno: ' + url);
 
     if (!response.ok) {
       throw new Error(`Erro: ${response.status} - ${response.statusText}`);
@@ -29,14 +29,12 @@ async function getOfficeByName(url: string) {
   }
 }
 
-// Função para gerar metadata dinâmico baseado no url
 export async function generateMetadata({
   params,
 }: {
   params: { url: string };
 }): Promise<Metadata> {
-  const office = await getOfficeByName(params.url); // Busca o escritório pelo nome
-  console.log('params: ' + params.url);
+  const office = await getOfficeByName(params.url);
 
   if (!office) {
     return {
@@ -70,7 +68,7 @@ export default async function OfficePage({
 }: {
   params: { url: string };
 }) {
-  const office: OfficeType = await getOfficeByName(params.url);
+  const office = (await getOfficeByName(params.url)) as OfficeType;
 
   if (!office) {
     return <div>Escritório não encontrado</div>;
@@ -88,23 +86,16 @@ export default async function OfficePage({
           className={style.sell}
         >
           <h1>Venda seu imóvel</h1>
+
           <button>
             <a target='_blank' href={`https://wa.me/+55${office?.phone}`}>
               Quer vender o seu imóvel?
             </a>
           </button>
         </section>
-        <h2
-          style={{
-            textAlign: 'center',
-            margin: '20px',
-          }}
-        >
-          Imóveis disponíveis
-        </h2>
-        <section className={style.card_section}>
-          <Cards url={office.url} />
-        </section>
+
+        <Filter url={office.url} officeId={office.id} />
+        <section className={style.card_section}></section>
         <div
           style={{
             width: 'calc(100% - 2rem)',
@@ -119,7 +110,7 @@ export default async function OfficePage({
           />
         </div>
       </div>
-      <SubscriptionModal office={office} />
+      {/* <SubscriptionModal office={office} /> */}
       <Footer url={office.url} />
     </>
   );
