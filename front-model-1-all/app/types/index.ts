@@ -45,7 +45,17 @@ export type OfficeType = {
   logo_index: number;
   banner_image: BannerType[];
   banner_index: number;
+  owner: OwnerType;
 };
+
+interface OwnerType {
+  categories: CategoryType[];
+}
+
+export interface CategoryType {
+  id: string;
+  name: string;
+}
 
 export type RealtorType = {
   id: string;

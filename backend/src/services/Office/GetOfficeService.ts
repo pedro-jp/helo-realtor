@@ -18,9 +18,13 @@ export class GetOfficeService {
         Office_Logo: true,
         realtors: true,
         imoveis: true,
+        owner: {
+          select: {
+            categories: true,
+          },
+        },
       },
     });
-
     if (!office) {
       console.log('Office not found');
       return null;

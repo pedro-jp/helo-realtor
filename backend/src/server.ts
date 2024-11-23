@@ -108,5 +108,5 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.listen(3332, () => {
-  console.log('Servidor online stripe');
+  console.log('Servidor online');
 });

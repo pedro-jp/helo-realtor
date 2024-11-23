@@ -87,6 +87,7 @@
   margin: 0;
   transition: 0.2s;
   font-family: var(--font-mono);
+  transition: .3s;
 
   ::-webkit-scrollbar {
     display: none;

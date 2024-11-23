@@ -18,7 +18,6 @@ export default function Hero({ url }: Props) {
 
   useEffect(() => {
     getBanner();
-    console.log(url);
   }, []);
 
   const getBanner = async () => {
@@ -26,7 +25,6 @@ export default function Hero({ url }: Props) {
       const response = await api.get(`/offices/${url}`);
       const office = response.data as OfficeType;
       setBanner(office?.banner_image[office?.banner_index]);
-      console.log(office);
     } catch (error) {}
   };
 
