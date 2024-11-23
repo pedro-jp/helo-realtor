@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { getImoveis } from '@/app/services/getImoveis';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,7 +13,8 @@ interface PageProps {
 }
 
 export default function Cards({ imoveis, url }: PageProps) {
-  // const imoveis = await getImoveis(url);
+  const [modalOpenId, setModalOpenId] = React.useState<string | null>(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
   function formatarPrecoReal(numero: number) {
     return numero.toLocaleString('pt-BR', {
@@ -22,17 +23,61 @@ export default function Cards({ imoveis, url }: PageProps) {
     });
   }
 
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      setModalOpenId(null); // Fecha o modal ao pressionar ESC
+    }
+  };
+
+  const handleOutsideClick = (event: React.MouseEvent) => {
+    // Verifica se o clique foi fora do modal
+    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+      setModalOpenId(null); // Fecha o modal
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return (
     <>
       {imoveis &&
         imoveis.length > 0 &&
-        imoveis?.map((imovel) => (
+        imoveis.map((imovel) => (
           <React.Fragment key={imovel.id}>
+            {/* Modal com referência para detectar cliques fora */}
+            <div
+              className={styles.modal}
+              style={
+                modalOpenId === imovel.id ? { scale: '1' } : { scale: '0' }
+              }
+              onClick={handleOutsideClick} // Detecta clique fora do modal
+            >
+              <span onClick={() => setModalOpenId(null)}>x</span>
+              <div
+                ref={modalRef} // Referência para o conteúdo do modal
+                className={styles.modalContent}
+              >
+                <div>
+                  <h3>{imovel.name}</h3>
+                  <div>
+                    <h4>Descrição</h4>
+                    <p>{imovel.description}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className={styles.houseInfo}>
               <div className={styles.houseImage}>
-                <Link href={`/${url}/${imovel.id}`}>
-                  <FaInfoCircle className={styles.houseIcon} />
-                </Link>
+                <FaInfoCircle
+                  className={styles.houseIcon}
+                  onClick={() => setModalOpenId(imovel.id)}
+                />
                 <Image
                   src={
                     imovel.images.length > 0
@@ -53,8 +98,16 @@ export default function Cards({ imoveis, url }: PageProps) {
                 <li>{imovel.local}</li>
                 <li>{imovel.quartos} quartos</li>
                 <li>
-                  {imovel.area}
-                  <sup>2</sup>
+                  {imovel.area} m<sup>2</sup>
+                </li>
+
+                <li>
+                  <Link
+                    style={{ textDecoration: 'underline' }}
+                    href={`/${url}/${imovel.id}`}
+                  >
+                    Ver propriedade
+                  </Link>
                 </li>
               </ul>
             </div>

@@ -142,3 +142,45 @@
   height: 100%;
   object-fit: contain;
 }
+
+.modal {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  background-color: #000000a8;
+  padding: 8px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  inset: 0;
+  z-index: 99999999;
+  font-size: 12px;
+  color: #000;
+  display: grid;
+  place-content: center;
+
+  & > span {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 2.5rem;
+    color: var(--orvalho);
+    mix-blend-mode: difference;
+
+    &:hover {
+      transform: scale(1.1);
+      cursor: pointer;
+    }
+  }
+
+  & > div {
+    width: 300px;
+    color: #fff;
+    background-color: #1d1d1d;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+.moreInfo {
+}
