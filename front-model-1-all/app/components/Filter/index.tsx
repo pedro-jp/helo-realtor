@@ -4,7 +4,7 @@ import style from './style.module.scss';
 import { api } from '@/app/services/api';
 import { CategoryType, ImovelType } from '@/app/types';
 import Cards from '../cards';
-
+import { IoIosAddCircleOutline } from 'react-icons/io';
 interface PageProps {
   url: string;
   officeId: string;
@@ -23,6 +23,9 @@ export default function Filter({ url, officeId }: PageProps) {
   const [transactionType, setTransactionType] = useState('');
   const [minPriceBrl, setMinPriceBrl] = useState('');
   const [maxPriceBrl, setMaxPriceBrl] = useState('');
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [sended, setSended] = useState(0);
 
   useEffect(() => {
     getCategories();
@@ -38,6 +41,7 @@ export default function Filter({ url, officeId }: PageProps) {
     minVagas,
     categoria,
     transactionType,
+    page,
   ]);
 
   const getCategories = async () => {
@@ -58,11 +62,12 @@ export default function Filter({ url, officeId }: PageProps) {
       maxPrice === undefined || maxPrice <= 0 ? 999999999999999 : maxPrice
     }/${minDormitorios}/${minVagas}/${categoria ? categoria : 'null'}/${
       transactionType ? transactionType : 'null'
-    }`;
-
+    }/${page}`;
     try {
       const response = await api.get(urlParams);
       setImoveis(response.data.imoveis);
+      setTotalPages(response.data.totalPages);
+      setSended(response.data.sended);
     } catch (error) {
       console.error(error);
     } finally {
@@ -206,6 +211,16 @@ export default function Filter({ url, officeId }: PageProps) {
           </h2>
           <div className={style.cards_container}>
             <Cards imoveis={imoveis} url={url} />
+          </div>
+          <div className={style.pagination}>
+            <button
+              onClick={() => {
+                setPage((current) => current + 1);
+              }}
+              disabled={page >= totalPages || isLoading}
+            >
+              <IoIosAddCircleOutline size={30} />
+            </button>
           </div>
         </section>
       )}

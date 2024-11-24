@@ -9,7 +9,8 @@ export class ListImoveisBySearchService {
     minDormitorios?: string,
     minVagas?: string,
     category?: string,
-    transaction?: string
+    transaction?: string,
+    page: number = 1
   ) {
     try {
       const filters: any = {
@@ -55,6 +56,9 @@ export class ListImoveisBySearchService {
         };
       }
 
+      const limit = 7;
+      const skip = (page - 1) * limit;
+
       const imoveis = await prismaClient.office.findUnique({
         where: {
           url,
@@ -66,14 +70,32 @@ export class ListImoveisBySearchService {
               images: true,
               realtor: true,
             },
+            take: limit,
+            skip,
           },
         },
       });
-      console.log(transaction);
 
-      console.log('Imóveis retornados com filtros dinâmicos:', imoveis);
+      const imoveisCount = await prismaClient.office.findUnique({
+        where: {
+          url,
+        },
+        select: {
+          imoveis: {
+            where: filters,
+          },
+        },
+      });
 
-      return imoveis || [];
+      const res = {
+        imoveis: imoveis?.imoveis,
+        totalPages: Math.ceil(imoveisCount?.imoveis.length / limit),
+        sended: imoveis?.imoveis.length,
+      };
+
+      console.log('Imóveis retornados com filtros dinâmicos:', res);
+
+      return res || [];
     } catch (error) {
       console.error('Erro ao buscar imóveis:', error);
       throw new Error('Erro ao buscar imóveis.');
