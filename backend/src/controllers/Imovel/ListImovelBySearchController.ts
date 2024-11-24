@@ -13,8 +13,10 @@ export class ListImovelBySearchController {
       minVagas,
       category,
       transaction,
+      page,
     } = req.params;
     const local = address;
+    const pageNumber = Number(page);
     const imoveis = await listImoveisBySearchService.execute(
       url,
       minPrice,
@@ -23,7 +25,8 @@ export class ListImovelBySearchController {
       minDormitorios,
       minVagas,
       category,
-      transaction
+      transaction,
+      pageNumber
     );
     return res.json(imoveis);
   }

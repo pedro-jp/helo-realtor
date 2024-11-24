@@ -134,7 +134,7 @@ router.post(
 router.get('/imoveis/:ownerId', new ListImoveisController().handle);
 router.get('/imoveis/all/:ownerId', new ListAllImoveisController().handle);
 router.get(
-  '/imoveis/search/:url/:address/:minPrice/:maxPrice/:minDormitorios/:minVagas/:category/:transaction',
+  '/imoveis/search/:url/:address/:minPrice/:maxPrice/:minDormitorios/:minVagas/:category/:transaction/:page',
   new ListImovelBySearchController().handle
 );
 router.get('/office/imoveis/:url', new ListImoveisByNameController().handle);
