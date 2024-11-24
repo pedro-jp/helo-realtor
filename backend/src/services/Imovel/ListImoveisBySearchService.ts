@@ -56,7 +56,7 @@ export class ListImoveisBySearchService {
         };
       }
 
-      const limit = 7;
+      const limit = 30;
       const skip = (page - 1) * limit;
 
       const imoveis = await prismaClient.office.findUnique({

@@ -104,6 +104,7 @@
 .pagination {
   display: flex;
   justify-content: center;
+  gap: 8px;
   margin-top: 2rem;
 
   button {
@@ -128,6 +129,24 @@
       opacity: 0.5;
       cursor: not-allowed;
     }
+  }
+}
+
+.clear_filters {
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #00000020;
+  outline: none;
+  overflow: hidden;
+  font-family: var(--font-mono);
+  position: relative;
+  background-color: #5c8a72;
+  color: #fff;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #7d6f8a;
+    scale: 1.05;
   }
 }
 
