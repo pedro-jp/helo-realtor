@@ -1,10 +1,15 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import style from './style.module.scss';
 import { api } from '@/app/services/api';
 import { CategoryType, ImovelType } from '@/app/types';
 import Cards from '../cards';
-import { IoIosAddCircleOutline } from 'react-icons/io';
+import {
+  IoIosAddCircleOutline,
+  IoIosArrowBack,
+  IoIosArrowRoundBack,
+  IoIosArrowRoundForward,
+} from 'react-icons/io';
 interface PageProps {
   url: string;
   officeId: string;
@@ -26,6 +31,9 @@ export default function Filter({ url, officeId }: PageProps) {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [sended, setSended] = useState(0);
+  const categoryRef = useRef<HTMLOptionElement>(null);
+  const quartosRef = useRef<HTMLOptionElement>(null);
+  const vagasRef = useRef<HTMLOptionElement>(null);
 
   useEffect(() => {
     getCategories();
@@ -140,11 +148,29 @@ export default function Filter({ url, officeId }: PageProps) {
     );
   };
 
+  const handleClearFilters = () => {
+    handleMaxPriceInput('0');
+    handleMinPriceInput('0');
+    setAddress('');
+    setMinDormitorios(0);
+    setMinVagas(0);
+    setCategoria('');
+    setTransactionType('');
+    if (categoryRef.current) {
+      categoryRef.current.selected = true;
+    }
+    if (quartosRef.current) {
+      quartosRef.current.selected = true;
+    }
+    if (vagasRef.current) {
+      vagasRef.current.selected = true;
+    }
+  };
+
   return (
     <section className={style.container}>
       <aside className={style.filter}>
         <div className={style.filters}>
-          <h2>Filtro</h2>
           <div className={style.transactionType}>
             <div className={style.switch} onClick={handleSetTransaction}>
               <div className={style.slider} style={styles}>
@@ -154,7 +180,9 @@ export default function Filter({ url, officeId }: PageProps) {
           </div>
           {categories && (
             <select onChange={(e) => setCategoria(e.target.value)}>
-              <option value=''>Categorias</option>
+              <option ref={categoryRef} value=''>
+                Categorias
+              </option>
               {categories.map((category) => (
                 <option key={category.id} value={category.id}>
                   {category.name}
@@ -184,7 +212,9 @@ export default function Filter({ url, officeId }: PageProps) {
             value={minDormitorios}
             onChange={(e) => setMinDormitorios(Number(e.target.value))}
           >
-            <option value={0}>Dormitórios</option>
+            <option ref={quartosRef} value={0}>
+              Dormitórios
+            </option>
             <option value={1}>1+</option>
             <option value={2}>2+</option>
             <option value={3}>3+</option>
@@ -195,13 +225,18 @@ export default function Filter({ url, officeId }: PageProps) {
             value={minVagas}
             onChange={(e) => setMinVagas(Number(e.target.value))}
           >
-            <option value={0}>Vagas</option>
+            <option ref={vagasRef} value={0}>
+              Vagas
+            </option>
             <option value={1}>1+</option>
             <option value={2}>2+</option>
             <option value={3}>3+</option>
             <option value={4}>4+</option>
             <option value={5}>5+</option>
           </select>
+          <button className={style.clear_filters} onClick={handleClearFilters}>
+            Limpar Filtros
+          </button>
         </div>
       </aside>
       {imoveis && (
@@ -213,14 +248,26 @@ export default function Filter({ url, officeId }: PageProps) {
             <Cards imoveis={imoveis} url={url} />
           </div>
           <div className={style.pagination}>
-            <button
-              onClick={() => {
-                setPage((current) => current + 1);
-              }}
-              disabled={page >= totalPages || isLoading}
-            >
-              <IoIosAddCircleOutline size={30} />
-            </button>
+            {page && page >= 2 && (
+              <button
+                onClick={() => {
+                  setPage((current) => current - 1);
+                }}
+                disabled={page <= 1 || isLoading}
+              >
+                <IoIosArrowRoundBack size={30} />
+              </button>
+            )}
+            {page && page < totalPages && (
+              <button
+                onClick={() => {
+                  setPage((current) => current + 1);
+                }}
+                disabled={page >= totalPages || isLoading}
+              >
+                <IoIosArrowRoundForward size={30} />
+              </button>
+            )}
           </div>
         </section>
       )}
