@@ -30,7 +30,11 @@ export default function Hero({ url }: Props) {
 
   return (
     <section
-      style={{ backgroundImage: `url('${banner.url}')` }}
+      style={{
+        backgroundImage: `url('${banner.url ?? ''}')`,
+        height: '100vh',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      }}
       className={style.hero}
     >
       <h1>Encontre a casa dos seus sonhos</h1>
