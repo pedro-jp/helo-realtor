@@ -149,14 +149,14 @@ export default async function ImovelPage({
                 <strong>Preço: </strong>
                 {preco}
               </li>
-              {imovel?.quartos && parseInt(imovel?.quartos) > 1 ? (
+              {imovel?.quartos && parseInt(imovel?.quartos) > 0 ? (
                 <li>
                   <strong>Quartos: </strong>
                   <span>{imovel?.quartos}</span>
                 </li>
               ) : null}
 
-              {imovel?.banheiros && parseInt(imovel?.banheiros) > 1 && (
+              {imovel?.banheiros && parseInt(imovel?.banheiros) > 0 && (
                 <li>
                   <strong>Banheiros: </strong>
                   <span>{imovel?.banheiros}</span>
@@ -170,7 +170,7 @@ export default async function ImovelPage({
                   </span>
                 </li>
               )}
-              {imovel?.garagem && parseInt(imovel?.garagem) > 1 && (
+              {imovel?.garagem && parseInt(imovel?.garagem) > 0 && (
                 <li>
                   <strong>Garagem: </strong>
                   <span>{imovel?.garagem} vagas</span>

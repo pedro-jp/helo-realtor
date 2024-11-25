@@ -59,6 +59,13 @@ export default function Propriedades() {
     }
   };
 
+  const formatPriceBrl = (price: number) => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    }).format(price);
+  };
+
   return (
     <>
       <Head>
@@ -84,7 +91,7 @@ export default function Propriedades() {
                     </button>
                   </div>
                   <Link href={`/creation/${imovel.id}`}>
-                    <h3>{imovel.name}</h3>
+                    <h3 style={{ marginBottom: '1rem' }}>{imovel.name}</h3>
                     <div className={styles.card} key={imovel.id}>
                       <figure>
                         <Image
@@ -96,7 +103,10 @@ export default function Propriedades() {
                       </figure>
                       <div>
                         <h3>{imovel.local}</h3>
-                        <p>{imovel.description}</p>
+                        <p>{formatPriceBrl(imovel.price)}</p>
+                        <p className={styles.description}>
+                          {imovel.description}
+                        </p>
                       </div>
                     </div>
                   </Link>
