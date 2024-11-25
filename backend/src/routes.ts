@@ -46,6 +46,7 @@ import { ListAllImoveisController } from './controllers/Imovel/ListAllImovelCont
 import CreateLogoOfficeController from './controllers/image/CreateLogoOfficeController';
 import CreateBannerOfficeController from './controllers/image/CreateBannerOfficeController';
 import { ListImovelBySearchController } from './controllers/Imovel/ListImovelBySearchController';
+import { CreateIndicationController } from './controllers/Indication/CreateIndicationController';
 
 const router = Router();
 
@@ -194,6 +195,12 @@ router.post(
   '/visitor/subscription',
 
   new CreateVisitorSubscriptionController().handle
+);
+
+router.post(
+  '/indication/:email/:indicatedToId',
+  isAuthenticated,
+  new CreateIndicationController().handle
 );
 
 export { router };

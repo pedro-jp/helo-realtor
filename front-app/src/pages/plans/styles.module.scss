@@ -116,3 +116,29 @@
     }
   }
 }
+
+.indication {
+  & > div {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+
+.button_indication {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #5c8a7250;
+  height: 40px;
+  padding-inline: 12px;
+  border-radius: 8px;
+
+  &:hover {
+    svg {
+      scale: 1.1;
+    }
+  }
+}

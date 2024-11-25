@@ -16,6 +16,7 @@ type AuthContextData = {
   loading: boolean;
   setLoading: (loading: boolean) => void;
   setUser: (user: UserProps) => void;
+  handleReloadUser: () => Promise<void>;
 };
 
 export type UserProps = {
@@ -27,6 +28,12 @@ export type UserProps = {
   priceId: string;
   planIsActive: boolean;
   office: OfficeType[] | null;
+  indicationsReceived?: IndicationsType[];
+  indicationsMade?: IndicationsType[];
+};
+
+type IndicationsType = {
+  id: string;
 };
 
 type SignInProps = {
@@ -71,6 +78,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     priceId: '',
     planIsActive: false,
     office: null,
+    indicationsReceived: [],
+    indicationsMade: [],
   });
 
   const isAuthenticated = !!user;
@@ -108,6 +117,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
               priceId,
               planIsActive,
               office,
+              indicationsReceived,
+              indicationsMade,
             } = response.data;
 
             setUser({
@@ -119,6 +130,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
               priceId,
               planIsActive,
               office,
+              indicationsReceived,
+              indicationsMade,
             });
 
             api.defaults.headers['authorization'] = `Bearer ${token}`;
@@ -128,6 +141,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             signOut(router);
             setLoading(false);
           });
+        console.log(user);
       } catch (error) {
         console.error('Error decoding token:', error);
         signOut(router);
@@ -139,13 +153,57 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, []);
 
+  const handleReloadUser = async () => {
+    try {
+      const response = await api.get(`/me/${user.email}`);
+      const {
+        id,
+        name,
+        email,
+        subscriptionId,
+        token,
+        priceId,
+        planIsActive,
+        office,
+        indicationsReceived,
+        indicationsMade,
+      } = response.data;
+
+      setUser({
+        id,
+        name,
+        email,
+        token,
+        subscriptionId,
+        priceId,
+        planIsActive,
+        office,
+        indicationsReceived,
+        indicationsMade,
+      });
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      signOut(router);
+    }
+  };
+
   async function signIn({ email, password }: SignInProps) {
     try {
       const response = await api.post('/session', {
         email,
         password,
       });
-      const { id, name, token } = response.data;
+      const {
+        id,
+        name,
+        token,
+        subscriptionId,
+        priceId,
+        planIsActive,
+        office,
+        indicationsReceived,
+        indicationsMade,
+      } = response.data;
 
       // Define o token no cookie
       setCookie(undefined, '@nextauth.token', token, {
@@ -158,10 +216,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
         name,
         email,
         token,
-        subscriptionId: '',
-        priceId: '',
-        planIsActive: false,
-        office: null,
+        subscriptionId,
+        priceId,
+        planIsActive,
+        office,
+        indicationsReceived,
+        indicationsMade,
       });
 
       api.defaults.headers['authorization'] = `Bearer ${token}`;
@@ -195,6 +255,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         signIn,
         signOut,
         signUp,
+        handleReloadUser,
       }}
     >
       {loading && <Loading />}
