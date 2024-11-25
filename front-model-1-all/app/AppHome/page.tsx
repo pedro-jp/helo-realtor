@@ -9,6 +9,7 @@ import { useInView } from 'react-intersection-observer';
 import Build from '../assets/img/build.jpg';
 import Image from 'next/image';
 import { Iphone } from '../assets/svg';
+import Head from 'next/head';
 
 const AppHome = () => {
   const [loading, setLoading] = useState(false);
