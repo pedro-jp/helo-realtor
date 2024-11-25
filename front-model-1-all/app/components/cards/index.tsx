@@ -74,13 +74,13 @@ export default function Cards({ imoveis, url }: PageProps) {
   };
 
   const fontSize = (value: number) => {
-    if (priceRefs.current[value]?.textContent?.length) {
-      if (priceRefs.current[value]?.textContent?.length <= 9) return '1rem';
-      if (priceRefs.current[value]?.textContent?.length <= 12) return '0.8rem';
-      if (priceRefs.current[value]?.textContent?.length <= 15) return '0.8rem';
-      if (priceRefs.current[value]?.textContent?.length <= 18) return '0.7rem';
-      if (priceRefs.current[value]?.textContent?.length <= 21) return '0.6rem';
-      if (priceRefs.current[value]?.textContent?.length <= 36) return '0.5rem';
+    if (priceRefs?.current[value]?.textContent?.length) {
+      if (priceRefs?.current[value]?.textContent?.length <= 9) return '1rem';
+      if (priceRefs?.current[value]?.textContent?.length <= 12) return '0.8rem';
+      if (priceRefs?.current[value]?.textContent?.length <= 15) return '0.8rem';
+      if (priceRefs?.current[value]?.textContent?.length <= 18) return '0.7rem';
+      if (priceRefs?.current[value]?.textContent?.length <= 21) return '0.6rem';
+      if (priceRefs?.current[value]?.textContent?.length <= 36) return '0.5rem';
     }
   };
 
