@@ -61,7 +61,8 @@ const Plans = () => {
     {
       name: 'Realtor Prata',
       priceId: process.env.NEXT_PUBLIC_STRIPE_PRATA_PRICE_ID as string,
-      descri: 'Plano mais simples com todas as funcionalidades.',
+      descri:
+        'Plano mais simples com todas as funcionalidades, exceto domínio dedicado.',
       price: 39.99,
     },
   ];
