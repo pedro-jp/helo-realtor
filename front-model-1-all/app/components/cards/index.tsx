@@ -107,6 +107,7 @@ export default function Cards({ imoveis, url }: PageProps) {
                   className={styles.houseIcon}
                   onClick={() => setModalOpenId(imovel.id)}
                 />
+                <picture></picture>
                 <Image
                   src={
                     imovel.images.length > 0
@@ -117,11 +118,13 @@ export default function Cards({ imoveis, url }: PageProps) {
                   width={500}
                   height={500}
                 />
-                <div
-                  className={styles.houseType}
-                  style={{ backgroundColor: whatColor(imovel.transaction) }}
-                >
-                  {whatType(imovel.transaction)}
+                <div className={styles.houseTypeContainer}>
+                  <div
+                    className={styles.houseType}
+                    style={{ backgroundColor: whatColor(imovel.transaction) }}
+                  >
+                    {whatType(imovel.transaction)}
+                  </div>
                 </div>
               </div>
 
