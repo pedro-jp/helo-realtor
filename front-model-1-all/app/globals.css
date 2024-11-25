@@ -98,8 +98,8 @@ html,
 body {
   --orvalho: #F0EEE3;
   --purple: #8e8c90;
-  width: 100dvw;
-  height: 100dvh;
+  width: 100vw;
+  height: 100vh;
   overflow-x: hidden;
   background-color: var(--orvalho);
 }
