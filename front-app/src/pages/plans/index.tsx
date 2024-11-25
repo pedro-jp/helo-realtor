@@ -136,7 +136,10 @@ const Plans = () => {
                       <h2>{plan.name}</h2>
                       <p>{plan.descri}</p>
                       {plan?.info && <p>{plan?.info}</p>}
-                      <p>R$ {plan.price.toLocaleString('pt-BR')}</p>
+                      <p>
+                        <strong>R$ {plan.price.toLocaleString('pt-BR')}</strong>
+                        /m
+                      </p>
                     </div>
                     <div>
                       <div>

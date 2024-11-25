@@ -1,7 +1,6 @@
 // app/[url]/page.tsx
 import React from 'react';
 import { Metadata } from 'next';
-import Cards from '../components/cards';
 import Hero from '../components/hero';
 
 import style from './style.module.scss';
@@ -76,26 +75,11 @@ export default async function OfficePage({
 
   return (
     <>
-      <div>
+      <div className={style.container}>
         <Hero url={office?.url} />
-        <section
-          style={{
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            height: '100vh',
-          }}
-          className={style.sell}
-        >
-          <h1>Venda seu imóvel</h1>
-
-          <button>
-            <a target='_blank' href={`https://wa.me/+55${office?.phone}`}>
-              Quer vender o seu imóvel?
-            </a>
-          </button>
-        </section>
-
-        <Filter url={office.url} officeId={office.id} />
-        <section className={style.card_section}></section>
+        <div className={style.filters_cards_container}>
+          <Filter url={office.url} officeId={office.id} />
+        </div>
         <div
           style={{
             width: 'calc(100% - 2rem)',
