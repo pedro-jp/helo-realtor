@@ -72,15 +72,16 @@ export default function Cards({ imoveis, url }: PageProps) {
     return color;
   };
 
-  const fontSize = (value: number) => {
-    const textContent = priceRefs?.current[value]?.textContent;
-    if (textContent && textContent.length) {
-      if (textContent.length <= 9) return '1rem';
-      if (textContent.length <= 12) return '0.8rem';
-      if (textContent.length <= 15) return '0.8rem';
-      if (textContent.length <= 18) return '0.7rem';
-      if (textContent.length <= 21) return '0.6rem';
-      if (textContent.length <= 36) return '0.5rem';
+  const fontSize = (value: any) => {
+    const textContent = priceRefs.current[Number(value)];
+    if (textContent && textContent.textContent) {
+      const length = textContent.textContent.length;
+      if (length <= 9) return '1rem';
+      if (length <= 12) return '0.8rem';
+      if (length <= 15) return '0.8rem';
+      if (length <= 18) return '0.7rem';
+      if (length <= 21) return '0.6rem';
+      if (length <= 36) return '0.5rem';
     }
   };
 
