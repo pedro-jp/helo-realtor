@@ -15,6 +15,24 @@ export default function Cards({ imoveis, url }: PageProps) {
   const [modalOpenId, setModalOpenId] = React.useState<string | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const priceRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const [fontSizes, setFontSizes] = React.useState<string[]>([]);
+
+  useEffect(() => {
+    const calculatedFontSizes = priceRefs.current.map((ref) => {
+      if (ref && ref.textContent) {
+        const length = ref.textContent.length;
+        if (length <= 9) return '1rem';
+        if (length <= 12) return '0.8rem';
+        if (length <= 15) return '0.8rem';
+        if (length <= 18) return '0.7rem';
+        if (length <= 21) return '0.6rem';
+        if (length <= 36) return '0.5rem';
+      }
+      return '1rem'; // Fallback
+    });
+
+    setFontSizes(calculatedFontSizes);
+  }, [imoveis]); // Recalcular quando os imóveis mudarem
 
   function formatarPrecoReal(numero: number) {
     return numero.toLocaleString('pt-BR', {
@@ -70,19 +88,6 @@ export default function Cards({ imoveis, url }: PageProps) {
         break;
     }
     return color;
-  };
-
-  const fontSize = (value: any) => {
-    const textContent = priceRefs.current[Number(value)];
-    if (textContent && textContent.textContent) {
-      const length = textContent.textContent.length;
-      if (length <= 9) return '1rem';
-      if (length <= 12) return '0.8rem';
-      if (length <= 15) return '0.8rem';
-      if (length <= 18) return '0.7rem';
-      if (length <= 21) return '0.6rem';
-      if (length <= 36) return '0.5rem';
-    }
   };
 
   return (
@@ -146,7 +151,7 @@ export default function Cards({ imoveis, url }: PageProps) {
                     priceRefs.current[index] = el;
                     return;
                   }}
-                  style={{ fontSize: fontSize(index) }}
+                  style={{ fontSize: fontSizes[index] }}
                 >
                   {formatarPrecoReal(parseFloat(imovel.price))}
                 </span>
