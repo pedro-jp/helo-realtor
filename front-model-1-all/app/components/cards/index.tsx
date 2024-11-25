@@ -1,6 +1,5 @@
 'use client';
 import React, { useRef, useEffect } from 'react';
-import { getImoveis } from '@/app/services/getImoveis';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './style.module.scss';
@@ -74,13 +73,14 @@ export default function Cards({ imoveis, url }: PageProps) {
   };
 
   const fontSize = (value: number) => {
-    if (priceRefs?.current[value]?.textContent?.length) {
-      if (priceRefs?.current[value]?.textContent?.length <= 9) return '1rem';
-      if (priceRefs?.current[value]?.textContent?.length <= 12) return '0.8rem';
-      if (priceRefs?.current[value]?.textContent?.length <= 15) return '0.8rem';
-      if (priceRefs?.current[value]?.textContent?.length <= 18) return '0.7rem';
-      if (priceRefs?.current[value]?.textContent?.length <= 21) return '0.6rem';
-      if (priceRefs?.current[value]?.textContent?.length <= 36) return '0.5rem';
+    const textContent = priceRefs?.current[value]?.textContent;
+    if (textContent && textContent.length) {
+      if (textContent.length <= 9) return '1rem';
+      if (textContent.length <= 12) return '0.8rem';
+      if (textContent.length <= 15) return '0.8rem';
+      if (textContent.length <= 18) return '0.7rem';
+      if (textContent.length <= 21) return '0.6rem';
+      if (textContent.length <= 36) return '0.5rem';
     }
   };
 
