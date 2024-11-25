@@ -22,7 +22,7 @@ async function getOfficeByName(url: string) {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Erro ao buscar escritório:', error);
+    console.error('Erro ao buscar escritório:');
     return null;
   }
 }
@@ -56,6 +56,23 @@ export async function generateMetadata({
           alt: office.name,
         },
       ],
+    },
+    icons: {
+      icon: [
+        {
+          url: office?.Office_Logo[office.logo_index]?.url || '/favicon.ico',
+          sizes: '16x16',
+        },
+        {
+          url: office?.Office_Logo[office.logo_index]?.url || '/favicon.ico',
+          sizes: '32x32',
+        },
+        {
+          url: office?.Office_Logo[office.logo_index]?.url || '/favicon.ico',
+          sizes: '48x48',
+        },
+      ],
+      apple: office?.Office_Logo[office.logo_index]?.url || '/favicon.ico',
     },
   };
 }

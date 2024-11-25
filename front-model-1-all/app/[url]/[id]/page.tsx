@@ -23,6 +23,7 @@ export async function generateMetadata({
   params: { id: string };
 }): Promise<Metadata> {
   const imovel = await getImovelData(params.id);
+  const office = await getOffice(imovel.ownerId);
 
   return {
     title: `${imovel.name} - Imóvel Disponível`,
@@ -63,6 +64,23 @@ export async function generateMetadata({
           alt: imovel.name,
         },
       ],
+    },
+    icons: {
+      icon: [
+        {
+          url: office?.Office_Logo[office.logo_index]?.url || '/favicon.ico',
+          sizes: '16x16',
+        },
+        {
+          url: office?.Office_Logo[office.logo_index]?.url || '/favicon.ico',
+          sizes: '32x32',
+        },
+        {
+          url: office?.Office_Logo[office.logo_index]?.url || '/favicon.ico',
+          sizes: '48x48',
+        },
+      ],
+      apple: office?.Office_Logo[office.logo_index]?.url || '/favicon.ico',
     },
   };
 }

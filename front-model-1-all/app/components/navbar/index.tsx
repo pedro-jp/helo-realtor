@@ -23,7 +23,6 @@ export default function Navbar({ url, phone }: OfficeType) {
     try {
       const response = await api.get(`/offices/${url}`);
       setLogos(response.data.Office_Logo[response.data.logo_index]);
-      console.log(response.data);
     } catch (error) {}
   };
 
