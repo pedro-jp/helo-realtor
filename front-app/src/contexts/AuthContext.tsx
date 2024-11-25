@@ -183,7 +183,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       });
     } catch (error) {
       console.error('Error decoding token:', error);
-      signOut(router);
     }
   };
 
