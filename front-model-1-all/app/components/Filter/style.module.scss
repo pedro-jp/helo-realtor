@@ -5,10 +5,6 @@
   width: clamp(0%, 1440px, 100%);
   gap: 2rem;
   height: max-content;
-
-  @media (width < 1480px) {
-    padding-left: 1rem;
-  }
 }
 
 .cards_container {
@@ -17,6 +13,7 @@
   gap: 2rem;
   justify-content: center;
   width: 100% !important;
+  margin-top: 70px;
 }
 
 .filter {
@@ -30,7 +27,7 @@
     height: 450px !important;
     position: sticky;
     top: 100px;
-    margin-bottom: 30px;
+    margin-bottom: 33px;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -38,7 +35,7 @@
     height: max-content;
     padding: 16px;
     background-color: #e8e6e3;
-    border-radius: 8px;
+    border-radius: 16px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
 
     div.transactionType {
