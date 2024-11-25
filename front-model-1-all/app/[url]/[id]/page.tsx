@@ -23,45 +23,45 @@ export async function generateMetadata({
   params: { id: string };
 }): Promise<Metadata> {
   const imovel = await getImovelData(params.id);
-  const office = await getOffice(imovel.ownerId);
+  const office = await getOffice(imovel?.ownerId);
 
   return {
-    title: `${imovel.name} - Imóvel Disponível`,
-    description: imovel.description,
+    title: `${imovel?.name} - Imóvel Disponível`,
+    description: imovel?.description,
     openGraph: {
-      title: imovel.name,
-      description: imovel.description,
+      title: imovel?.name,
+      description: imovel?.description,
       url: `${process.env.NEXT_PUBLIC_FRONT_URL}/imovel/${params.id}`,
       images: [
         {
-          url: `${imovel.images[0]?.url}`,
+          url: `${imovel?.images[0]?.url}`,
           width: 1920,
           height: 1080,
-          alt: imovel.name,
+          alt: imovel?.name,
         },
         {
-          url: `${imovel.images[1]?.url}`,
+          url: `${imovel?.images[1]?.url}`,
           width: 1920,
           height: 1080,
-          alt: imovel.name,
+          alt: imovel?.name,
         },
         {
-          url: `${imovel.images[2]?.url}`,
+          url: `${imovel?.images[2]?.url}`,
           width: 1920,
           height: 1080,
-          alt: imovel.name,
+          alt: imovel?.name,
         },
         {
-          url: `${imovel.images[3]?.url}`,
+          url: `${imovel?.images[3]?.url}`,
           width: 1920,
           height: 1080,
-          alt: imovel.name,
+          alt: imovel?.name,
         },
         {
-          url: `${imovel.images[4]?.url}`,
+          url: `${imovel?.images[4]?.url}`,
           width: 1920,
           height: 1080,
-          alt: imovel.name,
+          alt: imovel?.name,
         },
       ],
     },
@@ -105,8 +105,8 @@ export default async function ImovelPage({
   }
 
   const transaction =
-    imovel.transaction[0].toUpperCase() + imovel.transaction.slice(1);
-  const office = await getOffice(imovel.ownerId);
+    imovel?.transaction[0].toUpperCase() + imovel?.transaction.slice(1);
+  const office = await getOffice(imovel?.ownerId);
 
   if (!office) {
     return <div>Imóvel não encontrado</div>;
@@ -115,7 +115,7 @@ export default async function ImovelPage({
   const preco = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
-  }).format(parseFloat(imovel.price));
+  }).format(parseFloat(imovel?.price));
 
   const transactionType = () => {
     switch (transaction) {
@@ -140,10 +140,10 @@ export default async function ImovelPage({
       <main className={style.main}>
         <h1>
           <span className={style.transaction}>{transactionType()} </span>
-          {imovel.name}
+          {imovel?.name}
         </h1>
         <section className={style.container}>
-          <Carousel images={imovel.images} />
+          <Carousel images={imovel?.images} />
 
           <div
             style={{
@@ -160,7 +160,10 @@ export default async function ImovelPage({
               }}
             >
               <Favoritar imovel={imovel} />
-              <BtnCompartilhar title={imovel.name} text={imovel.description} />
+              <BtnCompartilhar
+                title={imovel?.name}
+                text={imovel?.description}
+              />
             </div>
             <ul className={style.infos}>
               <li>
@@ -184,7 +187,7 @@ export default async function ImovelPage({
                 <li>
                   <strong>Área: </strong>
                   <span>
-                    {imovel.area}m<sup>2</sup>
+                    {imovel?.area}m<sup>2</sup>
                   </span>
                 </li>
               )}
@@ -203,15 +206,15 @@ export default async function ImovelPage({
             <h3 style={{ marginBottom: '12px' }}>Descricão</h3>
             <p
               dangerouslySetInnerHTML={{
-                __html: convertNewlinesToBreaks(imovel.description),
+                __html: convertNewlinesToBreaks(imovel?.description),
               }}
             />
           </div>
           <div className={style.map}>
             <MapWithCircle
-              latitude={imovel.latitude}
-              longitude={imovel.longitude}
-              marker={imovel.marker}
+              latitude={imovel?.latitude}
+              longitude={imovel?.longitude}
+              marker={imovel?.marker}
             />
           </div>
         </section>
