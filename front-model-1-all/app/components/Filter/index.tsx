@@ -241,9 +241,6 @@ export default function Filter({ url, officeId }: PageProps) {
       </aside>
       {imoveis && (
         <section>
-          <h2 style={{ textAlign: 'center', marginBlock: '20px' }}>
-            Imóveis Disponiveis
-          </h2>
           <div className={style.cards_container}>
             <Cards imoveis={imoveis} url={url} />
           </div>
