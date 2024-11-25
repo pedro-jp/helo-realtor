@@ -2,20 +2,34 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { AppProvider } from './context/appContext';
-import Navbar from './components/navbar';
-import { Footer } from './components/footer';
-import Head from 'next/head';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'Intg-Imóveis', // Use o nome do escritório nos metadados
-    description: 'Intg-Imóveis, Visualize e venda seus imóveis',
+    title: 'Intg | Imóveis', // Use o nome do escritório nos metadados
+    description: 'Intg | Imóveis, Visualize e venda seus imóveis',
     openGraph: {
-      title: 'Intg-Imóveis',
-      description: 'Intg-Imóveis, Visualize e venda seus imóveis',
+      title: 'Intg | Imóveis',
+      description: 'Intg | Imóveis, Visualize e venda seus imóveis',
       url: `${process.env.NEXT_PUBLIC_FRONT_URL}`,
+    },
+    icons: {
+      icon: [
+        {
+          url: '/favicon.ico',
+          sizes: '16x16',
+        },
+        {
+          url: '/favicon.ico',
+          sizes: '32x32',
+        },
+        {
+          url: '/favicon.ico',
+          sizes: '48x48',
+        },
+      ],
+      apple: '/favicon.ico',
     },
   };
 }
