@@ -43,7 +43,7 @@ body:has(.main) {
       justify-content: space-between;
     }
 
-    @media screen and (width < 768px) {
+    @media screen and (width < 998px) {
       & {
         flex-direction: column;
 
@@ -66,7 +66,7 @@ body:has(.main) {
     margin: 20px 0;
   }
 
-  @media screen and (width < 768px) {
+  @media screen and (width < 992px) {
     grid-template-columns: 1fr;
     .map {
       width: 100%;
