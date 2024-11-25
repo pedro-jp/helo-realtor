@@ -1,5 +1,6 @@
 /* styles/style.module.scss */
 .container {
+  height: fit-content;
   max-width: 100%;
 }
 .fullScreenBtn {
@@ -22,7 +23,7 @@
 .swiper {
   width: 100%;
   max-width: 800px;
-  height: 70%;
+  height: max-content;
   max-height: 500px;
   margin: 0 0;
   aspect-ratio: 9/16;
