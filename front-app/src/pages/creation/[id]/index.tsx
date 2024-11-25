@@ -13,9 +13,11 @@ import { CategoryType, OfficeType, RealtorType } from '@/Types';
 import { Input, TextArea } from '@/components/ui/Input';
 import { uploadImage } from '@/services/upload';
 import styles from './styles.module.scss';
+import inputStyle from '../../../styles/input.module.scss';
 import { FiUpload } from 'react-icons/fi';
 import { FiSave } from 'react-icons/fi';
 import { FaSpinner } from 'react-icons/fa';
+import CurrencyInput from 'react-currency-input-field';
 
 const Creation = () => {
   const { user, loading, setLoading, isAuthenticated } =
@@ -51,6 +53,8 @@ const Creation = () => {
   const [realtorId, setRealtorId] = useState('');
   const [imageFile, setImageFile] = useState(null);
   const [propertyId, setPropertyId] = useState('');
+  const [rawValue, setRawValue] = useState(0); // valor numérico sem formatação
+  const [displayValue, setDisplayValue] = useState(''); // valor formatado para exibição
 
   const [background, setBackground] = useState();
 
@@ -117,7 +121,6 @@ const Creation = () => {
       setName(response.data.name);
       setPropertyId(response.data.id);
       setDescription(response.data.description);
-      setPrice(`R$ ${response.data.price}`);
       setLocal(response.data.local);
       setArea(response.data.area);
       setQuartos(response.data.quartos);
@@ -128,6 +131,7 @@ const Creation = () => {
       setCategoryId(response.data.categoryId);
       setRealtorId(response.data.realtorId);
       setBackground(response.data.url);
+      setDisplayValue(response.data.price);
     } catch (error) {
       console.error(error);
       console.error('Erro ao carregar imóvel');
@@ -153,7 +157,7 @@ const Creation = () => {
       setLoading(true);
       // Formata o preço
       const numericPrice = parseFloat(
-        price.replace('R$', '').replace('.', '').replace(',', '.')
+        displayValue.replace('R$', '').replace('.', '').replace(',', '.')
       );
       console.log(numericPrice);
 
@@ -226,19 +230,6 @@ const Creation = () => {
     }
   };
 
-  const formatToBRL = (value: string) => {
-    const numericValue = parseFloat(value.replace(/[^0-9]/g, '')) / 100;
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-    }).format(numericValue);
-  };
-
-  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setPrice(formatToBRL(value));
-    console.log(value);
-  };
   return (
     <Container>
       <Head>
@@ -293,10 +284,16 @@ const Creation = () => {
               </div>
               <div className={styles.formRow}>
                 <label>Preço:</label>
-                <Input
-                  type='text'
-                  value={price}
-                  onChange={(e) => handlePriceChange(e)}
+                <CurrencyInput
+                  className={inputStyle.styled_input}
+                  value={displayValue}
+                  allowDecimals
+                  decimalsLimit={2}
+                  placeholder='R$ 0,00'
+                  prefix='R$ '
+                  onValueChange={(value, name, values) =>
+                    setDisplayValue(value as string)
+                  }
                   required
                 />
               </div>

@@ -15,6 +15,7 @@ interface PageProps {
 export default function Cards({ imoveis, url }: PageProps) {
   const [modalOpenId, setModalOpenId] = React.useState<string | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
+  const priceRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
   function formatarPrecoReal(numero: number) {
     return numero.toLocaleString('pt-BR', {
@@ -72,11 +73,22 @@ export default function Cards({ imoveis, url }: PageProps) {
     return color;
   };
 
+  const fontSize = (value: number) => {
+    if (priceRefs.current[value]?.textContent?.length) {
+      if (priceRefs.current[value]?.textContent?.length <= 9) return '1rem';
+      if (priceRefs.current[value]?.textContent?.length <= 12) return '0.8rem';
+      if (priceRefs.current[value]?.textContent?.length <= 15) return '0.8rem';
+      if (priceRefs.current[value]?.textContent?.length <= 18) return '0.7rem';
+      if (priceRefs.current[value]?.textContent?.length <= 21) return '0.6rem';
+      if (priceRefs.current[value]?.textContent?.length <= 36) return '0.5rem';
+    }
+  };
+
   return (
     <>
       {imoveis &&
         imoveis.length > 0 &&
-        imoveis.map((imovel) => (
+        imoveis.map((imovel, index) => (
           <React.Fragment key={imovel.id}>
             {/* Modal com referência para detectar cliques fora */}
             <div
@@ -128,7 +140,15 @@ export default function Cards({ imoveis, url }: PageProps) {
               </div>
 
               <div className={styles.housePrice}>
-                <span>{formatarPrecoReal(parseFloat(imovel.price))}</span>
+                <span
+                  ref={(el) => {
+                    priceRefs.current[index] = el;
+                    return;
+                  }}
+                  style={{ fontSize: fontSize(index) }}
+                >
+                  {formatarPrecoReal(parseFloat(imovel.price))}
+                </span>
               </div>
 
               <ul className={styles.houseMeta}>
