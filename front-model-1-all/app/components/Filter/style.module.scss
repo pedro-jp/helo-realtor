@@ -5,6 +5,10 @@
   width: clamp(0%, 1440px, 100%);
   gap: 2rem;
   height: max-content;
+
+  @media (width < 1470px) and (width > 992px) {
+    padding: 0 1rem;
+  }
 }
 
 .cards_container {

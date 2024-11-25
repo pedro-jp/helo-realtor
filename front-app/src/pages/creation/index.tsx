@@ -13,9 +13,11 @@ import { CategoryType, OfficeType, RealtorType } from '@/Types';
 import { Input, TextArea } from '@/components/ui/Input';
 import { uploadImage } from '@/services/upload';
 import styles from './styles.module.scss';
+import inputStyle from '../../styles/input.module.scss';
 import { FiUpload } from 'react-icons/fi';
 import { FiSave } from 'react-icons/fi';
 import { FaSpinner } from 'react-icons/fa';
+import CurrencyInput from 'react-currency-input-field';
 
 const Creation = () => {
   const { user, isAuthenticated, loading } = useContext(AuthContext);
@@ -43,6 +45,8 @@ const Creation = () => {
 
   const [background, setBackground] = useState();
   const [propertyId, setPropertyId] = useState('');
+
+  const [displayValue, setDisplayValue] = useState('');
 
   const [isImovelCreated, setIsImovelCreated] = useState(false);
 
@@ -106,7 +110,7 @@ const Creation = () => {
     try {
       // Formata o preço
       const numericPrice = parseFloat(
-        price.replace('R$', '').replace('.', '').replace(',', '.')
+        displayValue.replace('R$', '').replace('.', '').replace(',', '.')
       );
 
       // Cria o imóvel
@@ -228,10 +232,16 @@ const Creation = () => {
                 </div>
                 <div className={styles.formRow}>
                   <label>Preço:</label>
-                  <Input
-                    type='text'
-                    value={price}
-                    onChange={(e) => handlePriceChange(e)}
+                  <CurrencyInput
+                    className={inputStyle.styled_input}
+                    value={displayValue}
+                    allowDecimals
+                    decimalsLimit={2}
+                    placeholder='R$ 0,00'
+                    prefix='R$ '
+                    onValueChange={(value, name, values) =>
+                      setDisplayValue(value as string)
+                    }
                     required
                   />
                 </div>
