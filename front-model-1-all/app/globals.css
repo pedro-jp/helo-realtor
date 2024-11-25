@@ -97,6 +97,7 @@
 html,
 body {
   --orvalho: #F0EEE3;
+  --purple: #c29fd5;
   width: 100dvw;
   height: 100dvh;
   overflow-x: hidden;

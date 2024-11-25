@@ -44,6 +44,11 @@
     color: var(--orvalho);
     mix-blend-mode: difference;
 
+    svg {
+      width: 1.5rem;
+      color: #000;
+    }
+
     &:hover {
       transform: scale(1.1);
       animation: none;
@@ -74,7 +79,7 @@
   background-image: radial-gradient(
     circle at 100% 100%,
     transparent var(--_size),
-    var(--_corner-color, var(--orvalho)) calc(var(--_size) + 1px)
+    var(--_corner-color, var(--purple)) calc(var(--_size) + 1px)
   );
   rotate: -90deg;
 }
@@ -91,7 +96,7 @@
   bottom: 0;
   grid-column: 1;
   grid-row: 1 / 2;
-  box-shadow: -1rem 0 0 var(--orvalho);
+  box-shadow: -1rem 0 0 var(--purple);
 }
 
 .houseImage img {
@@ -108,7 +113,7 @@
   grid-row: 2 / 3;
   grid-column: 1 / 2;
   border-radius: var(--_br) var(--_br) 0 0;
-  box-shadow: 0 1rem 0 black, 0 0 0 1rem var(--orvalho);
+  box-shadow: 0 1rem 0 black, 0 0 0 1rem var(--purple);
 }
 
 .housePrice::after {
@@ -169,7 +174,7 @@
     top: 1rem;
     right: 1rem;
     font-size: 2.5rem;
-    color: var(--orvalho);
+    color: var(--purple);
     mix-blend-mode: difference;
 
     &:hover {

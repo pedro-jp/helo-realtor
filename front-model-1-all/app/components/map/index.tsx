@@ -40,7 +40,7 @@ const MapWithCircle: React.FC<MapWithCircleProps> = ({
   }
 
   return (
-    <>
+    <div style={{ width: '100%', paddingTop: '2rem', paddingBottom: '1rem' }}>
       <div className={style.map} style={{ height: '300px', width: '100%' }}>
         <GoogleMap
           center={center}
@@ -70,7 +70,7 @@ const MapWithCircle: React.FC<MapWithCircleProps> = ({
         </GoogleMap>
       </div>
       <MapOptions latitude={latitude} longitude={longitude} />
-    </>
+    </div>
   );
 };
 

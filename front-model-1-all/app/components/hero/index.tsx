@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import style from './style.module.scss';
 import { api } from '@/app/services/api';
 import { OfficeType } from '@/app/types';
+import { PatternBlock } from '../../assets/svg/index';
 
 type BannerType = {
   id: string;
@@ -32,7 +33,6 @@ export default function Hero({ url }: Props) {
     <section
       style={{
         height: '100vh',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
       }}
       className={style.hero}
     >

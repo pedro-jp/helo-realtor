@@ -107,7 +107,6 @@ export default function Cards({ imoveis, url }: PageProps) {
                   className={styles.houseIcon}
                   onClick={() => setModalOpenId(imovel.id)}
                 />
-                <picture></picture>
                 <Image
                   src={
                     imovel.images.length > 0
