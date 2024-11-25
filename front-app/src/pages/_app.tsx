@@ -12,7 +12,6 @@ export default function App({ Component, pageProps }: AppProps) {
       <ToastContainer autoClose={2500} />
       <Head>
         <title>IntG Realtor</title>
-        <link rel='icon' href='/favicon.ico' sizes='16x16' />
       </Head>
       <Component {...pageProps} />
     </AuthProvider>

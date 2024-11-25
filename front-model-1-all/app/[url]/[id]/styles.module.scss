@@ -15,10 +15,11 @@ body:has(.main) {
   @media screen and (width < 1440px) {
     margin-inline: 1rem;
   }
+
   .container {
     width: 100vw;
     max-width: 100%;
-    margin-top: 2rem;
+    margin-block: 2rem;
     display: flex;
     justify-content: space-between;
     gap: 2rem;
@@ -60,7 +61,7 @@ body:has(.main) {
   display: grid;
   grid-template-columns: 40% 60%;
   gap: 3rem;
-  border-block: 1px solid #00000020;
+  border-top: 1px solid #00000020;
 
   .description {
     margin: 20px 0;
