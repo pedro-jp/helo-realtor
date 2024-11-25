@@ -9,6 +9,8 @@ class GetUSerService {
       include: {
         office: true,
         categories: true,
+        indicationsMade: true,
+        indicationsReceived: true,
       },
     });
     return user;

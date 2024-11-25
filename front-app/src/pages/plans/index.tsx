@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { toast } from 'react-toastify';
 import { setupAPIClient } from '../../services/api';
@@ -10,6 +10,14 @@ import { Header } from '@/components/Header';
 import { Sidebar } from '@/components/Sidebar';
 import styles from './styles.module.scss';
 import Head from 'next/head';
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
+import { IoAdd, IoSend } from 'react-icons/io5';
+import {
+  IoIosAddCircleOutline,
+  IoIosAirplane,
+  IoIosPaperPlane,
+} from 'react-icons/io';
 
 type Plan = {
   name: string;
@@ -20,10 +28,18 @@ type Plan = {
 };
 
 const Plans = () => {
-  const { user, loading, setLoading } = useContext(AuthContext);
+  const { user, loading, setLoading, handleReloadUser } =
+    useContext(AuthContext);
   const [selectedPriceId, setSelectedPriceId] = useState<string | null>(null);
   const router = useRouter();
   const api = setupAPIClient(router);
+  const [indicationEmail, setIndicationEmail] = useState<string>('');
+  const [success, setSuccess] = useState<boolean>(false);
+  const [hasUser, setHasUser] = useState<boolean>(false);
+
+  useEffect(() => {
+    handleReloadUser();
+  }, []);
 
   const plans: Plan[] = [
     // {
@@ -71,6 +87,24 @@ const Plans = () => {
     }
   }
 
+  const handleSendIndication = async () => {
+    if (indicationEmail === '') {
+      toast.error('Digite um email');
+      return;
+    }
+    try {
+      setLoading(true);
+      await api.post(`/indication/${indicationEmail}/${user.id}`);
+      toast.success('Indicado com sucesso!');
+      setSuccess(true);
+      console.log(`/indication/${indicationEmail}/${user.id}`);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <Head>
@@ -116,15 +150,61 @@ const Plans = () => {
                   </div>
                 </label>
               ))}
-              <div>
-                <button
-                  onClick={handleSubscribe}
-                  className={styles.subscribeButton}
-                >
-                  Assinar Plano Selecionado
-                </button>
-              </div>
+              {user.priceId !== plans[0].priceId && (
+                <div>
+                  <button
+                    onClick={handleSubscribe}
+                    className={styles.subscribeButton}
+                  >
+                    Assinar Plano Selecionado
+                  </button>
+                </div>
+              )}
             </div>
+            <div>
+              <h1 style={{ marginTop: '1rem' }}>Indique e ganhe!</h1>
+              <p style={{ marginBlock: '1rem' }}>
+                A cada 10 usuários indicados, você ganha uma mensalidade.
+              </p>
+              <h4>
+                Indicações feitas{' '}
+                <strong
+                  style={{
+                    color: user.indicationsMade?.length ? 'green' : 'red',
+                  }}
+                >
+                  {user.indicationsMade?.length}
+                </strong>
+              </h4>
+            </div>
+            {user.planIsActive &&
+              (user.indicationsReceived?.length === 0 ||
+                !user.indicationsReceived) &&
+              !success && (
+                <div
+                  className={styles.indication}
+                  style={{ marginTop: '2rem' }}
+                >
+                  <h2 style={{ marginBottom: '10px' }}>Alguém te indicou?</h2>
+                  <div>
+                    <label htmlFor=''>
+                      <Input
+                        type='email'
+                        autoComplete='email'
+                        value={indicationEmail}
+                        onChange={(e) => setIndicationEmail(e.target.value)}
+                        placeholder='exemplo@email.com'
+                      />
+                    </label>
+                    <Button
+                      className={styles.button_indication}
+                      onClick={handleSendIndication}
+                    >
+                      <IoSend size={20} color='#5C8A72' />
+                    </Button>
+                  </div>
+                </div>
+              )}
           </Main>
         </Content>
       </Container>

@@ -27,3 +27,8 @@ export interface VisitorSubscription {
   email: string;
   name: string;
 }
+
+export interface Indication {
+  indicatedById: string;
+  indicatedToId: string;
+}

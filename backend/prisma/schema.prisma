@@ -8,25 +8,42 @@ datasource db {
 }
 
 model User {
-  id                String       @id @unique @default(uuid())
-  name              String
-  email             String       @unique
-  phone             String       @default("")
-  password          String
-  subscriptionId    String       @default("")
-  priceId           String       @default("")
-  paymentStatus     String       @default("Pending")
-  subscription_type String       @default("")
-  planIsActive      Boolean      @default(false)
-  created_at        DateTime     @default(now())
-  updated_at        DateTime     @updatedAt
-  profile_photo     String       @default("")
-  categories        Category[]
-  imoveis           Imovel[]
-  office            Office[]
-  photos            User_Photo[]
+  id                  String       @id @unique @default(uuid())
+  name                String
+  email               String       @unique
+  phone               String       @default("")
+  password            String
+  subscriptionId      String       @default("")
+  priceId             String       @default("")
+  paymentStatus       String       @default("Pending")
+  subscription_type   String       @default("")
+  planIsActive        Boolean      @default(false)
+  created_at          DateTime     @default(now())
+  updated_at          DateTime     @updatedAt
+  profile_photo       String       @default("")
+  categories          Category[]
+  imoveis             Imovel[]
+  office              Office[]
+  photos              User_Photo[]
+  indicationsMade     Indication[] @relation("IndicationsByUser")
+  indicationsReceived Indication[] @relation("IndicationsToUser")
 
   @@map("users")
+}
+
+model Indication {
+  id            String   @id @unique @default(uuid())
+  indicatedById String
+  indicatedToId String
+  created_at    DateTime @default(now())
+
+  // Relação com o usuário que fez a indicação
+  indicatedBy User @relation("IndicationsByUser", fields: [indicatedById], references: [id], onDelete: Cascade)
+
+  // Relação com o usuário que foi indicado
+  indicatedTo User @relation("IndicationsToUser", fields: [indicatedToId], references: [id], onDelete: Cascade)
+
+  @@map("indications")
 }
 
 model User_Photo {
