@@ -5,7 +5,6 @@ class CreateIndicationController {
     const createIndicationService = new CreateIndicationService();
 
     const { email, indicatedToId } = req.params;
-    console.log('-----teste------');
     const indication = await createIndicationService.execute(
       email,
       indicatedToId

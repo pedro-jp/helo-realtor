@@ -157,7 +157,85 @@ class WebhookService {
           console.log('Nenhuma fatura associada encontrada.');
           return res.status(400).json({ error: 'Nenhuma fatura associada' });
         }
+      case 'payment_intent.payment_failed':
+        const paymentIntentFailed = event.data.object;
 
+        if (paymentIntentFailed.invoice) {
+          try {
+            const invoice = await stripe.invoices.retrieve(
+              paymentIntentFailed.invoice
+            );
+            const lineItems = invoice.lines.data;
+            const priceID = lineItems.length > 0 ? lineItems[0].price.id : null;
+
+            // List active subscriptions
+            const subscriptions = await stripe.subscriptions.list({
+              customer: invoice.customer,
+              status: 'active',
+            });
+
+            for (const subscription of subscriptions.data) {
+              await stripe.subscriptions.update(subscription.id, {
+                pause_collection: {
+                  behavior: 'void', // Pausa a cobranÃ§a e impede futuras
+                },
+              });
+              console.log(`Assinatura ${subscription.id} pausada`);
+            }
+
+            // FunÃ§Ã£o para atualizar a assinatura do usuÃ¡rio no banco de dados
+            async function updateSubscription(email, invoice, priceID) {
+              try {
+                return await prismaClient.user.update({
+                  where: {
+                    email,
+                  },
+                  data: {
+                    paymentStatus: 'canceled', // Marcar o pagamento como bem-sucedido
+                    subscriptionId: '', // Atualizar com o novo ID de assinatura
+                    priceId: '', // Armazenar o priceID
+                    planIsActive: false, // Marcar o plano como ativo
+                  },
+                });
+              } catch (error) {
+                console.log('Erro ao atualizar a assinatura:', error);
+                throw new Error('Erro ao atualizar a assinatura');
+              }
+            }
+
+            try {
+              // Atualizar a assinatura do usuÃ¡rio
+              const updatedUser = await updateSubscription(
+                invoice.customer_email,
+                invoice,
+                priceID
+              );
+
+              console.log(updatedUser);
+              const ico = invoice.customer;
+              return res.json({
+                received: true,
+                updatedUser,
+                priceID,
+                ico,
+                msg: 'Assinatura cancelada',
+              });
+            } catch (error) {
+              console.error('Erro ao processar o pagamento:', error.message);
+              return res
+                .status(500)
+                .json({ error: 'Erro interno ao processar o pagamento' });
+            }
+          } catch (error) {
+            console.error('Erro ao processar o pagamento:', error.message);
+            return res
+              .status(500)
+              .json({ error: 'Erro interno ao processar o pagamento' });
+          }
+        } else {
+          console.log('Nenhuma fatura associada encontrada.');
+          return res.status(400).json({ error: 'Nenhuma fatura associada' });
+        }
       case 'customer.subscription.deleted':
         const subscriptionDeleted = event.data.object;
 
