@@ -5,13 +5,12 @@ module.exports = {
   robotsTxtOptions: {
     additionalSitemaps: [
       'https://imoveis.intg.com.br/sitemap-index.xml', // URL do sitemap principal
-      // Adicionar outros sitemaps se houver
     ],
     policies: [{ userAgent: '*', allow: '/' }],
   },
-  // Adiciona uma função para páginas dinâmicas
+  sitemapSize: 5000, // Número de URLs por sitemap
+  // Configurações do sitemap dinâmico
   transform: async (config, path) => {
-    // Adicionar configurações customizadas para cada rota
     return {
       loc: path, // URL da página
       changefreq: 'daily', // Frequência de atualização
@@ -19,6 +18,6 @@ module.exports = {
       lastmod: new Date().toISOString(), // Última modificação
     };
   },
-  // Caso queira customizar os sitemaps para as URLs dinâmicas, pode ser configurado assim:
-  sitemapSize: 5000, // Tamanho do sitemap, ideal para quando há muitas páginas
+  // Garantir que o sitemap-index.xml seja gerado corretamente
+  sitemapIndex: 'https://imoveis.intg.com.br/sitemap-index.xml', // URL do índice
 };
