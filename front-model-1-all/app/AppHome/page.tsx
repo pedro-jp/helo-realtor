@@ -109,8 +109,8 @@ const AppHome = () => {
               >
                 <h2>Todos os escritórios</h2>
                 {offices.map((office: any) => (
-                  <div className={style.chat_bubble}>
-                    <Link key={office.id} href={`/${office.url}`}>
+                  <div key={office.id} className={style.chat_bubble}>
+                    <Link href={`/${office.url}`}>
                       {office.name} - {office.address}
                       <br />
                     </Link>
