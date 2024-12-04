@@ -10,6 +10,7 @@ import {
   IoIosArrowRoundBack,
   IoIosArrowRoundForward,
 } from 'react-icons/io';
+import Loading from '../ParticlesLoading';
 interface PageProps {
   url: string;
   officeId: string;
@@ -169,6 +170,7 @@ export default function Filter({ url, officeId }: PageProps) {
 
   return (
     <section className={style.container}>
+      {isLoading && <Loading />}
       <aside className={style.filter}>
         <div className={style.filters}>
           <div className={style.transactionType}>
