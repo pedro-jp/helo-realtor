@@ -1,6 +1,6 @@
 html:has(.main),
 body:has(.main) {
-  background: #fcf5eb;
+  background-image: linear-gradient(to bottom, #fff, #9a8077);
 
   ::-webkit-scrollbar {
     display: none;
@@ -27,6 +27,10 @@ body:has(.main) {
       padding: 0 1rem;
     }
 
+    .section_2 {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='100' y1='33' x2='100' y2='-3'%3E%3Cstop offset='0' stop-color='%23000' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='1'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' gradientUnits='userSpaceOnUse' x1='100' y1='135' x2='100' y2='97'%3E%3Cstop offset='0' stop-color='%23000' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='%23846b62' fill-opacity='0.6'%3E%3Crect x='100' width='100' height='100'/%3E%3Crect y='100' width='100' height='100'/%3E%3C/g%3E%3Cg fill-opacity='0.5'%3E%3Cpolygon fill='url(%23a)' points='100 30 0 0 200 0'/%3E%3Cpolygon fill='url(%23b)' points='100 100 0 130 0 100 200 100 200 130'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
     .section_container {
       width: 100%;
       min-height: 100vh;
@@ -34,6 +38,9 @@ body:has(.main) {
       gap: 2rem;
       justify-content: space-evenly;
       flex-direction: column;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='46' height='46' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='100' y1='33' x2='100' y2='-3'%3E%3Cstop offset='0' stop-color='%23000' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='1'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' gradientUnits='userSpaceOnUse' x1='100' y1='135' x2='100' y2='97'%3E%3Cstop offset='0' stop-color='%23000' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='%23aaa7ac' fill-opacity='0.22'%3E%3Crect x='100' width='100' height='100'/%3E%3Crect y='100' width='100' height='100'/%3E%3C/g%3E%3Cg fill-opacity='0.22'%3E%3Cpolygon fill='url(%23a)' points='100 30 0 0 200 0'/%3E%3Cpolygon fill='url(%23b)' points='100 100 0 130 0 100 200 100 200 130'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 80px;
+      background-repeat: repeat;
 
       & > div {
         width: 100%;
@@ -44,10 +51,6 @@ body:has(.main) {
         gap: 2rem;
         justify-content: space-evenly;
         flex-direction: column;
-      }
-
-      &:nth-child(even) {
-        background: #113952;
       }
     }
 
@@ -222,4 +225,11 @@ body:has(.main) {
       transform: scale(1);
     }
   }
+}
+
+.mainContainer {
+}
+
+.offices_container {
+  background-color: #11395290 !important;
 }

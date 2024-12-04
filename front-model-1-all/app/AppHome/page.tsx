@@ -48,6 +48,8 @@ const AppHome = () => {
       officeId: office.id,
     }));
 
+  const bg = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='100' y1='33' x2='100' y2='-3'%3E%3Cstop offset='0' stop-color='%23000' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='1'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' gradientUnits='userSpaceOnUse' x1='100' y1='135' x2='100' y2='97'%3E%3Cstop offset='0' stop-color='%23000' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='%23846b62' fill-opacity='0.6'%3E%3Crect x='100' width='100' height='100'/%3E%3Crect y='100' width='100' height='100'/%3E%3C/g%3E%3Cg fill-opacity='0.5'%3E%3Cpolygon fill='url(%23a)' points='100 30 0 0 200 0'/%3E%3Cpolygon fill='url(%23b)' points='100 100 0 130 0 100 200 100 200 130'/%3E%3C/g%3E%3C/svg%3E")`;
+
   return (
     <>
       <TsParticles />
@@ -85,19 +87,26 @@ const AppHome = () => {
               </div>
             </figure>
           </section>
-          <section className={style.section_container}>
+          <section
+            className={[style.section_container, style.section_2].join(' ')}
+          >
             <AnimatedSection
               styles={{
                 alignSelf: 'center',
                 fontSize: '1.5rem',
-                background: '#5A8AA7',
+                background: '#9a8077',
                 marginTop: '-40px',
               }}
             >
               <h1>Encontre o lar que você sempre sonhou</h1>
             </AnimatedSection>
             <div>
-              <AnimatedSection>
+              <AnimatedSection
+                styles={{
+                  background: '#9a8077',
+                  marginTop: '-40px',
+                }}
+              >
                 <h2>Todos os escritórios</h2>
                 {offices.map((office: any) => (
                   <div className={style.chat_bubble}>
@@ -108,8 +117,14 @@ const AppHome = () => {
                   </div>
                 ))}
               </AnimatedSection>
-              <AnimatedSection>
-                <div className={style.map_container} style={{ width: '100vh' }}>
+              <AnimatedSection
+                styles={{
+                  background: '#9a8077',
+                  marginTop: '-40px',
+                }}
+                className={style.map_container}
+              >
+                <div style={{ width: '100vh' }}>
                   <h2 style={{ marginBottom: '20px' }}>
                     Localize o escritório mais próximo de você
                   </h2>
