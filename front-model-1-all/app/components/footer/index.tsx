@@ -74,7 +74,7 @@ export const Footer = ({ url }: Props) => {
               <Link href='/'>Todos os escritórios</Link>
             </li>
             <li>
-              <Link href={`/${officeData.url}`}>Lista de Imóveis</Link>
+              <Link href={`/e/${officeData.url}`}>Lista de Imóveis</Link>
             </li>
             <li>
               <a

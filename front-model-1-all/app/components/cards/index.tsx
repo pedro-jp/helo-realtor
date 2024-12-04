@@ -169,7 +169,7 @@ export default function Cards({ imoveis, url }: PageProps) {
                 <li>
                   <Link
                     style={{ textDecoration: 'underline' }}
-                    href={`/${url}/${imovel.id}`}
+                    href={`/e/${url}/${imovel.id}`}
                   >
                     Ver propriedade
                   </Link>
