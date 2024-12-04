@@ -1,13 +1,13 @@
 // app/[url]/page.tsx
 import React from 'react';
 import { Metadata } from 'next';
-import Hero from '../components/hero';
+import Hero from '../../components/hero';
 import style from './style.module.scss';
-import MapWithCircle from '../components/map';
+import MapWithCircle from '../../components/map';
 import { OfficeType } from '@/app/types';
 import { Footer } from '@/app/components/footer';
-import { SubscriptionModal } from '../components/SubscriptionModal';
-import Filter from '../components/Filter';
+import { SubscriptionModal } from '../../components/SubscriptionModal';
+import Filter from '../../components/Filter';
 
 async function getOfficeByName(url: string) {
   try {
