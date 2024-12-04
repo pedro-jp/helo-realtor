@@ -162,25 +162,8 @@ body:has(.main) {
   color: white; /* Cor do texto */
   padding: 12px 16px;
   border-radius: 24px; /* Bordas arredondadas */
-  border-top-left-radius: 0px !important;
 }
 
-.chat_bubble::after,
-.section:has(> p)::after {
-  content: '';
-  position: absolute;
-  display: block;
-  height: 20px;
-  width: 20px;
-  background-color: inherit;
-  bottom: 100%; /* Posiciona acima do balão */
-  left: 0;
-  clip-path: polygon(
-    100% 100%,
-    0% 0%,
-    0% 100%
-  ); /* Cria um caminho de fechamento para o balão */
-}
 .section:has(> p) {
   max-width: 50% !important;
 
@@ -211,6 +194,32 @@ body:has(.main) {
       p {
         font-size: 1rem !important;
       }
+    }
+  }
+}
+
+.cadastre {
+  background-color: #11395290;
+  padding: 1rem;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.4s;
+  animation: pulse 2s infinite;
+
+  &:hover {
+    background-color: #113952;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
     }
   }
 }
