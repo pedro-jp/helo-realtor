@@ -28,7 +28,7 @@ async function getOfficeByName(url: string) {
 }
 
 export async function generateMetadata({
-  params,
+  params
 }: {
   params: { url: string };
 }): Promise<Metadata> {
@@ -37,12 +37,12 @@ export async function generateMetadata({
   if (!office) {
     return {
       title: 'Escritório não encontrado',
-      description: 'Nenhum escritório foi encontrado com o nome fornecido.',
+      description: 'Nenhum escritório foi encontrado com o nome fornecido.'
     };
   }
 
   return {
-    title: office?.name || 'Imóveis Disponíveis',
+    title: `Intg | ${office?.name}` || 'Imóveis Disponíveis',
     description: office?.description,
     openGraph: {
       title: office.name,
@@ -53,33 +53,33 @@ export async function generateMetadata({
           url: `${office?.banner_image[office?.banner_index]?.url}`,
           width: 1920,
           height: 1080,
-          alt: office.name,
-        },
-      ],
+          alt: office.name
+        }
+      ]
     },
     icons: {
       icon: [
         {
           url: office?.Office_Logo[office.logo_index]?.url || '/favicon.ico',
-          sizes: '16x16',
+          sizes: '16x16'
         },
         {
           url: office?.Office_Logo[office.logo_index]?.url || '/favicon.ico',
-          sizes: '32x32',
+          sizes: '32x32'
         },
         {
           url: office?.Office_Logo[office.logo_index]?.url || '/favicon.ico',
-          sizes: '48x48',
-        },
+          sizes: '48x48'
+        }
       ],
-      apple: office?.Office_Logo[office.logo_index]?.url || '/favicon.ico',
-    },
+      apple: office?.Office_Logo[office.logo_index]?.url || '/favicon.ico'
+    }
   };
 }
 
 // Componente que renderiza a página
 export default async function OfficePage({
-  params,
+  params
 }: {
   params: { url: string };
 }) {
@@ -100,7 +100,7 @@ export default async function OfficePage({
           style={{
             width: 'calc(100% - 2rem)',
             maxWidth: '1440px',
-            margin: '0 auto',
+            margin: '0 auto'
           }}
         >
           <MapWithCircle
