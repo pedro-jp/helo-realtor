@@ -7,4 +7,3 @@ Host: https://imoveis.intg.com.br
 
 # Sitemaps
 Sitemap: https://imoveis.intg.com.br/sitemap.xml
-Sitemap: https://imoveis.intg.com.br/sitemap-index.xml
