@@ -13,12 +13,12 @@ import Head from 'next/head';
 
 // Importa o componente dinamicamente para evitar SSR
 const MapWithCircle = dynamic(() => import('@/app/components/map'), {
-  ssr: true, // Desabilita SSR para o mapa
+  ssr: true // Desabilita SSR para o mapa
 });
 
 // Função para gerar metadados dinamicamente
 export async function generateMetadata({
-  params,
+  params
 }: {
   params: { id: string };
 }): Promise<Metadata> {
@@ -26,7 +26,7 @@ export async function generateMetadata({
   const office = await getOffice(imovel?.ownerId);
 
   return {
-    title: `${imovel?.name} - Imóvel Disponível`,
+    title: `Intg | ${imovel?.name} ` || 'Intg | Imóvel',
     description: imovel?.description,
     openGraph: {
       title: imovel?.name,
@@ -37,51 +37,51 @@ export async function generateMetadata({
           url: `${imovel?.images[0]?.url}`,
           width: 1920,
           height: 1080,
-          alt: imovel?.name,
+          alt: imovel?.name
         },
         {
           url: `${imovel?.images[1]?.url}`,
           width: 1920,
           height: 1080,
-          alt: imovel?.name,
+          alt: imovel?.name
         },
         {
           url: `${imovel?.images[2]?.url}`,
           width: 1920,
           height: 1080,
-          alt: imovel?.name,
+          alt: imovel?.name
         },
         {
           url: `${imovel?.images[3]?.url}`,
           width: 1920,
           height: 1080,
-          alt: imovel?.name,
+          alt: imovel?.name
         },
         {
           url: `${imovel?.images[4]?.url}`,
           width: 1920,
           height: 1080,
-          alt: imovel?.name,
-        },
-      ],
+          alt: imovel?.name
+        }
+      ]
     },
     icons: {
       icon: [
         {
           url: office?.Office_Logo[office.logo_index]?.url || '/favicon.ico',
-          sizes: '16x16',
+          sizes: '16x16'
         },
         {
           url: office?.Office_Logo[office.logo_index]?.url || '/favicon.ico',
-          sizes: '32x32',
+          sizes: '32x32'
         },
         {
           url: office?.Office_Logo[office.logo_index]?.url || '/favicon.ico',
-          sizes: '48x48',
-        },
+          sizes: '48x48'
+        }
       ],
-      apple: office?.Office_Logo[office.logo_index]?.url || '/favicon.ico',
-    },
+      apple: office?.Office_Logo[office.logo_index]?.url || '/favicon.ico'
+    }
   };
 }
 
@@ -95,7 +95,7 @@ async function getOffice(ownerId: string): Promise<OfficeType> {
 
 // Componente da página do imóvel
 export default async function ImovelPage({
-  params,
+  params
 }: {
   params: { id: string };
 }) {
@@ -114,7 +114,7 @@ export default async function ImovelPage({
 
   const preco = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
-    currency: 'BRL',
+    currency: 'BRL'
   }).format(parseFloat(imovel?.price));
 
   const transactionType = () => {
@@ -149,14 +149,14 @@ export default async function ImovelPage({
             style={{
               display: 'flex',
               justifyContent: 'space-between',
-              gap: '1rem',
+              gap: '1rem'
             }}
           >
             <div
               style={{
                 display: 'flex',
                 justifyContent: 'space-between',
-                flexDirection: 'column',
+                flexDirection: 'column'
               }}
             >
               <Favoritar imovel={imovel} />
@@ -206,7 +206,7 @@ export default async function ImovelPage({
             <h3 style={{ marginBottom: '12px' }}>Descricão</h3>
             <p
               dangerouslySetInnerHTML={{
-                __html: convertNewlinesToBreaks(imovel?.description),
+                __html: convertNewlinesToBreaks(imovel?.description)
               }}
             />
           </div>
