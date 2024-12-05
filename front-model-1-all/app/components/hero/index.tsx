@@ -32,14 +32,16 @@ export default function Hero({ url }: Props) {
   return (
     <section
       style={{
-        height: '100vh',
+        height: '100vh'
       }}
       className={style.hero}
     >
-      <h1>Encontre a casa dos seus sonhos</h1>
-      <button>
-        <a href=''>Me mande uma mensagem</a>
-      </button>
+      <div className={style.content}>
+        <h1>Encontre a casa dos seus sonhos</h1>
+        <button>
+          <a href=''>Me mande uma mensagem</a>
+        </button>
+      </div>
     </section>
   );
 }

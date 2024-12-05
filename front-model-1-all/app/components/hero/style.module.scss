@@ -45,3 +45,14 @@
     }
   }
 }
+
+.content {
+  text-align: center;
+  background-color: var(--purple);
+  padding: 40px;
+  border-radius: 3rem;
+  box-shadow: 0px 2px 8px var(--purple);
+  h1 {
+    margin-bottom: 1rem;
+  }
+}
