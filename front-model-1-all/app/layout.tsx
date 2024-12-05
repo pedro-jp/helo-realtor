@@ -13,28 +13,36 @@ export async function generateMetadata(): Promise<Metadata> {
       title: 'Intg | Imóveis',
       description: 'Intg | Imóveis, Visualize e venda seus imóveis',
       url: `${process.env.NEXT_PUBLIC_FRONT_URL}`,
+      images: [
+        {
+          url: `${process.env.NEXT_PUBLIC_FRONT_URL}/favicon.ico`,
+          width: 1920,
+          height: 1080,
+          alt: 'Intg | Imóveis'
+        }
+      ]
     },
     icons: {
       icon: [
         {
           url: '/favicon.ico',
-          sizes: '16x16',
+          sizes: '16x16'
         },
         {
           url: '/favicon.ico',
-          sizes: '32x32',
+          sizes: '32x32'
         },
         {
           url: '/favicon.ico',
-          sizes: '48x48',
-        },
+          sizes: '48x48'
+        }
       ],
-      apple: '/favicon.ico',
-    },
+      apple: '/favicon.ico'
+    }
   };
 }
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
