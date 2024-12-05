@@ -47,7 +47,7 @@ const Creation = () => {
     address_city: '',
     email: '',
     description: '',
-    url: '',
+    url: ''
   });
   const [realtorList, setRealtorList] = useState([]);
   const [realtorId, setRealtorId] = useState('');
@@ -177,7 +177,7 @@ const Creation = () => {
         officeId: office.id,
         realtorId,
         marker,
-        transaction,
+        transaction
       });
 
       const imovelId = response.data.id;
@@ -391,7 +391,7 @@ const Creation = () => {
 
                 <div
                   style={{
-                    backgroundImage: background ? `url(${background})` : '',
+                    backgroundImage: background ? `url(${background})` : ''
                   }}
                 >
                   <Input
@@ -418,7 +418,7 @@ const Creation = () => {
                 className={styles.button}
                 onClick={() =>
                   router.push(
-                    `${process.env.NEXT_PUBLIC_ALL_URL}/${office.url}/${propertyId}`
+                    `${process.env.NEXT_PUBLIC_ALL_URL}/e/${office.url}/${propertyId}`
                   )
                 }
               >
