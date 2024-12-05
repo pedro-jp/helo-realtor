@@ -77,7 +77,7 @@ const AppHome = () => {
                   <Link
                     className={style.cadastre}
                     target='_blank'
-                    href='https://realtor.intg.com.br/'
+                    href='https://corretor.intg.com.br/'
                   >
                     Cadastrar
                   </Link>
