@@ -47,6 +47,7 @@ import CreateLogoOfficeController from './controllers/image/CreateLogoOfficeCont
 import CreateBannerOfficeController from './controllers/image/CreateBannerOfficeController';
 import { ListImovelBySearchController } from './controllers/Imovel/ListImovelBySearchController';
 import { CreateIndicationController } from './controllers/Indication/CreateIndicationController';
+import { ListAllImovelBySearchController } from './controllers/Imovel/ListAllImovelBySearchController';
 
 const router = Router();
 
@@ -137,6 +138,10 @@ router.get('/imoveis/all/:ownerId', new ListAllImoveisController().handle);
 router.get(
   '/imoveis/search/:url/:address/:minPrice/:maxPrice/:minDormitorios/:minVagas/:category/:transaction/:page',
   new ListImovelBySearchController().handle
+);
+router.get(
+  '/all/imoveis/search/:url/:address/:minPrice/:maxPrice/:minDormitorios/:minVagas/:category/:transaction/:page',
+  new ListAllImovelBySearchController().handle
 );
 router.get('/office/imoveis/:url', new ListImoveisByNameController().handle);
 

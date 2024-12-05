@@ -9,6 +9,7 @@ import { useInView } from 'react-intersection-observer';
 import Build from '../assets/img/build.jpg';
 import Image from 'next/image';
 import TsParticles from '../components/Particles';
+import Filter from '../components/Filter';
 
 const AppHome = () => {
   const [loading, setLoading] = useState(false);
@@ -44,7 +45,7 @@ const AppHome = () => {
       longitude: office.longitude.toString(),
       marker: true,
       officeName: office.name,
-      officeId: office.id,
+      officeId: office.id
     }));
 
   return (
@@ -92,7 +93,7 @@ const AppHome = () => {
                 alignSelf: 'center',
                 fontSize: '1.5rem',
                 background: '#9a8077',
-                marginTop: '-40px',
+                marginTop: '-40px'
               }}
             >
               <h1>Encontre o lar que você sempre sonhou</h1>
@@ -101,7 +102,7 @@ const AppHome = () => {
               <AnimatedSection
                 styles={{
                   background: '#9a8077',
-                  marginTop: '-40px',
+                  marginTop: '-40px'
                 }}
               >
                 <h2>Todos os escritórios</h2>
@@ -117,7 +118,7 @@ const AppHome = () => {
               <AnimatedSection
                 styles={{
                   background: '#9a8077',
-                  marginTop: '-40px',
+                  marginTop: '-40px'
                 }}
                 className={style.map_container}
               >
@@ -130,6 +131,9 @@ const AppHome = () => {
               </AnimatedSection>
             </div>
           </section>
+          <section className={style.section_cards}>
+            <Filter all />
+          </section>
         </div>
       </main>
     </>
@@ -139,7 +143,7 @@ const AppHome = () => {
 // Componentes para aplicar animações
 const AnimatedHeading = ({
   children,
-  styles,
+  styles
 }: {
   children: React.ReactNode;
   styles?: any;
@@ -172,7 +176,7 @@ const AnimatedHeading = ({
 
 const AnimatedLink = ({
   children,
-  styles,
+  styles
 }: {
   children: React.ReactNode;
   styles?: any;
@@ -205,7 +209,7 @@ const AnimatedLink = ({
 
 const AnimatedSection = ({
   children,
-  styles,
+  styles
 }: {
   children: React.ReactNode;
   styles?: any;
@@ -240,7 +244,7 @@ const AnimatedSection = ({
 
 const Section = ({
   children,
-  styles,
+  styles
 }: {
   children: React.ReactNode;
   styles?: any;

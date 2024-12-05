@@ -8,15 +8,16 @@ import {
   IoIosAddCircleOutline,
   IoIosArrowBack,
   IoIosArrowRoundBack,
-  IoIosArrowRoundForward,
+  IoIosArrowRoundForward
 } from 'react-icons/io';
 import Loading from '../ParticlesLoading';
 interface PageProps {
-  url: string;
-  officeId: string;
+  url?: string;
+  officeId?: string;
+  all?: boolean;
 }
 
-export default function Filter({ url, officeId }: PageProps) {
+export default function Filter({ url, officeId, all }: PageProps) {
   const [minPrice, setMinPrice] = useState<number>();
   const [maxPrice, setMaxPrice] = useState<number>();
   const [address, setAddress] = useState('');
@@ -50,7 +51,7 @@ export default function Filter({ url, officeId }: PageProps) {
     minVagas,
     categoria,
     transactionType,
-    page,
+    page
   ]);
 
   const getCategories = async () => {
@@ -65,7 +66,7 @@ export default function Filter({ url, officeId }: PageProps) {
   const handleSearch = async () => {
     setIsLoading(true);
 
-    const urlParams = `/imoveis/search/${url}/${address ? address : 'null'}/${
+    const urlParams = `/${all ? 'all/imoveis' : 'imoveis'}/search/${url}/${address ? address : 'null'}/${
       minPrice === undefined || minPrice <= 0 ? 0 : minPrice
     }/${
       maxPrice === undefined || maxPrice <= 0 ? 999999999999999 : maxPrice
@@ -124,7 +125,7 @@ export default function Filter({ url, officeId }: PageProps) {
   const styles = {
     left: transactionType === 'Locacao' ? 'calc(50% - 4px)' : '',
     backgroundColor: whatColor(),
-    content: whatType(),
+    content: whatType()
   };
 
   const handleMaxPriceInput = (value: string) => {
@@ -133,7 +134,7 @@ export default function Filter({ url, officeId }: PageProps) {
     setMaxPriceBrl(
       new Intl.NumberFormat('pt-BR', {
         style: 'currency',
-        currency: 'BRL',
+        currency: 'BRL'
       }).format(numericValue)
     );
   };
@@ -144,7 +145,7 @@ export default function Filter({ url, officeId }: PageProps) {
     setMinPriceBrl(
       new Intl.NumberFormat('pt-BR', {
         style: 'currency',
-        currency: 'BRL',
+        currency: 'BRL'
       }).format(numericValue)
     );
   };
@@ -244,7 +245,7 @@ export default function Filter({ url, officeId }: PageProps) {
       {imoveis && (
         <section>
           <div className={style.cards_container}>
-            <Cards imoveis={imoveis} url={url} />
+            <Cards imoveis={imoveis} url={url} all={all && all} />
           </div>
           <div className={style.pagination}>
             {page && page >= 2 && (
