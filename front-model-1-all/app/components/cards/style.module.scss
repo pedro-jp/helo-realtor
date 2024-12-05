@@ -125,7 +125,9 @@
   grid-row: 2 / 3;
   grid-column: 1 / 2;
   border-radius: var(--_br) var(--_br) 0 0;
-  box-shadow: 0 1rem 0 black, 0 0 0 1rem var(--purple);
+  box-shadow:
+    0 1rem 0 black,
+    0 0 0 1rem var(--purple);
   z-index: 1;
   container: price;
 }
@@ -214,7 +216,7 @@
   container: price;
   position: absolute;
   bottom: 16px;
-  right: 12px;
+  right: 18px;
   height: 45px;
   width: calc(30% + 10px);
   border-radius: 8px;
