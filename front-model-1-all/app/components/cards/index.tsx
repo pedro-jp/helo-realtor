@@ -7,11 +7,12 @@ import { FaInfoCircle } from 'react-icons/fa';
 import { ImovelType } from '@/app/types';
 
 interface PageProps {
-  url: string;
-  imoveis: ImovelType[];
+  url?: string;
+  imoveis?: ImovelType[];
+  all?: boolean;
 }
 
-export default function Cards({ imoveis, url }: PageProps) {
+export default function Cards({ imoveis, url, all }: PageProps) {
   const [modalOpenId, setModalOpenId] = React.useState<string | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const priceRefs = useRef<(HTMLSpanElement | null)[]>([]);
@@ -37,7 +38,7 @@ export default function Cards({ imoveis, url }: PageProps) {
   function formatarPrecoReal(numero: number) {
     return numero.toLocaleString('pt-BR', {
       style: 'currency',
-      currency: 'BRL',
+      currency: 'BRL'
     });
   }
 
@@ -169,7 +170,7 @@ export default function Cards({ imoveis, url }: PageProps) {
                 <li>
                   <Link
                     style={{ textDecoration: 'underline' }}
-                    href={`/e/${url}/${imovel.id}`}
+                    href={`/e/${all ? imovel?.office?.url : url}/${imovel.id}`}
                   >
                     Ver propriedade
                   </Link>

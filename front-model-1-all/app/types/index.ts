@@ -19,6 +19,7 @@ export type ImovelType = {
   favorites: string[];
   transaction: string;
   ownerId: string;
+  office: OfficeType;
 };
 
 export type LogoType = {

@@ -5,13 +5,11 @@
   --primary-color: #424242;
   --primary-blue: #4246ff;
   --secondary-blue: #1d1e6f;
-  --primary-white: #F0EEE3
-
-  --max-width: 1100px;
+  --primary-white: #f0eee3 --max-width: 1100px;
   --border-radius: 12px;
-  --font-mono: 'Manrope', ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
-    'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
-    'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
+  --font-mono: 'Manrope', ui-monospace, Menlo, Monaco, 'Cascadia Mono',
+    'Segoe UI Mono', 'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace',
+    'Source Code Pro', 'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -87,7 +85,7 @@
   margin: 0;
   transition: 0.2s;
   font-family: var(--font-mono);
-  transition: .3s;
+  transition: 0.3s;
 
   ::-webkit-scrollbar {
     display: none;
@@ -96,8 +94,8 @@
 
 html,
 body {
-  --orvalho: #F0EEE3;
-  --purple: #8e8c90;
+  --orvalho: #f0eee3;
+  --purple: #9a8077;
   width: 100vw;
   height: 100vh;
   overflow-x: hidden;
