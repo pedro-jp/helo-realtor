@@ -85,7 +85,7 @@ const Creation = () => {
     const numericValue = parseFloat(value.replace(/[^0-9]/g, '')) / 100;
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: 'BRL',
+      currency: 'BRL'
     }).format(numericValue);
   };
 
@@ -129,7 +129,7 @@ const Creation = () => {
         officeId: office.id,
         realtorId,
         marker,
-        transaction,
+        transaction
       });
 
       const imovelId = response.data.id;
@@ -399,7 +399,7 @@ const Creation = () => {
                         style={{
                           backgroundImage: background
                             ? `url(${background})`
-                            : '',
+                            : ''
                         }}
                       >
                         <Input
@@ -425,7 +425,7 @@ const Creation = () => {
                       className={styles.button}
                       onClick={() =>
                         router.push(
-                          `${process.env.NEXT_PUBLIC_ALL_URL}/${office?.url}/${propertyId}`
+                          `${process.env.NEXT_PUBLIC_ALL_URL}/e/${office?.url}/${propertyId}`
                         )
                       }
                     >
