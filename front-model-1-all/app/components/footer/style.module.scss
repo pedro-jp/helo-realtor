@@ -60,15 +60,20 @@
 
       .number {
         a {
-          color: var(--primary-color);
+          &:hover {
+            color: var(--purple);
+          }
         }
       }
 
       .navigation {
         li {
-          color: var(--primary-color);
           user-select: none;
           position: relative;
+
+          &:hover {
+            color: var(--purple);
+          }
 
           &::before {
             content: '>';
