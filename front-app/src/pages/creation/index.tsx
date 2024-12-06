@@ -207,13 +207,13 @@ const Creation = () => {
               <div className={styles.formContainer}>
                 <div className={styles.formRow}>
                   <label>Marcador:</label>
-                  <label className={styles.switch}>
+                  <label className={styles.switch_marker}>
                     <input
                       type='checkbox'
                       checked={marker}
                       onChange={() => setMarker(!marker)}
                     />
-                    <span className={styles.slider}></span>
+                    <div>{marker ? 'SIM' : 'NÃO'}</div>
                   </label>
                 </div>
                 <div className={styles.formRow}>
@@ -223,6 +223,7 @@ const Creation = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
+                    placeholder='Nome do imóvel'
                   />
                 </div>
                 <div className={styles.formRow}>
@@ -232,6 +233,7 @@ const Creation = () => {
                     value={area}
                     onChange={(e) => setArea(e.target.value)}
                     required
+                    placeholder='Área do imóvel'
                   />
                 </div>
                 <div className={styles.formRow}>
@@ -256,6 +258,7 @@ const Creation = () => {
                     value={local}
                     onChange={(e) => setLocal(e.target.value)}
                     required
+                    placeholder='Local do imóvel'
                   />
                 </div>
                 <div className={styles.formRow}>
@@ -265,6 +268,7 @@ const Creation = () => {
                     value={quartos}
                     onChange={(e) => setQuartos(e.target.value)}
                     required
+                    placeholder='Quantidade de quartos '
                   />
                 </div>
                 <div className={styles.formRow}>
@@ -274,6 +278,7 @@ const Creation = () => {
                     value={banheiros}
                     onChange={(e) => setBanheiros(e.target.value)}
                     required
+                    placeholder='Quantidade de banheiros'
                   />
                 </div>
                 <div className={styles.formRow}>
@@ -283,6 +288,7 @@ const Creation = () => {
                     value={garagem}
                     onChange={(e) => setGaragem(e.target.value)}
                     required
+                    placeholder='Quantidade de vagas'
                   />
                 </div>
 
@@ -292,6 +298,7 @@ const Creation = () => {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     required
+                    placeholder='Descrição do imóvel'
                   />
                 </div>
               </div>
