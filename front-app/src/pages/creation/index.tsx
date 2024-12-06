@@ -14,7 +14,7 @@ import { Input, TextArea } from '@/components/ui/Input';
 import { uploadImage } from '@/services/upload';
 import styles from './styles.module.scss';
 import inputStyle from '../../styles/input.module.scss';
-import { FiUpload } from 'react-icons/fi';
+import { FiDelete, FiPlus, FiTrash, FiUpload } from 'react-icons/fi';
 import { FiSave } from 'react-icons/fi';
 import { FaSpinner } from 'react-icons/fa';
 import CurrencyInput from 'react-currency-input-field';
@@ -23,6 +23,7 @@ const Creation = () => {
   const { user, isAuthenticated, loading } = useContext(AuthContext);
   const router = useRouter();
   const api = setupAPIClient(router);
+  const [imagesUri, setImagesUri] = useState<string[]>([]);
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -41,7 +42,7 @@ const Creation = () => {
   const [office, setOffice] = useState<OfficeType>();
   const [realtorList, setRealtorList] = useState<RealtorType[]>();
   const [realtorId, setRealtorId] = useState('');
-  const [imageFile, setImageFile] = useState(null);
+  const [imagesFiles, setImagesFiles] = useState<FileList>({} as FileList);
 
   const [background, setBackground] = useState();
   const [propertyId, setPropertyId] = useState('');
@@ -96,9 +97,8 @@ const Creation = () => {
 
   // Função para lidar com o upload de imagem
   const handleImageChange = (e: any) => {
-    const file = e.target.files[0];
-    setImageFile(file);
-    setBackground(URL.createObjectURL(file) as any);
+    const file = e.target.files;
+    setImagesFiles(file);
   };
 
   // Função para criar o imóvel
@@ -136,7 +136,7 @@ const Creation = () => {
       setPropertyId(imovelId);
       setIsImovelCreated(true);
 
-      if (propertyId && imageFile !== null) {
+      if (propertyId && imagesFiles !== null) {
         handleAddImage();
       }
       toast.success('Imóvel criado com sucesso!');
@@ -146,27 +146,31 @@ const Creation = () => {
     } finally {
       setIsLoading(false);
       setBackground('' as any);
-      setImageFile(null);
+      setImagesFiles({} as FileList);
     }
   };
 
   const handleAddImage = async () => {
     setIsLoading(true);
     try {
-      if (imageFile === null) {
+      if (imagesFiles.length === 0) {
         toast.error('Selecione uma imagem');
         setIsLoading(false);
         return;
       }
-      await uploadImage(
-        URL.createObjectURL(imageFile as any),
-        propertyId,
-        router,
-        'imovel_image'
-      );
+
+      for (const file of Array.from(imagesFiles)) {
+        await uploadImage(
+          URL.createObjectURL(file) as any,
+          propertyId,
+          router,
+          'imovel_image'
+        );
+      }
+
+      toast.success('Imagens adicionadas com sucesso!');
       setBackground('' as any);
-      toast.success('Imagem adicionada com sucesso!');
-      setImageFile(null);
+      setImagesFiles({} as FileList);
     } catch (error) {
       console.log(error);
     } finally {
@@ -376,7 +380,11 @@ const Creation = () => {
           ) : (
             <>
               {isImovelCreated && (
-                <form className={styles.form} onSubmit={handleCreateImovel}>
+                <form
+                  style={{ width: '100%', height: '500px' }}
+                  className={styles.form}
+                  onSubmit={handleCreateImovel}
+                >
                   {!isImovelCreated && (
                     <button
                       className={isLoading ? styles.loading : styles.create}
@@ -392,32 +400,68 @@ const Creation = () => {
                     </button>
                   )}
 
-                  <div className={styles.select_group}>
-                    <div style={{ width: '100%' }} className={styles.formRow}>
-                      <label>Imagem:</label>
-                      <div
-                        style={{
-                          backgroundImage: background
-                            ? `url(${background})`
-                            : ''
-                        }}
-                      >
+                  <div
+                    className={styles.imageContainer}
+                    style={{
+                      height: imagesFiles.length > 0 ? '100%' : '100px'
+                    }}
+                  >
+                    <div style={{ width: '100%', height: '100%' }}>
+                      <div className={styles.imageInput}>
+                        <picture>
+                          {imagesFiles.length > 0 &&
+                            Array.from(imagesFiles).map((image, index) => (
+                              <React.Fragment key={index}>
+                                <img
+                                  src={URL.createObjectURL(image)}
+                                  alt='Imagem'
+                                  onDoubleClick={() => {
+                                    // Atualizando o estado ao remover a imagem
+                                    const updatedImages = Array.from(
+                                      imagesFiles
+                                    ).filter((_, i) => i !== index);
+                                    const fileList = new DataTransfer();
+                                    updatedImages.forEach((file) =>
+                                      fileList.items.add(file)
+                                    );
+                                    setImagesFiles(fileList.files); // Atualiza o estado
+                                  }}
+                                />
+                              </React.Fragment>
+                            ))}
+                        </picture>
+
                         <Input
+                          className={styles.selectImage}
                           type='file'
                           accept='image/*'
                           onChange={handleImageChange}
+                          multiple
+                          name='images'
                         />
-                        <FiUpload size={50} />
+                        <div className={styles.selectImageLabel}>
+                          <label>Selecione as imagens</label>
+                          <FiPlus
+                            style={{
+                              cursor: 'pointer',
+                              zIndex: 3,
+                              marginTop: -4
+                            }}
+                            size={30}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
-                  {propertyId && imageFile && (
+                  {propertyId && imagesFiles.length > 0 && (
                     <button
                       type='button'
                       className={styles.button}
                       onClick={handleAddImage}
                     >
-                      Adicionar imagem
+                      {imagesFiles.length > 0
+                        ? 'Adicionar imagens'
+                        : 'Adicionar imagem'}
                     </button>
                   )}
                   {propertyId && (
