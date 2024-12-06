@@ -26,7 +26,7 @@ export class CreateImovelService {
     latitude,
     longitude,
     marker,
-    transaction,
+    transaction
   }: Imovel) {
     // Passo 1: Criar o imóvel
     const imovel = await this.prisma.imovel.create({
@@ -47,8 +47,8 @@ export class CreateImovelService {
         latitude,
         longitude,
         marker,
-        transaction,
-      },
+        transaction
+      }
     });
 
     // Passo 2: Buscar os visitantes e os dados adicionais do escritório e do imóvel
@@ -58,25 +58,25 @@ export class CreateImovelService {
       const [visitors, office, imovelWithImages] = await Promise.all([
         this.prisma.visitor_Subscription.findMany({
           where: {
-            officeId: officeId,
-          },
+            officeId: officeId
+          }
         }),
         this.prisma.office.findUnique({
           where: {
-            id: officeId,
+            id: officeId
           },
           include: {
-            Office_Logo: true,
-          },
+            Office_Logo: true
+          }
         }),
         this.prisma.imovel.findUnique({
           where: {
-            id: imovel.id,
+            id: imovel.id
           },
           include: {
-            images: true,
-          },
-        }),
+            images: true
+          }
+        })
       ]);
       try {
         await Promise.all(
@@ -115,7 +115,7 @@ export class CreateImovelService {
                 }" style="display: inline-block; background-color: #f43b47; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px; font-weight: bold;">Ver Imóvel</a>
                   </div>
                 </div>
-                `,
+                `
               });
 
               console.log(`E-mail enviado para ${visitor.email}`);
