@@ -6,7 +6,7 @@
     border: 0;
     border-radius: 0.5rem;
     color: #000;
-    background: #fff;
+    background: var(--orvalho);
     font-size: 1.2rem;
     font-weight: bold;
     padding: 0.5rem;
@@ -26,7 +26,7 @@
     &:hover {
       width: calc(max-content + 30px);
       padding-right: 35px;
-      background-color: var(--third-blue);
+      background-color: var(--purple);
       color: #fff;
       svg {
         transition: color 0.2s ease-in-out, transform 0.3s ease-in-out,
@@ -43,7 +43,7 @@
       font-size: 1rem;
       color: #fff;
       top: -5rem;
-      background-color: var(--third-blue);
+      background-color: var(--purple);
     }
   }
 
@@ -68,7 +68,7 @@
       font-size: 1rem;
       color: #fff;
       top: -5rem;
-      background-color: var(--third-blue);
+      background-color: var(--purple);
     }
   }
 
@@ -168,7 +168,7 @@
 
     &:hover,
     &:focus {
-      outline: 1px solid var(--primary-blue);
+      outline: 1px solid var(--purple);
     }
   }
 }
@@ -189,7 +189,7 @@
     border-radius: 0.5rem;
     background-color: var(--dark-700);
     padding: 0 1rem;
-    outline: 1px solid #00000020;
+    outline: 1px solid var(--purple);
     color: #000;
     box-shadow: 0 0px 5px 0px rgba(0, 0, 0, 0.281);
 
@@ -203,7 +203,7 @@
 
     &:hover,
     &:focus {
-      outline: 1px solid var(--primary-blue);
+      outline: 1px solid var(--purple);
     }
   }
 }
@@ -232,7 +232,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background: var(--orvalho);
   transition: 0.4s;
 }
 
@@ -241,12 +241,12 @@
   content: '';
   height: 40px;
   width: 50%;
-  background-color: white;
+  background: #fff;
   transition: 0.4s;
 }
 
 input:checked + .slider {
-  background-color: var(--primary-blue);
+  background-color: var(--purple);
 }
 
 input:checked + .slider:before {
@@ -264,7 +264,7 @@ input:checked + .slider:before {
     border: 0;
     border-radius: 0.5rem;
     color: #000;
-    background: #fff;
+    background: var(--orvalho);
     font-size: 1.2rem;
     font-weight: bold;
     padding: 0.5rem;
@@ -288,5 +288,62 @@ input:checked + .slider:before {
 
   &:hover {
     outline: 1px solid var(--primary-blue);
+  }
+}
+
+.imageContainer {
+  width: 100% !important;
+  height: 100%;
+  padding-block: 20px;
+}
+
+.imageInput {
+  position: relative;
+  height: 100%;
+  overflow: auto;
+
+  picture {
+    position: absolute;
+    inset: 0;
+    top: 2rem;
+    left: -10px;
+    width: 100%;
+    max-height: max-content;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+  }
+
+  img:hover {
+    transform: scale(1.25);
+    border: 1px solid red;
+  }
+
+  input.selectImage {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: max-content;
+    cursor: pointer;
+  }
+
+  svg {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
   }
 }

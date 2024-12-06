@@ -35,7 +35,7 @@ export default function Signup() {
     let data = {
       name,
       email,
-      password,
+      password
     };
 
     await signUp(data);
@@ -47,12 +47,8 @@ export default function Signup() {
       <Head>
         <title>IntG Realtor | Cadastro</title>
       </Head>
-      <Image
-        className={styles.background}
-        src={background}
-        alt='background'
-      ></Image>
-      <main>
+
+      <main className={styles.container}>
         <div className={styles.containerCenter}>
           <div className={styles.login}>
             <h1>Criando sua conta</h1>

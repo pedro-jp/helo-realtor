@@ -14,7 +14,7 @@ import { Input, TextArea } from '@/components/ui/Input';
 import { uploadImage } from '@/services/upload';
 import styles from './styles.module.scss';
 import inputStyle from '../../../styles/input.module.scss';
-import { FiUpload } from 'react-icons/fi';
+import { FiPlus, FiUpload } from 'react-icons/fi';
 import { FiSave } from 'react-icons/fi';
 import { FaSpinner } from 'react-icons/fa';
 import CurrencyInput from 'react-currency-input-field';
@@ -51,7 +51,7 @@ const Creation = () => {
   });
   const [realtorList, setRealtorList] = useState([]);
   const [realtorId, setRealtorId] = useState('');
-  const [imageFile, setImageFile] = useState(null);
+  const [imagesFiles, setImagesFiles] = useState<FileList>({} as FileList);
   const [propertyId, setPropertyId] = useState('');
   const [rawValue, setRawValue] = useState(0); // valor numérico sem formatação
   const [displayValue, setDisplayValue] = useState(''); // valor formatado para exibição
@@ -142,9 +142,8 @@ const Creation = () => {
 
   // Função para lidar com o upload de imagem
   const handleImageChange = (e: any) => {
-    const file = e.target.files[0];
-    setImageFile(file);
-    setBackground(URL.createObjectURL(file) as any);
+    const file = e.target.files;
+    setImagesFiles(file);
   };
 
   // Função para criar o imóvel
@@ -183,14 +182,16 @@ const Creation = () => {
       const imovelId = response.data.id;
 
       // Faz upload da imagem se houver uma
-      if (imageFile) {
+      if (imagesFiles) {
         // Substitui o upload local pelo upload no Firebase
-        await uploadImage(
-          URL.createObjectURL(imageFile),
-          imovelId,
-          router,
-          'imovel_image'
-        );
+        Array.from(imagesFiles).forEach(async (file) => {
+          await uploadImage(
+            URL.createObjectURL(file) as any,
+            imovelId,
+            router,
+            'imovel_image'
+          );
+        });
       }
       toast.success('Imóvel atualizado com sucesso!');
       router.push(
@@ -206,22 +207,23 @@ const Creation = () => {
   };
   const handleAddImage = async () => {
     setIsLoading(true);
-    if (imageFile === null) {
+    if (imagesFiles.length <= 0) {
       toast.error('Selecione uma imagem');
       setIsLoading(false);
       return;
     }
     try {
       setLoading(true);
-      await uploadImage(
-        URL.createObjectURL(imageFile as any),
-        propertyId,
-        router,
-        'imovel_image'
-      );
-      toast.success('Imagem adicionada com sucesso!');
-      setBackground('' as any);
-      setImageFile(null);
+      Array.from(imagesFiles).forEach(async (file) => {
+        await uploadImage(
+          URL.createObjectURL(file) as any,
+          propertyId,
+          router,
+          'imovel_image'
+        );
+      });
+      toast.success('Imagens adicionadas com sucesso!');
+      setImagesFiles({} as FileList);
     } catch (error) {
       console.log(error);
     } finally {
@@ -386,46 +388,86 @@ const Creation = () => {
                   <option value='locacao'>Locação</option>
                 </select>
               </div>
-              <div style={{ width: '100%' }} className={styles.formRow}>
-                <label>Imagem:</label>
+            </div>
+          </form>
+          <div
+            className={styles.imageContainer}
+            style={{
+              height: imagesFiles.length > 0 ? '100%' : '100px'
+            }}
+          >
+            <div style={{ width: '100%', height: '100%' }}>
+              <div className={styles.imageInput}>
+                <picture>
+                  {imagesFiles.length > 0 &&
+                    Array.from(imagesFiles).map((image, index) => (
+                      <React.Fragment key={index}>
+                        <img
+                          src={URL.createObjectURL(image)}
+                          alt='Imagem'
+                          onDoubleClick={() => {
+                            // Atualizando o estado ao remover a imagem
+                            const updatedImages = Array.from(
+                              imagesFiles
+                            ).filter((_, i) => i !== index);
+                            const fileList = new DataTransfer();
+                            updatedImages.forEach((file) =>
+                              fileList.items.add(file)
+                            );
+                            setImagesFiles(fileList.files); // Atualiza o estado
+                          }}
+                        />
+                      </React.Fragment>
+                    ))}
+                </picture>
 
-                <div
-                  style={{
-                    backgroundImage: background ? `url(${background})` : ''
-                  }}
-                >
-                  <Input
-                    type='file'
-                    accept='image/*'
-                    onChange={handleImageChange}
+                <Input
+                  className={styles.selectImage}
+                  type='file'
+                  accept='image/*'
+                  onChange={handleImageChange}
+                  multiple
+                  name='images'
+                />
+                <div className={styles.selectImageLabel}>
+                  <label>Selecione as imagens</label>
+                  <FiPlus
+                    style={{
+                      cursor: 'pointer',
+                      zIndex: 3,
+                      marginTop: -4
+                    }}
+                    size={30}
                   />
-                  <FiUpload size={50} />
                 </div>
               </div>
             </div>
-            {propertyId && imageFile && (
-              <button
-                type='button'
-                className={styles.button}
-                onClick={handleAddImage}
-              >
-                Adicionar imagem
-              </button>
-            )}
-            {propertyId && (
-              <button
-                type='button'
-                className={styles.button}
-                onClick={() =>
-                  router.push(
-                    `${process.env.NEXT_PUBLIC_ALL_URL}/e/${office.url}/${propertyId}`
-                  )
-                }
-              >
-                Ver imóvel
-              </button>
-            )}
-          </form>
+          </div>
+          {propertyId && imagesFiles.length > 0 && (
+            <button
+              type='button'
+              className={styles.button}
+              onClick={handleAddImage}
+              style={{ marginBottom: '2rem' }}
+            >
+              {Array.from(imagesFiles).length > 0
+                ? 'Adicionar imagens'
+                : 'Adicionar imagem'}
+            </button>
+          )}
+          {propertyId && (
+            <button
+              type='button'
+              className={styles.button}
+              onClick={() =>
+                router.push(
+                  `${process.env.NEXT_PUBLIC_ALL_URL}/e/${office.url}/${propertyId}`
+                )
+              }
+            >
+              Ver imóvel
+            </button>
+          )}
         </Main>
       </Content>
     </Container>

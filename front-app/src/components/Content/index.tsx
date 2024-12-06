@@ -7,7 +7,7 @@ const Content = ({ children }: { children: React.ReactNode }) => {
         width: '100vw',
         height: '100dvh',
         overflowY: 'auto',
-        paddingBottom: '1rem',
+        paddingBottom: '1rem'
       }}
     >
       {children}
