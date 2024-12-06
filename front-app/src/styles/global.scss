@@ -97,6 +97,10 @@
 
 html,
 body {
+  --orvalho: #f0eee3;
+  --purple: #9a8077;
+  overflow-x: hidden;
+  background-color: var(--orvalho);
   max-width: max-content;
   min-height: 100dvh;
   overflow: hidden;
