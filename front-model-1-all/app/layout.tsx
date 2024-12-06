@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
       url: `${process.env.NEXT_PUBLIC_FRONT_URL}`,
       images: [
         {
-          url: `${process.env.NEXT_PUBLIC_FRONT_URL}/favicon.ico`,
+          url: `https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg?auto=compress&cs=tinysrgb&w=600`,
           width: 1920,
           height: 1080,
           alt: 'Intg | Imóveis'

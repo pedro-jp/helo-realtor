@@ -181,7 +181,7 @@ export default function Filter({ url, officeId, all }: PageProps) {
               </div>
             </div>
           </div>
-          {categories && (
+          {categories && !all && (
             <select onChange={(e) => setCategoria(e.target.value)}>
               <option ref={categoryRef} value=''>
                 Categorias
