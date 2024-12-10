@@ -39,7 +39,7 @@ export default function Navbar({ url, phone }: OfficeType) {
         </ul>
         <ul>
           <li>
-            <Link href={url ? `/${url}` : '/'}>Lista de Imóveis</Link>
+            <Link href={url ? `e/${url}` : '/'}>Lista de Imóveis</Link>
           </li>
           {/* <li>
             <Link href={'/imoveis'}>Lista de Imóveis</Link>
