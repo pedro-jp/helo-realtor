@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "users" ADD COLUMN     "address" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "city" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "country" TEXT NOT NULL DEFAULT 'BR',
+ADD COLUMN     "postal_code" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "state" TEXT NOT NULL DEFAULT '';
