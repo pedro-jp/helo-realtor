@@ -1,0 +1,39 @@
+.basicInfo {
+  display: flex;
+  flex-direction: column;
+  input::placeholder {
+    color: gray !important;
+  }
+
+  .numbersAddress {
+    display: flex;
+    gap: 1rem;
+    label {
+      width: 50%;
+    }
+  }
+
+  .cityState {
+    display: flex;
+    gap: 1rem;
+    label:nth-child(1) {
+      flex: 1;
+    }
+    label:nth-child(2) {
+      width: 15%;
+    }
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    .eyeContainer {
+      position: absolute;
+      top: calc(50% - 8px);
+      right: 10px;
+      color: gray;
+    }
+  }
+}

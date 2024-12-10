@@ -18,6 +18,13 @@ model User {
   paymentStatus       String       @default("Pending")
   subscription_type   String       @default("")
   planIsActive        Boolean      @default(false)
+  city                String       @default("")
+  state               String       @default("")
+  country             String       @default("BR")
+  postal_code         String       @default("")
+  address             String       @default("")
+  complement          String       @default("")
+  stripeCustomerId    String       @default("")
   created_at          DateTime     @default(now())
   updated_at          DateTime     @updatedAt
   profile_photo       String       @default("")

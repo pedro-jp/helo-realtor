@@ -45,6 +45,12 @@ type SignUpProps = {
   name: string;
   email: string;
   password: string;
+  city: string;
+  state: string;
+  postal_code: string;
+  address: string;
+  country: string;
+  complement: string;
 };
 
 interface AuthProviderProps {
@@ -79,7 +85,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     planIsActive: false,
     office: null,
     indicationsReceived: [],
-    indicationsMade: [],
+    indicationsMade: []
   });
 
   const isAuthenticated = !!user;
@@ -118,7 +124,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
               planIsActive,
               office,
               indicationsReceived,
-              indicationsMade,
+              indicationsMade
             } = response.data;
 
             setUser({
@@ -131,7 +137,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
               planIsActive,
               office,
               indicationsReceived,
-              indicationsMade,
+              indicationsMade
             });
 
             api.defaults.headers['authorization'] = `Bearer ${token}`;
@@ -166,7 +172,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         planIsActive,
         office,
         indicationsReceived,
-        indicationsMade,
+        indicationsMade
       } = response.data;
 
       setUser({
@@ -179,7 +185,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         planIsActive,
         office,
         indicationsReceived,
-        indicationsMade,
+        indicationsMade
       });
     } catch (error) {
       console.error('Error decoding token:', error);
@@ -190,7 +196,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     try {
       const response = await api.post('/session', {
         email,
-        password,
+        password
       });
       const {
         id,
@@ -201,13 +207,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
         planIsActive,
         office,
         indicationsReceived,
-        indicationsMade,
+        indicationsMade
       } = response.data;
 
       // Define o token no cookie
       setCookie(undefined, '@nextauth.token', token, {
         maxAge: 60 * 60 * 24 * 30, // 30 dias
-        path: '/',
+        path: '/'
       });
 
       setUser({
@@ -220,7 +226,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         planIsActive,
         office,
         indicationsReceived,
-        indicationsMade,
+        indicationsMade
       });
 
       api.defaults.headers['authorization'] = `Bearer ${token}`;
@@ -232,9 +238,29 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  async function signUp({ name, email, password }: SignUpProps) {
+  async function signUp({
+    name,
+    email,
+    password,
+    city,
+    state,
+    postal_code,
+    address,
+    country,
+    complement
+  }: SignUpProps) {
     try {
-      await api.post('/users', { name, email, password });
+      await api.post('/users', {
+        name,
+        email,
+        password,
+        city,
+        state,
+        postal_code,
+        address,
+        country,
+        complement
+      });
       toast.success('Cadastrado com sucesso');
       router.push('/');
     } catch (err) {
@@ -254,7 +280,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         signIn,
         signOut,
         signUp,
-        handleReloadUser,
+        handleReloadUser
       }}
     >
       {loading && <Loading />}

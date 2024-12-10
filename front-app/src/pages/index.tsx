@@ -17,12 +17,14 @@ import { FormEvent, useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 import { GetServerSideProps } from 'next';
 import { canSSRGuest } from '@/utils/canSSRGuest';
+import { IoEye, IoEyeOff } from 'react-icons/io5';
 
 export default function Home() {
   const { signIn } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   async function handleLogin(event: FormEvent) {
     event.preventDefault();
@@ -36,7 +38,7 @@ export default function Home() {
 
     let data = {
       email,
-      password,
+      password
     };
 
     await signIn(data);
@@ -75,27 +77,48 @@ export default function Home() {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '100vh',
+          height: '100vh'
         }}
       >
         <div className={styles.containerCenter}>
           <h1>Faça seu login</h1>
           <div className={styles.login}>
             <form onSubmit={handleLogin}>
-              <Input
-                placeholder='Digite seu email'
-                autoComplete='email'
-                type='email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <Input
-                placeholder='Sua senha'
-                autoComplete='password'
-                type='password'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <label htmlFor='email'>
+                Email
+                <Input
+                  id='email'
+                  placeholder='7lqz6@exemplo.com'
+                  autoComplete='email'
+                  type='email'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </label>
+              <label htmlFor='password'>
+                Senha
+                <Input
+                  id='password'
+                  placeholder={showPassword ? '12345678' : '••••••••'}
+                  type={showPassword ? 'text' : 'password'}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <div className={styles.eyeContainer}>
+                  {showPassword ? (
+                    <IoEye
+                      size={20}
+                      className={styles.eye}
+                      onClick={() => setShowPassword(false)}
+                    />
+                  ) : (
+                    <IoEyeOff
+                      size={20}
+                      className={styles.eye}
+                      onClick={() => setShowPassword(true)}
+                    />
+                  )}
+                </div>
+              </label>
               <Button type='submit' loading={isLoading}>
                 Acessar
               </Button>
@@ -112,6 +135,6 @@ export default function Home() {
 
 export const getServerSideProps = canSSRGuest(async (ctx) => {
   return {
-    props: {},
+    props: {}
   };
 });
