@@ -2,18 +2,12 @@
 import { OfficeType } from '@/app/types';
 import { api } from '../../services/api';
 
-interface Offices {
-  office: Office[];
-}
-
-interface Office extends OfficeType {}
-
 export async function GET() {
   const baseUrl = process.env.NEXT_FRONT_URL;
 
   // Obtém a lista de escritórios da API
   const { data } = await api.get('/offices'); // Substitua pela sua chamada correta
-  const offices = data;
+  const offices = data.flatMap((user: any) => user.office);
 
   // Defina suas páginas estáticas
   const staticPages = [
@@ -23,14 +17,14 @@ export async function GET() {
   ];
 
   // Gerar páginas dinâmicas para os escritórios
-  const dynamicPages = offices.map((office: Offices) => {
-    return `${baseUrl}/e/${office.office[0].url}`; // Ajuste conforme a estrutura de URL dos escritórios
+  const dynamicPages = offices.map((office: OfficeType) => {
+    return `${baseUrl}/e/${office.url}`; // Ajuste conforme a estrutura de URL dos escritórios
   });
 
-  const imoveisPages = offices.flatMap((office: Offices) => {
-    const imoveis = office.office[0].imoveis;
+  const imoveisPages = offices.flatMap((office: OfficeType) => {
+    const imoveis = office.imoveis;
     return imoveis.map((imovel) => {
-      return `${baseUrl}/e/${office.office[0].url}/${imovel.id}`; // URL dinâmica para cada imóvel
+      return `${baseUrl}/e/${office.url}/${imovel.id}`; // URL dinâmica para cada imóvel
     });
   });
 
