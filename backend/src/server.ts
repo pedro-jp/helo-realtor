@@ -13,7 +13,7 @@ const stripe = require('stripe')(
 const app = express();
 app.use(
   cors({
-    origin: ['https://www.google.com/']
+    origin: ['https://corretor.intg.com.br', 'https://www.google.com/']
   })
 );
 
