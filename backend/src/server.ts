@@ -5,14 +5,17 @@ import path from 'path';
 import { router } from './routes';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
-import { isAuthenticated } from './middlewares/isAuthenticated';
 
 const stripe = require('stripe')(
   'sk_test_51OIWpBFkkC3ZoBrE0CdfikwVVdeBAdLEsQNKuv4cwGogWVvqZAtw2f0kp9kIngjf7PAS7VSOkosp9k16Wf5RG0fu00OKveoqD8'
 );
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: ['https://corretor.intg.com.br', 'https://www.google.com/']
+  })
+);
 
 // Use express.json() apenas para rotas que não sejam o webhook
 app.use(
@@ -21,13 +24,13 @@ app.use(
       if (req.originalUrl === '/webhook') {
         req.rawBody = buf.toString(); // Armazena o corpo bruto como Buffer
       }
-    },
+    }
   })
 );
 const swaggerDefinition = require('../swagger.json'); // Ajuste o caminho conforme necessário
 const swaggerOptions = {
   swaggerDefinition,
-  apis: ['./routes/*.js'],
+  apis: ['./routes/*.js']
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
@@ -46,13 +49,13 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.log(err.message);
   if (err instanceof Error) {
     return res.status(400).json({
-      error: err.message,
+      error: err.message
     });
   }
 
   return res.status(500).json({
     status: 'error',
-    message: 'Internal server error',
+    message: 'Internal server error'
   });
 });
 
