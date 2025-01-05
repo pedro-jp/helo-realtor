@@ -8,7 +8,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PanGestureHandler } from 'react-native-gesture-handler';
@@ -30,7 +30,7 @@ import { StyledListView } from '../Category/styles';
 import {
   initPaymentSheet,
   presentPaymentSheet,
-  StripeProvider,
+  StripeProvider
 } from '@stripe/stripe-react-native';
 import SubscribeView from '../../components/SubscribeView';
 
@@ -105,13 +105,13 @@ const Home = () => {
       Animated.timing(translateY, {
         toValue: 1000, // valor alto para fazer o modal sumir
         duration: 300, // duração em milissegundos
-        useNativeDriver: true,
+        useNativeDriver: true
       }).start(() => setModalVisible(false)); // Fecha o modal após a animação
     } else {
       Animated.timing(translateY, {
         toValue: 0, // Volta o modal para sua posição original
         duration: 300, // Personaliza o tempo de transição aqui
-        useNativeDriver: true,
+        useNativeDriver: true
       }).start();
     }
   };
@@ -143,7 +143,7 @@ const Home = () => {
         address_city,
         address_state,
         description,
-        email,
+        email
       });
       setOffice(response.data);
     } catch (error) {
@@ -161,7 +161,7 @@ const Home = () => {
         address_city,
         address_state,
         description,
-        email,
+        email
       });
       setOffice(response.data);
       console.log('atualizou');
@@ -178,11 +178,11 @@ const Home = () => {
         email: realtorEmail,
         phone: realtorPhone,
         creci: realtorCreci,
-        whatsapp_message: realtorMessage,
+        whatsapp_message: realtorMessage
       });
       setOffice({
         ...office,
-        realtors: [...office.realtors, response.data],
+        realtors: [...office.realtors, response.data]
       });
       setRealtorName('');
       setRealtorEmail('');
@@ -203,14 +203,14 @@ const Home = () => {
           email: realtorEmail,
           phone: realtorPhone,
           creci: realtorCreci,
-          whatsapp_message: realtorMessage,
+          whatsapp_message: realtorMessage
         }
       );
       setOffice({
         ...office,
         realtors: office.realtors.map((r) =>
           r.id === realtorId ? response.data : r
-        ),
+        )
       });
     } catch (error) {
       console.log(error.response?.data ?? error.message);
@@ -225,7 +225,7 @@ const Home = () => {
     try {
       const response = await api.post('/category', {
         ownerId: user.id,
-        name: category,
+        name: category
       });
 
       setCategory('');
@@ -243,9 +243,7 @@ const Home = () => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StripeProvider
-        publishableKey={
-          'pk_live_51OIWpBFkkC3ZoBrEnu0IIjdbrAafhAEN6hYDPBPvRPr9lnUR5UOjLxvuCNMfbmfBHe6C2ltREfP3Iozle0WYRbqF00OVquwWGe'
-        }
+        publishableKey={process.env.PUBLIC_KEY}
         merchantIdentifier='merchant.identifier' // required for Apple Pay
         urlScheme='helo-realtor' // required for 3D Secure and bank redirects
       >
@@ -452,7 +450,7 @@ const Home = () => {
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                marginTop: 20,
+                marginTop: 20
               }}
             >
               <TouchableOpacity style={styles.btn} onPress={signOut}>
@@ -483,7 +481,7 @@ const Home = () => {
                       height: '70%',
                       borderTopLeftRadius: 20,
                       borderTopRightRadius: 20,
-                      overflow: 'hidden',
+                      overflow: 'hidden'
                     }}
                   >
                     <StyledContainerView>
@@ -528,7 +526,7 @@ const styles = StyleSheet.create({
     color: '#000',
     padding: 10,
     marginBottom: 10,
-    borderRadius: 5,
+    borderRadius: 5
   },
   btn: {
     backgroundColor: '#FFDC42',
@@ -536,7 +534,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 100,
     borderRadius: 5,
-    width: 45,
+    width: 45
   },
 
   addCategory: {
@@ -547,7 +545,7 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 45,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
 
   handleBtn: {
@@ -557,6 +555,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 10,
-  },
+    marginBottom: 10
+  }
 });
