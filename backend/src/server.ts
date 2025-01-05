@@ -6,9 +6,7 @@ import { router } from './routes';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 
-const stripe = require('stripe')(
-  'sk_test_51OIWpBFkkC3ZoBrE0CdfikwVVdeBAdLEsQNKuv4cwGogWVvqZAtw2f0kp9kIngjf7PAS7VSOkosp9k16Wf5RG0fu00OKveoqD8'
-);
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 app.use(
@@ -59,8 +57,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-const endpointSecret =
-  'whsec_7dd7a5068b1369072225e294aaa103f75a124df7002c3f7f71f6e7c3b38a4bb0';
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 // Use express.raw() para a rota do webhook
 app.post(
